@@ -1,0 +1,9 @@
+dataset: CIFAR-10
+device_type: SRAM
+distribution_file: ../../DATA/customized_gaussian_current.csv
+frequency: 1000000000.0
+mode: memory
+model: ResNet18
+precision_mu: 6
+precision_sigma: 2
+technology: '65'
