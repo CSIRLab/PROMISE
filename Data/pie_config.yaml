@@ -1,0 +1,15 @@
+pie_charts:
+  - filename: "Pie_energy.svg"
+    title: "Energy: 1.75uJ"
+    labels: ["Memory", "GRNG", "ADC", "Periphery"]
+    values: [10, 60, 20, 10]
+
+  - filename: "Pie_latency.svg"
+    title: "Latency: 1.6us"
+    labels: ["Memory", "GRNG", "ADC", "Periphery"]
+    values: [20, 50, 20, 10]
+
+  - filename: "Pie_area.svg"
+    title: "Area: 0.816mm²"
+    labels: ["Memory", "GRNG", "ADC", "Periphery"]
+    values: [50, 10, 30, 10]

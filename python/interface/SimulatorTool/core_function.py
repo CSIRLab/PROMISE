@@ -1,10 +1,23 @@
+# core_function.py
+# Author:      Emilie Ye
+# Date:        2025-06-27
+# Version:     0.1
+# Description: Core simulation for the Probabilistic CIM Simulator including loading NN/BNN weights, generating distribution histograms and QQ-plots,
+#              exporting settings to YAML, and running both memory and demo workflows.
+# Copyright (c) 2025
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as stats
 import yaml
 import torch 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from simulator.memory import *
+
+from interface.load_parameter import *
 
 out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
 os.makedirs(out_dir, exist_ok=True)
@@ -31,6 +44,13 @@ class SimulatorCore:
         self.fc3_index = "0"
 
         self.bins = "100"
+
+        #demo
+        self.demo_mu = 0.0
+        self.demo_sigma = 1.0
+        self.demo_samples = 100
+        self.demo_bins = 50
+
 
     def _try_load_pth(self):
     
@@ -135,17 +155,59 @@ class SimulatorCore:
 
         return miu_w, sigma_w
 
+
+    def _get_weights_per_neuron(self, layer_name):
+        # First, try to load from CSV
+        try:
+            filepath = os.path.join(self.bnn_weights_folder, f"{layer_name}_weights.csv")
+            weights = np.loadtxt(filepath, delimiter=",")
+            if weights.ndim != 2:
+                raise ValueError(f"{layer_name}_weights.csv is not a 2D array.")
+            return weights.shape[1]
+        except Exception as e:
+            print(f"CSV loading failed for {layer_name}: {e}")
+
+        # Fallback to .pth
+        try:
+            pth_files = [f for f in os.listdir(self.bnn_weights_folder) if f.endswith((".pt", ".pth"))]
+            if not pth_files:
+                raise FileNotFoundError("No .pth files found.")
+
+            pth_path = os.path.join(self.bnn_weights_folder, pth_files[0])
+            ckpt = torch.load(pth_path, map_location="cpu")
+            state = ckpt["state_dict"] if "state_dict" in ckpt else ckpt
+
+            key_map = {
+                "fc1": "linear1.weights_mean",
+                "fc2": "linear2.weights_mean",
+                "fc3": "linear3.weights_mean",
+            }
+
+            weight_key = key_map[layer_name]
+            weight_tensor = state[weight_key]
+            if weight_tensor.ndim != 2:
+                raise ValueError(f"{weight_key} tensor is not 2D")
+
+            return weight_tensor.shape[1]  # ← this is weights_per_neuron
+
+        except Exception as e:
+            print(f"Failed to extract weights_per_neuron from .pth for {layer_name}: {e}")
+            return None
+
+
     def generate_bnn_weight_plots(self):
         if not self.bnn_weights_folder:
             print("No BNN Weights Folder uploaded.")
             return False
 
         try:
-            self._generate_single_bnn_plot("fc1", 400, int(self.fc1_index))
-            self._generate_single_bnn_plot("fc2", 120, int(self.fc2_index))
-            self._generate_single_bnn_plot("fc3", 84, int(self.fc3_index))
-            #updated_sampled_fc1 = self.generate_sampled_fc1_weight_plot()
-
+            for layer_name, index_str in [("fc1", self.fc1_index), ("fc2", self.fc2_index), ("fc3", self.fc3_index)]:
+                weights_per_neuron = self._get_weights_per_neuron(layer_name)
+                if weights_per_neuron is not None:
+                    self._generate_single_bnn_plot(layer_name, weights_per_neuron, int(index_str))
+                else:
+                    print(f"Skipping {layer_name} due to error.")
+            
             print("BNN weight plot updated.")
             return True
 
@@ -164,6 +226,8 @@ class SimulatorCore:
                 raise ValueError(f"flat_index {flat_index} ≥ {miu_w.size} (1-D length)")
             mu    = miu_w[flat_index]
             sigma = sigma_w[flat_index]
+            neuron_idx = 0 
+            weight_idx = flat_index
             title_suffix = f"1-D vector, Index {flat_index}"
         else:
             neuron_idx = flat_index // weights_per_neuron
@@ -181,6 +245,7 @@ class SimulatorCore:
                        xlabel="Weight Value", ylabel="Probability Density",
                        with_title=True,
                        title=f"BNN {fc_name.upper()} Neuron {neuron_idx}, Weight {weight_idx} (Index {flat_index})")
+
 
         self.save_qq_plot(f"bnn_{fc_name}_qq_plot.svg", mu, sigma)
 
@@ -203,14 +268,27 @@ class SimulatorCore:
             return False
 
         try:
-            # Load sampled_weights_fc1.csv
-            sampled_weights = np.loadtxt(self.device_data_path, delimiter=",")  # shape: (48000, 100)
-            fc1_index = int(self.fc1_index)
-            if sampled_weights.ndim == 1:
-                sampled_data = sampled_weights
+            distribution = process_gaussian_data(self.device_data_path)
+
+            miu_w, sigma_w = self._load_bnn_layer_arrays("fc1")
+            if miu_w.ndim == 2:
+                num_neurons, weights_per_neuron = miu_w.shape
+            elif miu_w.ndim == 1:
+                num_neurons = len(miu_w)
+                weights_per_neuron = 1
             else:
-                sampled_data = sampled_weights[fc1_index, :]  # shape: (1000,)？
-            
+                print("Unexpected BNN weight array shape.")
+                return False
+
+            sample_times = int(self.sampling_times)
+            sampling_shape = (num_neurons, weights_per_neuron, sample_times)
+
+            sampled_tensor = custom_sample(distribution, sampling_shape)
+            sampled_np = sampled_tensor.cpu().numpy().reshape(-1, sample_times)
+
+            fc1_index = int(self.fc1_index)
+            sampled_data = sampled_np[fc1_index, :]
+
 
             # Calculate μ1 and σ1 from sampled_data → N1 ~ N(μ1, σ1)
             mu1 = np.mean(sampled_data)
@@ -218,21 +296,20 @@ class SimulatorCore:
 
             print(f"Sampled N1 mean={mu1}, std={sigma1}")
 
-            # Load miu_w / sigma_w
-            miu_w, sigma_w = self._load_bnn_layer_arrays("fc1")
             # miu_w = np.loadtxt(os.path.join(self.bnn_weights_folder, "fc1_miu_w.csv"), delimiter=",")
             # sigma_w = np.loadtxt(os.path.join(self.bnn_weights_folder, "fc1_sigma_w.csv"), delimiter=",")
             print("μ shape =", miu_w.shape)
+
             if miu_w.ndim == 1:
-                fc1_index = int(self.fc1_index)
-
-                if fc1_index >= len(miu_w):
-                    raise ValueError(f"fc1_index={fc1_index} over length {len(miu_w)}")
-
-                mu    = miu_w[fc1_index]
+                mu = miu_w[fc1_index]
                 sigma = sigma_w[fc1_index]
             else:
-                weights_per_neuron = 400
+                #weights_per_neuron = 400
+                if weights_per_neuron is None:
+                    print("Could not determine weights_per_neuron for FC1.")
+                    return False
+
+
                 neuron_idx = fc1_index // weights_per_neuron
                 weight_idx = fc1_index % weights_per_neuron
 
@@ -251,8 +328,10 @@ class SimulatorCore:
             
             bins = int(self.bins)
 
+            os.makedirs(out_dir, exist_ok=True)
+
             self.save_plot(
-                "./bnn_fc1_sampled_N1_distribution.svg",
+                "bnn_fc1_sampled_N1_distribution.svg",
                 standard_N1,
                 mode="hist",
                 bins=bins,
@@ -278,7 +357,9 @@ class SimulatorCore:
 
             # Save QQ plot of transformed_data
             print("Calling save_empirical_qq_plot...")
-            out_path = os.path.join(out_dir, "bnn_fc1_sampled_weight_qq_plot.svg")
+            #out_path = os.path.join(out_dir, "bnn_fc1_sampled_weight_qq_plot.svg")
+
+            out_path = "bnn_fc1_sampled_weight_qq_plot.svg"
             self.save_empirical_qq_plot(out_path, transformed_data, mu, sigma)
 
             print("BNN FC1 sampled weight plot generated.")
@@ -291,8 +372,11 @@ class SimulatorCore:
             return False
 
 
+    
+
     def save_plot(self, filename, x, y=None, xlabel="", ylabel="", dpi=400, mode="line", bins=100, with_title=False, title=""):
         filename = os.path.join(out_dir, filename)
+
         if filename.endswith(".svg"):
             figsize = (12, 8)   # Larger size for SVG
         else:
@@ -339,6 +423,7 @@ class SimulatorCore:
 
     def save_qq_plot(self, filename, mu, sigma, sample_size=1000, dpi=400):
         filename = os.path.join(out_dir, filename)
+        
         # Generate normal distributed samples based on mu, sigma
         samples = np.random.normal(loc=mu, scale=sigma, size=sample_size)
 
@@ -356,11 +441,12 @@ class SimulatorCore:
         plt.savefig(filename, dpi=dpi)
         plt.close()
 
-    def export_config_to_yaml(self, filename="simulation_config.yaml"):
+    def export_memory_config_to_yaml(self, filename="simulation_config.yaml"):
         filename = os.path.join(out_dir, filename)
+        
         config = {
+            "mode": "Memory",
             "device_data_file": self.device_data_path or "",
-            "mode": self.mode,
             "weight": self.weight,
             "technology": self.technology,
             "frequency": self.frequency,
@@ -371,7 +457,32 @@ class SimulatorCore:
             "bnn_weights_folder": self.bnn_weights_folder or "",
             "bnn_fc1_index": self.fc1_index,
             "bnn_fc2_index": self.fc2_index,
-            "bnn_fc3_index": self.fc3_index
+            "bnn_fc3_index": self.fc3_index,
+            "pie_config": self.pie_config_path or "",
+            # ADC
+            "adv_adc_type": getattr(self, "adc_type_value", "SAR"),
+            "config_adc_config_mode":   getattr(self, "config_adc_config_mode", ""),
+            "adc_yaml": getattr(self, "memory_adc_config", ""),
+
+            # Buffer
+            "config_buffer_config_mode":getattr(self, "config_buffer_config_mode", ""),
+            "config_buffer_yaml":       getattr(self, "config_buffer_yaml", ""),
+
+            # SenseAMP
+            "config_senseamp_mode":     getattr(self, "config_senseamp_mode", ""),
+            "config_senseamp_yaml":     getattr(self, "config_senseamp_yaml", ""),
+
+            # Decoder
+            "config_decoder_mode":      getattr(self, "config_decoder_mode", ""),
+            "config_decoder_yaml":      getattr(self, "config_decoder_yaml", ""),
+
+            # Memory tech
+            "config_memory_tech":       getattr(self, "config_memory_tech", ""),
+            "config_memory_config_mode":getattr(self, "config_memory_config_mode", ""),
+            "config_memory_yaml":       getattr(self, "config_memory_yaml", ""),
+
+            # Technology node (65/45/28/14 nm)
+            "config_technology_node":   getattr(self, "config_technology_node", ""),
         }
 
         try:
@@ -381,31 +492,23 @@ class SimulatorCore:
         except Exception as e:
             print(f"Error exporting config to {filename}: {e}")
 
-    def generate_all_pie_charts(self):
-        pie_configs = [
-            {
-                "filename": "Pie_energy.svg",
-                "title": "Energy: 1.75uJ",
-                "labels": ['Memory', 'GRNG', 'ADC', 'Periphery'],
-                "values": [10, 60, 20, 10]
-            },
-            {
-                "filename": "Pie_latency.svg",
-                "title": "Latency: 1.6us",
-                "labels": ['Memory', 'GRNG', 'ADC', 'Periphery'],
-                "values": [20, 50, 20, 10]
-            },
-            {
-                "filename": "Pie_area.svg",
-                "title": "Area: 0.816mm²",
-                "labels": ['Memory', 'GRNG', 'ADC', 'Periphery'],
-                "values": [50, 10, 30, 10]
-            }
-        ]
+    def generate_all_pie_charts(self, yaml_path=None):
+        if yaml_path and os.path.exists(yaml_path):
+            with open(yaml_path, "r") as f:
+                try:
+                    pie_data = yaml.safe_load(f)
+                    pie_configs = pie_data.get("pie_charts", [])
+                except Exception as e:
+                    print("Failed to load pie config from YAML:", e)
+                    return
+        else:
+            print("No YAML file provided. Skipping pie chart generation.")
+            return
 
         colors = ['#4f81bd', '#6faad4', '#9dc3e6', '#dbe5f1']
         for config in pie_configs:
             out_path = os.path.join(out_dir, config["filename"])
+
             fig, ax = plt.subplots(figsize=(5, 5))
             wedges, texts, autotexts = ax.pie(config["values"], autopct='%1d%%', startangle=90,colors=colors)
             for text in texts:
@@ -421,5 +524,82 @@ class SimulatorCore:
             plt.savefig(out_path, dpi=300, bbox_inches='tight')
             plt.close()
 
+    def run_demo(self):
+
+        if self.demo_mode == "ideal":
+            # Standard Normal sampling
+            epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
+        else:
+            all_data = np.loadtxt(self.demo_file, delimiter=",")
+            epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
+            
+            # Normalize
+            mu1 = np.mean(epsilon_original)
+            sigma1 = np.std(epsilon_original)
+            epsilon = (epsilon_original - mu1) / sigma1
+
+        demo_data = self.demo_mu + self.demo_sigma * epsilon
+
+        self.save_plot(
+        "demo_histogram.svg",
+        demo_data,
+        mode="hist",
+        bins=self.demo_bins,
+        xlabel="Value",
+        ylabel="Count",
+        with_title=True,
+        title=f"Demo ({self.demo_mode}) Histogram"
+        )
+
+        self.save_empirical_qq_plot(
+            "demo_qqplot.svg",
+            demo_data,
+            self.demo_mu,
+            self.demo_sigma
+        )
+
+    def export_demo_config_to_yaml(self, filename="simulation_config.yaml"):
+        filename = os.path.join(out_dir, filename)
+        
+        config = {
+            "mode": "Demo",
+            "rng_source": self.demo_mode,
+            "rng_file": self.demo_file or "",
+            "mu": float(self.demo_mu),
+            "sigma": float(self.demo_sigma),
+            "sampling_times": int(self.demo_samples),
+            "bins": int(self.demo_bins)
+        }
+        try:
+            with open(filename, "w") as f:
+                yaml.dump(config, f, default_flow_style=False)
+            print(f"Exported config to {filename}")
+        except Exception as e:
+            print(f"Error exporting config to {filename}: {e}")
 
 
+    def reset(self):
+        # should be reset between modes
+        self.weights_folder = None
+        self.bnn_weights_folder = None
+        self.device_data_path = None
+        self.pie_config_path = None
+
+        self.weight = None
+        self.technology = None
+        self.frequency = None
+        self.precision_mu = None
+        self.precision_sigma = None
+        self.sampling_times = None
+        self.fc1_index = None
+        self.fc2_index = None
+        self.fc3_index = None
+        self.bins = None
+        self.architecture = None
+
+        self.demo_mode = None
+        self.demo_file = None
+        self.demo_mu = None
+        self.demo_sigma = None
+        self.demo_samples = None
+        self.demo_bins = None
