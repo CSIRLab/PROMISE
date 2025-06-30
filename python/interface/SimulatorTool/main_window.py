@@ -28,8 +28,7 @@ main_windows.py
 ├── OutputPanel.run_simulation()(display results)
 │        ↓
 ├── _show_xxx_outputs() → create_plot + reload_images
-│        ↓
-└── 图像与结果展示
+
 
 '''
 import os, sys
