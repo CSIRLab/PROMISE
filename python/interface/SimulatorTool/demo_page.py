@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QHBoxLayout, QComboBox, QLineEdit, QGroupBox,
-    QFormLayout, QFileDialog, QFormLayout, QSizePolicy
+    QFormLayout, QFileDialog, QFormLayout, QSizePolicy, QLabel, QPlainTextEdit
 )
 from PySide6.QtCore import Signal,Qt
 from PySide6.QtGui import QFontMetrics
@@ -174,6 +174,31 @@ class DemoInputPage(QWidget):
         button_layout.addWidget(self.start_button)
         button_layout.addWidget(self.reset_button)
         self.input_layout.addRow(button_layout)
+
+        help_text = (
+            "n = number of weights\n"
+            "for (i = 0; i < n; i++) {\n"
+            "  # ideal\n"
+            "  ε = torch.rand(0,1)\n"
+            "  # or custom\n"
+            "  ε = custom_sample(rng_data, sample_number)\n"
+            "  X = μ + σ * ε\n"
+            "}"
+        )
+        help_box = QPlainTextEdit()
+        help_box.setReadOnly(True)
+        help_box.setPlainText(help_text)
+        help_box.setFixedHeight(175)
+        help_box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        help_box.setStyleSheet("""
+            background-color: #FFF;
+            font-family: Consolas, monospace;
+            font-size: 10.5pt;
+            font-weight: bold;
+            padding: 4px;
+        """)
+
+        self.input_layout.addRow(help_box)
 
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
