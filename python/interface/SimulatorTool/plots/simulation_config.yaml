@@ -1,7 +1,12 @@
 bins: 50
 mode: Demo
-mu: 1.0
-rng_file: /home/lpei/Workspace/code/neurosim/Data/currents_vlsi.csv
-rng_source: Choose file
-sampling_times: 100
-sigma: 1.0
+mus:
+- 1.0
+- 1.0
+rng_file: ''
+rng_source: ideal
+sampling_times: 1000
+sigmas:
+- 1.0
+- 1.0
+weight_number: 2

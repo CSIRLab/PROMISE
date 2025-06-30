@@ -13,6 +13,11 @@ import seaborn as sns
 import scipy.stats as stats
 import yaml
 import torch 
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import colormaps
+from matplotlib.colors import ListedColormap
+import matplotlib.pyplot as plt
+import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from simulator.memory import *
@@ -419,7 +424,84 @@ class SimulatorCore:
         plt.tight_layout()
         plt.savefig(filename, dpi=dpi)
         plt.close()
+    def generate_nd_histogram(self, data, dim,filename):
+        plt.clf()
+        filename = os.path.join(out_dir, filename)
+        print("Saving nd_histogram:", os.path.abspath(filename))
+        fig = plt.figure(figsize=(7, 5))
+        if dim == 1:
+            plt.hist(data, bins=30, color='steelblue', edgecolor='black', linewidth=0.8)
+            plt.xlabel("Value", fontsize=12)
+            plt.ylabel("Count", fontsize=12)
+            plt.title("1D Histogram", fontsize=14)
+            plt.grid(True, linestyle='--', alpha=0.6)
 
+        elif dim == 2:
+            if data.ndim == 1 or data.shape[1] < 2:
+                print("Need at least 2D data for 2D histogram.")
+                return
+            x, y = data[:, 0], data[:, 1]
+            hist = plt.hist2d(x, y, bins=60, cmap='Blues') 
+            plt.xlabel("X", fontsize=12)
+            plt.ylabel("Y", fontsize=12)
+            plt.title("2D Histogram", fontsize=14)
+            plt.colorbar(hist[3], label="Frequency")
+            plt.grid(True, linestyle='--', alpha=0.4)
+
+        elif dim == 3:
+            if data.ndim == 1 or data.shape[1] < 3:
+                print("Need at least 3D data for 3D histogram.")
+                return
+
+            ax = fig.add_subplot(111, projection='3d')
+            x, y, z = data[:, 0], data[:, 1], data[:, 2]
+
+            # Histogram binning
+            bins = 20
+            hist, edges = np.histogramdd((x, y, z), bins=bins)
+            x_edges, y_edges, z_edges = edges
+
+            # Bin centers
+            x_centers = (x_edges[:-1] + x_edges[1:]) / 2
+            y_centers = (y_edges[:-1] + y_edges[1:]) / 2
+            z_centers = (z_edges[:-1] + z_edges[1:]) / 2
+
+            # Create grid of bin centers
+            Xc, Yc, Zc = np.meshgrid(x_centers, y_centers, z_centers, indexing='ij')
+            values = hist.flatten()
+            Xc = Xc.flatten()
+            Yc = Yc.flatten()
+            Zc = Zc.flatten()
+
+            # Filter non-zero bins
+            nonzero = values > 0
+            Xc, Yc, Zc, values = Xc[nonzero], Yc[nonzero], Zc[nonzero], values[nonzero]
+
+            # Normalize for color
+            norm_values = values / np.max(values)
+            colors = plt.cm.viridis(norm_values)
+
+            blues = colormaps['Blues']
+            newcolors = blues(np.linspace(0.12, 1, 256))
+            custom_blues = ListedColormap(newcolors)
+            # 3D scatter with color
+            sc = ax.scatter(Xc, Yc, Zc, c=norm_values, cmap=custom_blues, s=20, alpha=0.8)
+            # Labels
+            ax.set_xlabel("X", fontsize=10)
+            ax.set_ylabel("Y", fontsize=10)
+            ax.set_zlabel("Z", fontsize=10)
+            ax.set_title("3D Density Histogram", fontsize=13)
+
+            ax.view_init(elev=25, azim=135)
+            ax.set_box_aspect([1, 1, 1])
+            fig.colorbar(sc, ax=ax, shrink=0.6, label="Frequency")
+        else:
+            print("Unsupported dimension:", dim)
+            return
+
+        fig.tight_layout()
+        fig.savefig(filename, format='svg')
+        plt.close(fig)
 
     def save_qq_plot(self, filename, mu, sigma, sample_size=1000, dpi=400):
         filename = os.path.join(out_dir, filename)
@@ -528,6 +610,7 @@ class SimulatorCore:
         mus    = getattr(self, 'demo_mus', [1.0])
         sigmas = getattr(self, 'demo_sigmas', [1.0])
         count = len(mus)
+        all_demo_data = []
         for i in range(count):
             mu_i    = mus[i]
             sigma_i = sigmas[i]
@@ -548,6 +631,7 @@ class SimulatorCore:
 
             print(f"epsilon_{i+1} = {epsilon}")
             demo_data = mu_i + sigma_i * epsilon
+            all_demo_data.append(demo_data.reshape(-1, 1))
             hist_fname = f"demo_histogram_{i+1}.svg"
             qq_fname   = f"demo_qqplot_{i+1}.svg"
 
@@ -568,6 +652,9 @@ class SimulatorCore:
                 mu_i,
                 sigma_i
             )
+        nd_hist_fname = f"demo_nd_histogram.svg"
+        final_data = np.hstack(all_demo_data)  # Shape: (samples, dim)
+        self.generate_nd_histogram(final_data, count, nd_hist_fname)
 
     def export_demo_config_to_yaml(self, filename="simulation_config.yaml"):
         filename = os.path.join(out_dir, filename)

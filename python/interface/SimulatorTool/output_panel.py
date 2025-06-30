@@ -16,6 +16,7 @@ from PySide6.QtGui import QIcon, QPixmap,QPainter
 from PySide6.QtCore import Qt, QSize, QRectF
 from PySide6.QtSvg import QSvgRenderer
 
+
 from memory_page import EmittingStream
 
 class ScaledSvgWidget(QWidget):
@@ -211,6 +212,24 @@ class OutputPanel(QWidget):
             plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
             qq_row.addWidget(plot, 1)
         results_layout.addLayout(qq_row)
+
+        # Add multi dimensional distribution plot if available
+        if count >= 2:
+            summary_row = QHBoxLayout()
+            summary_row.setContentsMargins(0, 0, 0, 0)
+            summary_row.setSpacing(20)
+    
+            # choose distribution plot based on count
+            if count <= 3:
+                summary_fname = f"demo_nd_histogram.svg"  # for instance summary_view_1.svg / summary_view_2.svg / summary_view_3.svg
+            else:
+                summary_fname = "demo_nd_histogram.svg"  # use default for more than 3 dimensions
+    
+            summary_plot = self.create_plot("Summary View", summary_fname, show_initial_image=True)
+            summary_plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+            summary_row.addWidget(summary_plot, 1)
+    
+            results_layout.addLayout(summary_row, stretch=2)
 
         console_container = QWidget()
         console_layout = QVBoxLayout(console_container)
@@ -698,4 +717,5 @@ class OutputPanel(QWidget):
         # Size
         wrapper.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         return wrapper
+    
     
