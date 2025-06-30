@@ -15,6 +15,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtCore import Qt, QSize, QTimer, Signal
 
+from PySide6.QtGui import QFontMetrics
+
 out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
 icon_path = os.path.join(os.path.dirname(__file__), "icons", "config.jpg")
 
@@ -88,6 +90,7 @@ class MemoryInputPage(QWidget):
 
         self.data_button = QPushButton("Choose File")
         self.data_button.clicked.connect(self.choose_device_data)
+        self.data_button.setFixedHeight(24)
         self.input_layout.addRow("Device Data:", self.data_button)
 
         self.weight_combo = QComboBox()
@@ -111,10 +114,12 @@ class MemoryInputPage(QWidget):
 
         self.upload_folder_button = QPushButton("Upload Weights Folder")
         self.upload_folder_button.clicked.connect(self.choose_folder)
-        self.input_layout.addRow("NNWeights Folder:", self.upload_folder_button)
+        self.upload_folder_button.setFixedHeight(24)
+        self.input_layout.addRow("NN Weights Folder:", self.upload_folder_button)
 
         self.upload_bnn_folder_button = QPushButton("Upload BNN Weights Folder")
         self.upload_bnn_folder_button.clicked.connect(self.choose_bnn_folder)
+        self.upload_bnn_folder_button.setFixedHeight(24)
         self.input_layout.addRow("BNN Weights Folder:", self.upload_bnn_folder_button)
 
         self.fc1_flat_input = QLineEdit("0")
@@ -131,6 +136,7 @@ class MemoryInputPage(QWidget):
         
         self.pie_config_button = QPushButton("Upload Pie Config YAML")
         self.pie_config_button.clicked.connect(self.choose_pie_config)
+        self.pie_config_button.setFixedHeight(24)
         self.input_layout.addRow("Pie Config File:", self.pie_config_button)
         self.pie_config_path = None
 
@@ -248,18 +254,57 @@ class MemoryInputPage(QWidget):
         folder = QFileDialog.getExistingDirectory(self, "Select Folder Containing .csv Files")
         if folder:
             self.simulator_core.weights_folder = folder
+
+            fm = QFontMetrics(self.upload_folder_button.font())
+            file_path_text = fm.elidedText(folder, Qt.ElideLeft, self.upload_folder_button.width()-16)
+
+            self.upload_folder_button.setText(file_path_text)
+            self.upload_folder_button.setToolTip(folder)
+            self.upload_folder_button.setStyleSheet("""
+                QPushButton {
+                    text-align: right;
+                    padding-right: 8px;
+                }
+            """)
+
             print("Selected NN folder:", folder)
 
     def choose_bnn_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Folder Containing BNN .csv Files")
         if folder:
             self.simulator_core.bnn_weights_folder = folder
+            fm = QFontMetrics(self.upload_bnn_folder_button.font())
+            file_path_text = fm.elidedText(folder, Qt.ElideLeft, self.upload_bnn_folder_button.width()-16)
+
+            self.upload_bnn_folder_button.setText(file_path_text)
+            self.upload_bnn_folder_button.setToolTip(folder)
+            self.upload_bnn_folder_button.setStyleSheet("""
+                QPushButton {
+                    text-align: right;
+                    padding-right: 8px;
+                }
+            """)
+
             print("Selected BNN folder:", folder)
 
     def choose_device_data(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Select Device Data File", "", "CSV Files (*.csv);;All Files (*)")
         if file_path:
+            
+            fm = QFontMetrics(self.data_button.font())
+            file_path_text = fm.elidedText(file_path, Qt.ElideLeft, self.data_button.width()-16)
+
+            self.data_button.setText(file_path_text)
+            self.data_button.setToolTip(file_path)
+            self.data_button.setStyleSheet("""
+                QPushButton {
+                    text-align: right;
+                    padding-right: 8px;
+                }
+            """)
+
             self.simulator_core.device_data_path = file_path
+
             print("Selected Device Data:", file_path)
 
     def choose_pie_config(self):
@@ -267,6 +312,17 @@ class MemoryInputPage(QWidget):
         if file_path:
             self.pie_config_path = file_path
             self.simulator_core.pie_config_path = file_path
+            fm = QFontMetrics(self.pie_config_button.font())
+            file_path_text = fm.elidedText(file_path, Qt.ElideLeft, self.pie_config_button.width()-16)
+
+            self.pie_config_button.setText(file_path_text)
+            self.pie_config_button.setToolTip(file_path)
+            self.pie_config_button.setStyleSheet("""
+                QPushButton {
+                    text-align: right;
+                    padding-right: 8px;
+                }
+            """)
             print("Selected Pie Config File:", file_path)
 
     def _choose_yaml(self, label, callback):
@@ -274,7 +330,6 @@ class MemoryInputPage(QWidget):
         if path:
             print(f"[{label}] YAML selected:", path)
             callback(path)
-
 
     def open_config_dialog(self):
         dlg = QDialog(self)
@@ -307,6 +362,7 @@ class MemoryInputPage(QWidget):
 
 
         self.adc_file_button = QPushButton("Choose ADC YAML…")
+        self.adc_file_button.setFixedHeight(24) 
         self.adc_file_button.hide()
         row_adc_file = QHBoxLayout()
         row_adc_file.addWidget(QLabel())  # left
@@ -316,10 +372,10 @@ class MemoryInputPage(QWidget):
         self.memory_adc.currentTextChanged.connect(
             lambda t: self.adc_file_button.setVisible(t == "Custom")
         )
-        self.adc_file_button.clicked.connect(
-            lambda: self._choose_yaml("adc", lambda val: setattr(self, "memory_adc_config", val))
-        )
-
+        #self.adc_file_button.clicked.connect(
+        #    lambda: self._choose_yaml("adc", lambda val: setattr(self, "memory_adc_config", val))
+        #)
+        self.adc_file_button.clicked.connect(self.choose_adc_file)
         
 
         # Buffer: Custom/Default + file
@@ -337,6 +393,7 @@ class MemoryInputPage(QWidget):
 
         self.buffer_file_button = QPushButton("Choose Buffer YAML…")
         self.buffer_file_button.hide()
+        self.buffer_file_button.setFixedHeight(24) 
         row_buffer_file = QHBoxLayout()
         row_buffer_file.addWidget(QLabel())  # left
         row_buffer_file.addWidget(self.buffer_file_button)
@@ -345,10 +402,11 @@ class MemoryInputPage(QWidget):
         self.memory_buffer.currentTextChanged.connect(
             lambda t: self.buffer_file_button.setVisible(t == "Custom")
         )
-        self.buffer_file_button.clicked.connect(
-            lambda: self._choose_yaml("buffer", lambda val: setattr(self, "memory_buffer_config", val))
-        )
-
+        #self.buffer_file_button.clicked.connect(
+        #    lambda: self._choose_yaml("buffer", lambda val: setattr(self, "memory_buffer_config", val))
+        #)
+        self.buffer_file_button.clicked.connect(self.choose_buffer_file)
+      
         #SenseAMP
         self.memory_SenseAMP = QComboBox()
         self.memory_SenseAMP.addItems(["Default", "Custom"])
@@ -363,6 +421,7 @@ class MemoryInputPage(QWidget):
     
         self.senseamp_file_button = QPushButton("Choose SenseAmp YAML…")
         self.senseamp_file_button.hide()
+        self.senseamp_file_button.setFixedHeight(24) 
         row_senseamp_file = QHBoxLayout()
         row_senseamp_file.addWidget(QLabel())  # left
         row_senseamp_file.addWidget(self.senseamp_file_button)
@@ -371,10 +430,11 @@ class MemoryInputPage(QWidget):
         self.memory_SenseAMP.currentTextChanged.connect(
             lambda t: self.senseamp_file_button.setVisible(t == "Custom")
         )
-        self.senseamp_file_button.clicked.connect(
-            lambda: self._choose_yaml("senseamp", lambda val: setattr(self, "memory_senseamp_config", val))
-        )
-
+        #self.senseamp_file_button.clicked.connect(
+        #    lambda: self._choose_yaml("senseamp", lambda val: setattr(self, "memory_senseamp_config", val))
+        #)
+        self.senseamp_file_button.clicked.connect(self.choose_senseamp_file)
+      
          #Decoder
         self.memory_Decoder = QComboBox()
         self.memory_Decoder.addItems(["Default", "Custom"])
@@ -390,6 +450,7 @@ class MemoryInputPage(QWidget):
         
         self.decoder_file_button = QPushButton("Choose Decoder YAML…")
         self.decoder_file_button.hide()
+        self.decoder_file_button.setFixedHeight(24) 
         row_decoder_file = QHBoxLayout()
         row_decoder_file.addWidget(QLabel())  # left
         row_decoder_file.addWidget(self.decoder_file_button)
@@ -398,10 +459,12 @@ class MemoryInputPage(QWidget):
         self.memory_Decoder.currentTextChanged.connect(
             lambda t: self.decoder_file_button.setVisible(t == "Custom")
         )
-        self.decoder_file_button.clicked.connect(
-            lambda: self._choose_yaml("decoder", lambda val: setattr(self, "memory_decoder_config", val))
-        )
-        
+        #self.decoder_file_button.clicked.connect(
+        #    lambda: self._choose_yaml("decoder", lambda val: setattr(self, "memory_decoder_config", val))
+        #)
+        self.decoder_file_button.clicked.connect(self.choose_decoder_file)
+                
+
         #Memory: SRAM/RRAM/FeFET + Custom/Default + file
         self.memory_tech_btn = QPushButton("Memory:")
         self.memory_tech_value = "SRAM"
@@ -425,6 +488,7 @@ class MemoryInputPage(QWidget):
 
         self.memory_file_button = QPushButton("Choose Memory YAML…")
         self.memory_file_button.hide()
+        self.memory_file_button.setFixedHeight(24) 
         row_memory_file = QHBoxLayout()
         row_memory_file.addWidget(QLabel())  # left
         row_memory_file.addWidget(self.memory_file_button)
@@ -433,10 +497,11 @@ class MemoryInputPage(QWidget):
         self.memory_MemoryType.currentTextChanged.connect(
             lambda t: self.memory_file_button.setVisible(t == "Custom")
         )
-        self.memory_file_button.clicked.connect(
-            lambda: self._choose_yaml("memory", lambda val: setattr(self, "memory_memory_config", val))
-        )
-
+        #self.memory_file_button.clicked.connect(
+        #    lambda: self._choose_yaml("memory", lambda val: setattr(self, "memory_memory_config", val))
+        #)
+        self.memory_file_button.clicked.connect(self.choose_memory_file)
+       
         # Technology: 65nm / 45nm / 28nm / 14nm
         label_tech = QLabel("Technology:")
         label_tech.setMinimumWidth(100)
@@ -502,6 +567,56 @@ class MemoryInputPage(QWidget):
             print("Config saved")
         else:
             print("Configuration canceled")
+
+    def choose_adc_file(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Select ADC YAML File", "", "YAML Files (*.yaml *.yml);;All Files (*)")
+        if path:
+            self.memory_adc_config = path
+            fm = QFontMetrics(self.adc_file_button.font())
+            txt = fm.elidedText(path, Qt.ElideLeft, self.adc_file_button.width()-16)
+            self.adc_file_button.setText(txt)
+            self.adc_file_button.setToolTip(path)
+            self.adc_file_button.setStyleSheet("QPushButton { text-align: right; padding-right: 8px; }")
+
+    def choose_buffer_file(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Select Buffer YAML File", "", "YAML Files (*.yaml *.yml);;All Files (*)")
+        if path:
+            self.memory_buffer_config = path
+            fm = QFontMetrics(self.buffer_file_button.font())
+            txt = fm.elidedText(path, Qt.ElideLeft, self.buffer_file_button.width()-16)
+            self.buffer_file_button.setText(txt)
+            self.buffer_file_button.setToolTip(path)
+            self.buffer_file_button.setStyleSheet("QPushButton { text-align: right; padding-right: 8px; }")
+
+    def choose_senseamp_file(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Select SenseAmp YAML File", "", "YAML Files (*.yaml *.yml);;All Files (*)")
+        if path:
+            self.memory_senseamp_config = path
+            fm = QFontMetrics(self.senseamp_file_button.font())
+            txt = fm.elidedText(path, Qt.ElideLeft, self.senseamp_file_button.width()-16)
+            self.senseamp_file_button.setText(txt)
+            self.senseamp_file_button.setToolTip(path)
+            self.senseamp_file_button.setStyleSheet("QPushButton { text-align: right; padding-right: 8px; }")
+
+    def choose_decoder_file(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Select Decoder YAML File", "", "YAML Files (*.yaml *.yml);;All Files (*)")
+        if path:
+            self.memory_decoder_config = path
+            fm = QFontMetrics(self.decoder_file_button.font())
+            txt = fm.elidedText(path, Qt.ElideLeft, self.decoder_file_button.width()-16)
+            self.decoder_file_button.setText(txt)
+            self.decoder_file_button.setToolTip(path)
+            self.decoder_file_button.setStyleSheet("QPushButton { text-align: right; padding-right: 8px; }")
+
+    def choose_memory_file(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Select Memory YAML File", "", "YAML Files (*.yaml *.yml);;All Files (*)")
+        if path:
+            self.memory_memory_config = path
+            fm = QFontMetrics(self.memory_file_button.font())
+            txt = fm.elidedText(path, Qt.ElideLeft, self.memory_file_button.width()-16)
+            self.memory_file_button.setText(txt)
+            self.memory_file_button.setToolTip(path)
+            self.memory_file_button.setStyleSheet("QPushButton { text-align: right; padding-right: 8px; }")
 
     def update_architecture_image(self):
 
@@ -653,6 +768,44 @@ class MemoryInputPage(QWidget):
 
         self.tabs = None
         self.current_tab_index = 0
+
+        self.data_button.setText("Choose File")
+        self.data_button.setToolTip("")
+        self.data_button.setStyleSheet(f"""
+            QPushButton {{
+                text-align: center;
+            }}
+        """)
+
+        self.upload_folder_button.setText("Upload Weights Folder")
+        self.upload_folder_button.setToolTip("")
+        self.upload_folder_button.setStyleSheet(f"""
+            QPushButton {{
+                text-align: center;
+            }}
+        """)
+
+        self.upload_bnn_folder_button.setText("Upload BNN Weights Folder")
+        self.upload_bnn_folder_button.setToolTip("")
+        self.upload_bnn_folder_button.setStyleSheet(f"""
+            QPushButton {{
+                text-align: center;
+            }}
+        """)
+
+        self.pie_config_button.setText("Upload Pie Config YAML")
+        self.pie_config_button.setToolTip("")
+        self.pie_config_button.setStyleSheet(f"""
+            QPushButton {{
+                text-align: center;
+            }}
+        """)
+
+        self.memory_adc_config    = None
+        self.memory_buffer_config = None
+        self.memory_senseamp_config = None
+        self.memory_decoder_config  = None
+        self.memory_memory_config   = None
 
         self.simulationRequested.emit(False, False, False)
 

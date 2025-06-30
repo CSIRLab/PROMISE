@@ -404,7 +404,7 @@ class SimulatorCore:
 
     def save_empirical_qq_plot(self, filename, data, mu, sigma, dpi=400):
         filename = os.path.join(out_dir, filename)
-        print("Saving QQ plot to:", os.path.abspath(filename))
+        print("Saving QQ plot:", os.path.abspath(filename))
         # QQ plot based on transformed data
         plt.figure(figsize=(12, 8))
 
@@ -525,38 +525,49 @@ class SimulatorCore:
             plt.close()
 
     def run_demo(self):
+        mus    = getattr(self, 'demo_mus', [1.0])
+        sigmas = getattr(self, 'demo_sigmas', [1.0])
+        count = len(mus)
+        for i in range(count):
+            mu_i    = mus[i]
+            sigma_i = sigmas[i]
+            print(f"mu{i+1} = {mus[i]:.4f}, sigma{i+1} = {sigmas[i]:.4f}")
 
-        if self.demo_mode == "ideal":
-            # Standard Normal sampling
-            epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
-        else:
-            all_data = np.loadtxt(self.demo_file, delimiter=",")
-            epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
-            
-            # Normalize
-            mu1 = np.mean(epsilon_original)
-            sigma1 = np.std(epsilon_original)
-            epsilon = (epsilon_original - mu1) / sigma1
 
-        demo_data = self.demo_mu + self.demo_sigma * epsilon
+            if self.demo_mode == "ideal":
+                # Standard Normal sampling
+                epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
+            else:
+                all_data = np.loadtxt(self.demo_file, delimiter=",")
+                epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
+                
+                # Normalize
+                mu_st = np.mean(epsilon_original)
+                sigma_st = np.std(epsilon_original)
+                epsilon = (epsilon_original - mu_st) / sigma_st
 
-        self.save_plot(
-        "demo_histogram.svg",
-        demo_data,
-        mode="hist",
-        bins=self.demo_bins,
-        xlabel="Value",
-        ylabel="Count",
-        with_title=True,
-        title=f"Demo ({self.demo_mode}) Histogram"
-        )
+            print(f"epsilon_{i+1} = {epsilon}")
+            demo_data = mu_i + sigma_i * epsilon
+            hist_fname = f"demo_histogram_{i+1}.svg"
+            qq_fname   = f"demo_qqplot_{i+1}.svg"
 
-        self.save_empirical_qq_plot(
-            "demo_qqplot.svg",
+            self.save_plot(
+            hist_fname,
             demo_data,
-            self.demo_mu,
-            self.demo_sigma
-        )
+            mode="hist",
+            bins=self.demo_bins,
+            xlabel="Value",
+            ylabel="Count",
+            with_title=True,
+            title=f"Demo ({self.demo_mode}) Histogram #{i+1}\nμ={mu_i:.2f}, σ={sigma_i:.2f}"
+            )
+
+            self.save_empirical_qq_plot(
+                qq_fname,
+                demo_data,
+                mu_i,
+                sigma_i
+            )
 
     def export_demo_config_to_yaml(self, filename="simulation_config.yaml"):
         filename = os.path.join(out_dir, filename)
@@ -565,8 +576,9 @@ class SimulatorCore:
             "mode": "Demo",
             "rng_source": self.demo_mode,
             "rng_file": self.demo_file or "",
-            "mu": float(self.demo_mu),
-            "sigma": float(self.demo_sigma),
+            "weight_number": len(getattr(self, "demo_mus", [])),
+            "mus": getattr(self, "demo_mus", []),
+            "sigmas": getattr(self, "demo_sigmas", []),
             "sampling_times": int(self.demo_samples),
             "bins": int(self.demo_bins)
         }
@@ -599,7 +611,7 @@ class SimulatorCore:
 
         self.demo_mode = None
         self.demo_file = None
-        self.demo_mu = None
-        self.demo_sigma = None
+        self.demo_mus = None
+        self.demo_sigmas = None
         self.demo_samples = None
         self.demo_bins = None

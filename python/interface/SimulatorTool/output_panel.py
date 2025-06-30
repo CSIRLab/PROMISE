@@ -12,10 +12,30 @@ os.makedirs(plots_dir, exist_ok=True)
 
 from PySide6.QtWidgets import QTextEdit, QWidget, QVBoxLayout, QLabel, QScrollArea,QTabWidget, QHBoxLayout, QGroupBox, QPushButton, QSizePolicy, QDialog
 from PySide6.QtSvgWidgets import QSvgWidget
-from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtGui import QIcon, QPixmap,QPainter
+from PySide6.QtCore import Qt, QSize, QRectF
+from PySide6.QtSvg import QSvgRenderer
+
 from memory_page import EmittingStream
 
+class ScaledSvgWidget(QWidget):
+    def __init__(self, svg_path, parent=None):
+        super().__init__(parent)
+        self.renderer = QSvgRenderer(svg_path)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        rect = self.rect() 
+        vb = self.renderer.viewBoxF()
+        scale = min(rect.width()/vb.width(), rect.height()/vb.height())
+        w = vb.width() * scale
+        h = vb.height() * scale
+        x = (rect.width() - w) / 2
+        y = (rect.height() - h) / 2
+        target = QRectF(x, y, w, h)
+        self.renderer.render(painter, target)
+        
 class OutputPanel(QWidget):
     def __init__(self, core, parent=None):
         super().__init__(parent)
@@ -149,57 +169,48 @@ class OutputPanel(QWidget):
 
     def _show_demo_outputs(self):
 
+        self.tabs = QTabWidget()
+
         title_label = QLabel("Demo Result")
         title_label.setStyleSheet("font-weight: bold; font-size: 11pt; margin-top: 15px;")
         title_label.setAlignment(Qt.AlignLeft)
-
 
         content = QWidget()
         content_layout = QVBoxLayout(content)
         content_layout.setContentsMargins(0, 0, 0, 0)
         content_layout.setSpacing(10)
 
-        
         content_layout.addWidget(title_label)
 
+        count = len(getattr(self.core, "demo_mus", [1.0]))
+
         # Histogram + QQ Plot
-        top = QWidget()
-        top_layout = QHBoxLayout(top)
-        top_layout.setContentsMargins(0, 0, 0, 0)
-        top_layout.setSpacing(40)
-
+        results_widget = QWidget()
+        results_layout = QVBoxLayout(results_widget)
+        results_layout.setContentsMargins(0, 0, 0, 0)
+        results_layout.setSpacing(10)
         
-        # Histogram (left)
-        left_container = QWidget()
-        left_layout = QVBoxLayout(left_container)
-        left_layout.setAlignment(Qt.AlignCenter)
-        self.demo_hist_plot = self.create_plot(
-            f"Demo ({self.core.demo_mode}) Histogram",
-            "demo_histogram.svg",
-            show_initial_image=False
-        )
-        left_layout.addWidget(self.demo_hist_plot)
+        # Histogram (top)
+        hist_row = QHBoxLayout()
+        hist_row.setContentsMargins(0, 0, 0, 0)
+        hist_row.setSpacing(20)
+        for i in range(count):
+            fname = f"demo_histogram_{i+1}.svg"
+            plot = self.create_plot(f"Histogram #{i+1}", fname, show_initial_image=True)
+            plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+            hist_row.addWidget(plot, 1)
+        results_layout.addLayout(hist_row)
 
-        # QQ Plot (right)
-        right_container = QWidget()
-        right_layout = QVBoxLayout(right_container)
-        right_layout.setAlignment(Qt.AlignCenter)
-        self.demo_qq_plot = self.create_plot(
-            "Demo QQ Plot",
-            "demo_qqplot.svg",
-            show_initial_image=False
-        )
-        right_layout.addWidget(self.demo_qq_plot)
-
-        top_layout.addStretch(1)
-        top_layout.addWidget(left_container)
-        top_layout.addStretch(1)
-        top_layout.addWidget(right_container)
-        top_layout.addStretch(1)
-        
-
-
-        content_layout.addWidget(top, stretch=2)
+        # QQ Plot (bottom)
+        qq_row = QHBoxLayout()
+        qq_row.setContentsMargins(0, 0, 0, 0)
+        qq_row.setSpacing(20)
+        for i in range(count):
+            fname = f"demo_qqplot_{i+1}.svg"
+            plot = self.create_plot(f"QQ Plot #{i+1}", fname, show_initial_image=True)
+            plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+            qq_row.addWidget(plot, 1)
+        results_layout.addLayout(qq_row)
 
         console_container = QWidget()
         console_layout = QVBoxLayout(console_container)
@@ -217,9 +228,10 @@ class OutputPanel(QWidget):
         #console_container.setLayout(console_layout)
 
 
-        self.tabs = QTabWidget()
-        self.tabs.addTab(console_container, "Console")
+        self.tabs.clear()
         self.tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.tabs.addTab(results_widget, "Results")
+        self.tabs.addTab(console_container, "Console")
 
         content_layout.addWidget(self.tabs, stretch=1)
 
@@ -652,10 +664,10 @@ class OutputPanel(QWidget):
         # Now add the title bar to main layout
         layout.addLayout(title_bar_layout)
 
+
         if show_initial_image and os.path.exists(filename):
             if filename.endswith(".svg"):
-                image = QSvgWidget(filename)
-                image.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                image = ScaledSvgWidget(filename)
                 image.setMinimumSize(280, 180)
                 image.setObjectName("plot_image")
             else:
@@ -666,7 +678,7 @@ class OutputPanel(QWidget):
         else:
             # Show placeholder
             image = QLabel()
-            image.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            image.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
             image.setMinimumSize(280, 180)
             image.setAlignment(Qt.AlignCenter)
             image.setStyleSheet("""
