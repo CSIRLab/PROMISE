@@ -63,6 +63,12 @@ class DemoInputPage(QWidget):
         self.input_layout = QFormLayout()
         input_panel.setLayout(self.input_layout)
 
+        self.gaussian_mode = QComboBox()
+        self.gaussian_mode.addItems(["Single Gaussian", "Gaussian Mixture Model"])
+        self.gaussian_mode.currentIndexChanged.connect(self._on_gaussian_mode_changed)
+        self.input_layout.addRow("Mode:", self.gaussian_mode)
+
+
         self.rng_mode = QComboBox()
         self.rng_mode.addItems(["ideal", "Choose file"])
         self.rng_mode.currentIndexChanged.connect(self._toggle_file_btn)
@@ -178,17 +184,19 @@ class DemoInputPage(QWidget):
         help_text = (
             "n = number of weights\n"
             "for (i = 0; i < n; i++) {\n"
-            "  # ideal\n"
-            "  ε = torch.rand(0,1)\n"
+            "  # either ideal - standard normal N(0,1)\n"
+            "  ε = torch.randn()\n"
+            "\n"
             "  # or custom\n"
             "  ε = custom_sample(rng_data, sample_number)\n"
+            "\n"
             "  X = μ + σ * ε\n"
             "}"
         )
         help_box = QPlainTextEdit()
         help_box.setReadOnly(True)
         help_box.setPlainText(help_text)
-        help_box.setFixedHeight(175)
+        help_box.setFixedHeight(190)
         help_box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         help_box.setStyleSheet("""
             background-color: #FFF;
@@ -212,8 +220,26 @@ class DemoInputPage(QWidget):
 
         self.setLayout(main_layout)
 
+    def _on_gaussian_mode_changed(self):
+        mode = self.gaussian_mode.currentText()
+        self.weight_number.blockSignals(True)
+        self.weight_number.clear()
+        if mode == "Gaussian Mixture Model":
+            self.weight_number.addItems(["2", "3"])
+
+        else:  # Single Gaussian
+            self.weight_number.addItems(["1", "2", "3"])
+
+        self.weight_number.setCurrentIndex(0)
+        self.weight_number.blockSignals(False)
+        self._update_weight_inputs()
+
+
     def _update_weight_inputs(self):
-        number = int(self.weight_number.currentText())
+        txt = self.weight_number.currentText()
+        if not txt.isdigit():
+            return
+        number = int(txt)
 
         # Clear μ
         while self.mu_fields_layout.count():
@@ -241,6 +267,37 @@ class DemoInputPage(QWidget):
             self.sigma_fields_layout.addWidget(sigma_edit, 1)
             self.sigma_lineedits.append(sigma_edit)
 
+        # If in Gaussian Mixture Model mode, update alpha fields
+        if self.gaussian_mode.currentText() == "Gaussian Mixture Model":
+            # α container + layout
+            if not hasattr(self, "alpha_container"):
+                self.alpha_container = QWidget()
+                self.alpha_fields_layout = QHBoxLayout(self.alpha_container)
+                self.alpha_fields_layout.setSpacing(0)
+                self.input_layout.insertRow(6, "α (weight ratios):", self.alpha_container)
+            else:
+                self.alpha_container.show()
+                while self.alpha_fields_layout.count():
+                    w = self.alpha_fields_layout.takeAt(0).widget()
+                    if w:
+                        w.deleteLater()
+
+            self.alpha_lineedits = []
+            if number == 3:
+                default_alphas = [0.3, 0.3, 0.4]
+            else:
+                default_alphas = [1.0 / number] * number
+
+            for idx in range(number):
+                alpha_edit = QLineEdit(f"{default_alphas[idx]:.4f}")
+                alpha_edit.setPlaceholderText(f"α{idx+1}")
+                alpha_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                self.alpha_fields_layout.addWidget(alpha_edit, 1)
+                self.alpha_lineedits.append(alpha_edit)
+        else:
+        # Single Gaussians
+            if hasattr(self, "alpha_container"):
+                self.alpha_container.hide()
     # Input Actions
     def choose_device_data(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Select RNG File", "", "CSV Files (*.csv);;All Files (*)")
@@ -285,7 +342,18 @@ class DemoInputPage(QWidget):
 
         print("Starting simulation...")
 
+        if self.gaussian_mode.currentText() == "Gaussian Mixture Model":
+            self.simulator_core.demo_alphas = [float(edit.text()) for edit in self.alpha_lineedits]
+            self.simulator_core.demo_is_mixed = True
+        else:
+            self.simulator_core.demo_alphas = None
+            self.simulator_core.demo_is_mixed = False
+
+
         self.simulator_core.demo_mode    = self.rng_mode.currentText()
+
+        self.simulator_core.gaussian_mode = self.gaussian_mode.currentText()
+
         self.simulator_core.demo_file    = self.file_path
 
         demo_mus    = [float(edit.text()) for edit in self.mu_lineedits]
@@ -305,8 +373,9 @@ class DemoInputPage(QWidget):
     def reset_inputs(self):
         self.rng_mode.setCurrentIndex(0)
 
+        self.gaussian_mode.setCurrentIndex(0)  # Single Gaussian
+
         self.weight_number.setCurrentIndex(0)
-        self._update_weight_inputs()
 
         self.sample_input.setText("100")
         self.bins_input.setText("50")

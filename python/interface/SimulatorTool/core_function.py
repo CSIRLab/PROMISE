@@ -424,6 +424,7 @@ class SimulatorCore:
         plt.tight_layout()
         plt.savefig(filename, dpi=dpi)
         plt.close()
+
     def generate_nd_histogram(self, data, dim,filename):
         plt.clf()
         filename = os.path.join(out_dir, filename)
@@ -485,7 +486,7 @@ class SimulatorCore:
             newcolors = blues(np.linspace(0.12, 1, 256))
             custom_blues = ListedColormap(newcolors)
             # 3D scatter with color
-            sc = ax.scatter(Xc, Yc, Zc, c=norm_values, cmap=custom_blues, s=20, alpha=0.8)
+            sc = ax.scatter(Xc, Yc, Zc, c=norm_values, cmap=custom_blues, s=10, alpha=0.8)
             # Labels
             ax.set_xlabel("X", fontsize=10)
             ax.set_ylabel("Y", fontsize=10)
@@ -611,6 +612,7 @@ class SimulatorCore:
         sigmas = getattr(self, 'demo_sigmas', [1.0])
         count = len(mus)
         all_demo_data = []
+        epsilons = []
         for i in range(count):
             mu_i    = mus[i]
             sigma_i = sigmas[i]
@@ -629,7 +631,9 @@ class SimulatorCore:
                 sigma_st = np.std(epsilon_original)
                 epsilon = (epsilon_original - mu_st) / sigma_st
 
+            epsilons.append(epsilon)
             print(f"epsilon_{i+1} = {epsilon}")
+
             demo_data = mu_i + sigma_i * epsilon
             all_demo_data.append(demo_data.reshape(-1, 1))
             hist_fname = f"demo_histogram_{i+1}.svg"
@@ -652,9 +656,39 @@ class SimulatorCore:
                 mu_i,
                 sigma_i
             )
-        nd_hist_fname = f"demo_nd_histogram.svg"
-        final_data = np.hstack(all_demo_data)  # Shape: (samples, dim)
-        self.generate_nd_histogram(final_data, count, nd_hist_fname)
+
+        distribution_mode = getattr(self, "gaussian_mode", "Single Gaussian")
+
+        if distribution_mode == "Single Gaussian":
+            nd_hist_fname = f"demo_nd_histogram.svg"
+            final_data = np.hstack(all_demo_data)  # Shape: (samples, dim)
+            self.generate_nd_histogram(final_data, count, nd_hist_fname)
+        else:
+            alphas = getattr(self, 'demo_alphas', [1.0 / count] * count)
+            if len(alphas) != count:
+                raise ValueError("Number of alphas must match number of mus/sigmas.")
+
+            # Sampling component index per alpha (Bernoulli if 2, Categorical if >2)
+            k_choices = np.random.choice(count, size=self.demo_samples, p=alphas)
+
+            # GMM sampling per mask
+            mixed_data = np.zeros(self.demo_samples)
+            for i in range(self.demo_samples):
+                k = k_choices[i]
+                # Use corresponding epsilon
+                eps = np.random.normal() if self.demo_mode == "ideal" else epsilons[k][i]
+                mixed_data[i] = mus[k] + sigmas[k] * eps
+
+            self.save_plot(
+                "demo_mixed_histogram.svg",
+                mixed_data,
+                mode="hist",
+                bins=self.demo_bins,
+                xlabel="Value",
+                ylabel="Count",
+                with_title=True,
+                title=f"Gaussian Mixture Model Histogram (α = {alphas})"
+            )
 
     def export_demo_config_to_yaml(self, filename="simulation_config.yaml"):
         filename = os.path.join(out_dir, filename)
