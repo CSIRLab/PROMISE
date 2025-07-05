@@ -6,15 +6,11 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-    <dc:date>2025-06-30T18:31:51.562004</dc:date>
-========
-    <dc:date>2025-06-28T17:23:08.074367</dc:date>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+    <dc:date>2025-06-30T20:02:06.481050</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
-      <dc:title>Matplotlib v3.10.3, https://matplotlib.org/</dc:title>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
      </cc:Agent>
     </dc:creator>
    </cc:Work>
@@ -34,763 +30,428 @@ z
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 59.6 509.56 
+    <path d="M 73.55 509.56 
 L 853.2 509.56 
 L 853.2 70.08 
-L 59.6 70.08 
+L 73.55 70.08 
 z
 " style="fill: #ffffff"/>
    </g>
    <g id="patch_3">
-    <path d="M 95.672727 509.56 
-L 110.101818 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 110.101818 370.04254 
-L 95.672727 370.04254 
+    <path d="M 108.988636 509.56 
+L 123.164091 509.56 
+L 123.164091 502.916311 
+L 108.988636 502.916311 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 110.101818 419.815238 
-L 95.672727 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
-    <path d="M 110.101818 509.56 
-L 124.530909 509.56 
-L 124.530909 509.56 
-L 110.101818 509.56 
+    <path d="M 123.164091 509.56 
+L 137.339545 509.56 
+L 137.339545 509.56 
+L 123.164091 509.56 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
-    <path d="M 124.530909 509.56 
-L 138.96 509.56 
-L 138.96 509.56 
-L 124.530909 509.56 
+    <path d="M 137.339545 509.56 
+L 151.515 509.56 
+L 151.515 509.56 
+L 137.339545 509.56 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
-    <path d="M 138.96 509.56 
-L 153.389091 509.56 
-L 153.389091 300.28381 
-L 138.96 300.28381 
+    <path d="M 151.515 509.56 
+L 165.690455 509.56 
+L 165.690455 482.985246 
+L 151.515 482.985246 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
-    <path d="M 153.389091 509.56 
-L 167.818182 509.56 
-L 167.818182 370.04254 
-L 153.389091 370.04254 
+    <path d="M 165.690455 509.56 
+L 179.865909 509.56 
+L 179.865909 502.916311 
+L 165.690455 502.916311 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
-    <path d="M 167.818182 509.56 
-L 182.247273 509.56 
-L 182.247273 509.56 
-L 167.818182 509.56 
+    <path d="M 179.865909 509.56 
+L 194.041364 509.56 
+L 194.041364 502.916311 
+L 179.865909 502.916311 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
-    <path d="M 182.247273 509.56 
-L 196.676364 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 196.676364 370.04254 
-L 182.247273 370.04254 
+    <path d="M 194.041364 509.56 
+L 208.216818 509.56 
+L 208.216818 509.56 
+L 194.041364 509.56 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 196.676364 509.56 
-L 182.247273 509.56 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
-    <path d="M 196.676364 509.56 
-L 211.105455 509.56 
-L 211.105455 509.56 
-L 196.676364 509.56 
+    <path d="M 208.216818 509.56 
+L 222.392273 509.56 
+L 222.392273 469.697868 
+L 208.216818 469.697868 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
-    <path d="M 211.105455 509.56 
-L 225.534545 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 225.534545 230.525079 
-L 211.105455 230.525079 
+    <path d="M 222.392273 509.56 
+L 236.567727 509.56 
+L 236.567727 476.341557 
+L 222.392273 476.341557 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 225.534545 509.56 
-L 211.105455 509.56 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_12">
-    <path d="M 225.534545 509.56 
-L 239.963636 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 239.963636 439.80127 
-L 225.534545 439.80127 
+    <path d="M 236.567727 509.56 
+L 250.743182 509.56 
+L 250.743182 456.410491 
+L 236.567727 456.410491 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 239.963636 419.815238 
-L 225.534545 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_13">
-    <path d="M 239.963636 509.56 
-L 254.392727 509.56 
-L 254.392727 439.80127 
-L 239.963636 439.80127 
+    <path d="M 250.743182 509.56 
+L 264.918636 509.56 
+L 264.918636 456.410491 
+L 250.743182 456.410491 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_14">
-    <path d="M 254.392727 509.56 
-L 268.821818 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 268.821818 160.766349 
-L 254.392727 160.766349 
+    <path d="M 264.918636 509.56 
+L 279.094091 509.56 
+L 279.094091 423.192048 
+L 264.918636 423.192048 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 268.821818 240.325714 
-L 254.392727 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_15">
-    <path d="M 268.821818 509.56 
-L 283.250909 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 283.250909 160.766349 
-L 268.821818 160.766349 
+    <path d="M 279.094091 509.56 
+L 293.269545 509.56 
+L 293.269545 463.05418 
+L 279.094091 463.05418 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 283.250909 330.070476 
-L 268.821818 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_16">
-    <path d="M 283.250909 509.56 
-L 297.68 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 297.68 300.28381 
-L 283.250909 300.28381 
+    <path d="M 293.269545 509.56 
+L 307.445 509.56 
+L 307.445 482.985246 
+L 293.269545 482.985246 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 297.68 419.815238 
-L 283.250909 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_17">
-    <path d="M 297.68 509.56 
-L 312.109091 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 312.109091 370.04254 
-L 297.68 370.04254 
+    <path d="M 307.445 509.56 
+L 321.620455 509.56 
+L 321.620455 376.686228 
+L 307.445 376.686228 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 312.109091 60.83619 
-L 297.68 60.83619 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_18">
-    <path d="M 312.109091 509.56 
-L 326.538182 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 326.538182 300.28381 
-L 312.109091 300.28381 
+    <path d="M 321.620455 509.56 
+L 335.795909 509.56 
+L 335.795909 403.260983 
+L 321.620455 403.260983 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 326.538182 419.815238 
-L 312.109091 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_19">
-    <path d="M 326.538182 509.56 
-L 340.967273 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 340.967273 439.80127 
-L 326.538182 439.80127 
+    <path d="M 335.795909 509.56 
+L 349.971364 509.56 
+L 349.971364 363.398851 
+L 335.795909 363.398851 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 340.967273 240.325714 
-L 326.538182 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_20">
-    <path d="M 340.967273 509.56 
-L 355.396364 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 355.396364 230.525079 
-L 340.967273 230.525079 
+    <path d="M 349.971364 509.56 
+L 364.146818 509.56 
+L 364.146818 356.755163 
+L 349.971364 356.755163 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 355.396364 150.580952 
-L 340.967273 150.580952 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_21">
-    <path d="M 355.396364 509.56 
-L 369.825455 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 369.825455 230.525079 
-L 355.396364 230.525079 
+    <path d="M 364.146818 509.56 
+L 378.322273 509.56 
+L 378.322273 303.605654 
+L 364.146818 303.605654 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 369.825455 240.325714 
-L 355.396364 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_22">
-    <path d="M 369.825455 509.56 
-L 384.254545 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 384.254545 300.28381 
-L 369.825455 300.28381 
+    <path d="M 378.322273 509.56 
+L 392.497727 509.56 
+L 392.497727 263.743522 
+L 378.322273 263.743522 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 384.254545 330.070476 
-L 369.825455 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_23">
-    <path d="M 384.254545 509.56 
-L 398.683636 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 398.683636 160.766349 
-L 384.254545 160.766349 
+    <path d="M 392.497727 509.56 
+L 406.673182 509.56 
+L 406.673182 316.893031 
+L 392.497727 316.893031 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 398.683636 330.070476 
-L 384.254545 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_24">
-    <path d="M 398.683636 509.56 
-L 413.112727 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 413.112727 370.04254 
-L 398.683636 370.04254 
+    <path d="M 406.673182 509.56 
+L 420.848636 509.56 
+L 420.848636 243.812457 
+L 406.673182 243.812457 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 413.112727 330.070476 
-L 398.683636 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_25">
-    <path d="M 413.112727 509.56 
-L 427.541818 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 427.541818 370.04254 
-L 413.112727 370.04254 
+    <path d="M 420.848636 509.56 
+L 435.024091 509.56 
+L 435.024091 296.961965 
+L 420.848636 296.961965 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 427.541818 60.83619 
-L 413.112727 60.83619 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_26">
-    <path d="M 427.541818 509.56 
-L 441.970909 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 441.970909 230.525079 
-L 427.541818 230.525079 
+    <path d="M 435.024091 509.56 
+L 449.199545 509.56 
+L 449.199545 157.444505 
+L 435.024091 157.444505 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 441.970909 60.83619 
-L 427.541818 60.83619 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_27">
-    <path d="M 441.970909 509.56 
-L 456.4 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 456.4 230.525079 
-L 441.970909 230.525079 
+    <path d="M 449.199545 509.56 
+L 463.375 509.56 
+L 463.375 223.881391 
+L 449.199545 223.881391 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 456.4 60.83619 
-L 441.970909 60.83619 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_28">
-    <path d="M 456.4 509.56 
-L 470.829091 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 470.829091 370.04254 
-L 456.4 370.04254 
+    <path d="M 463.375 509.56 
+L 477.550455 509.56 
+L 477.550455 230.525079 
+L 463.375 230.525079 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 470.829091 60.83619 
-L 456.4 60.83619 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_29">
-    <path d="M 470.829091 509.56 
-L 485.258182 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 485.258182 160.766349 
-L 470.829091 160.766349 
+    <path d="M 477.550455 509.56 
+L 491.725909 509.56 
+L 491.725909 91.007619 
+L 477.550455 91.007619 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 485.258182 330.070476 
-L 470.829091 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_30">
-    <path d="M 485.258182 509.56 
-L 499.687273 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 499.687273 370.04254 
-L 485.258182 370.04254 
+    <path d="M 491.725909 509.56 
+L 505.901364 509.56 
+L 505.901364 144.157128 
+L 491.725909 144.157128 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 499.687273 330.070476 
-L 485.258182 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_31">
-    <path d="M 499.687273 509.56 
-L 514.116364 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 514.116364 230.525079 
-L 499.687273 230.525079 
+    <path d="M 505.901364 509.56 
+L 520.076818 509.56 
+L 520.076818 150.800816 
+L 505.901364 150.800816 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 514.116364 240.325714 
-L 499.687273 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_32">
-    <path d="M 514.116364 509.56 
-L 528.545455 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 528.545455 370.04254 
-L 514.116364 370.04254 
+    <path d="M 520.076818 509.56 
+L 534.252273 509.56 
+L 534.252273 237.168768 
+L 520.076818 237.168768 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 528.545455 150.580952 
-L 514.116364 150.580952 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_33">
-    <path d="M 528.545455 509.56 
-L 542.974545 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 542.974545 91.007619 
-L 528.545455 91.007619 
+    <path d="M 534.252273 509.56 
+L 548.427727 509.56 
+L 548.427727 124.226062 
+L 534.252273 124.226062 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 542.974545 60.83619 
-L 528.545455 60.83619 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_34">
-    <path d="M 542.974545 509.56 
-L 557.403636 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 557.403636 439.80127 
-L 542.974545 439.80127 
+    <path d="M 548.427727 509.56 
+L 562.603182 509.56 
+L 562.603182 223.881391 
+L 548.427727 223.881391 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 557.403636 240.325714 
-L 542.974545 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_35">
-    <path d="M 557.403636 509.56 
-L 571.832727 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 571.832727 509.56 
-L 557.403636 509.56 
+    <path d="M 562.603182 509.56 
+L 576.778636 509.56 
+L 576.778636 270.387211 
+L 562.603182 270.387211 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 571.832727 330.070476 
-L 557.403636 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_36">
-    <path d="M 571.832727 509.56 
-L 586.261818 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 586.261818 439.80127 
-L 571.832727 439.80127 
+    <path d="M 576.778636 509.56 
+L 590.954091 509.56 
+L 590.954091 270.387211 
+L 576.778636 270.387211 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 586.261818 330.070476 
-L 571.832727 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_37">
-    <path d="M 586.261818 509.56 
-L 600.690909 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 600.690909 370.04254 
-L 586.261818 370.04254 
+    <path d="M 590.954091 509.56 
+L 605.129545 509.56 
+L 605.129545 263.743522 
+L 590.954091 263.743522 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 600.690909 419.815238 
-L 586.261818 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_38">
-    <path d="M 600.690909 509.56 
-L 615.12 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 615.12 300.28381 
-L 600.690909 300.28381 
+    <path d="M 605.129545 509.56 
+L 619.305 509.56 
+L 619.305 303.605654 
+L 605.129545 303.605654 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 615.12 330.070476 
-L 600.690909 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_39">
-    <path d="M 615.12 509.56 
-L 629.549091 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 629.549091 230.525079 
-L 615.12 230.525079 
+    <path d="M 619.305 509.56 
+L 633.480455 509.56 
+L 633.480455 363.398851 
+L 619.305 363.398851 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 629.549091 240.325714 
-L 615.12 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_40">
-    <path d="M 629.549091 509.56 
-L 643.978182 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 643.978182 509.56 
-L 629.549091 509.56 
+    <path d="M 633.480455 509.56 
+L 647.655909 509.56 
+L 647.655909 396.617294 
+L 633.480455 396.617294 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 643.978182 240.325714 
-L 629.549091 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_41">
-    <path d="M 643.978182 509.56 
-L 658.407273 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 658.407273 509.56 
-L 643.978182 509.56 
+    <path d="M 647.655909 509.56 
+L 661.831364 509.56 
+L 661.831364 429.835737 
+L 647.655909 429.835737 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 658.407273 240.325714 
-L 643.978182 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_42">
-    <path d="M 658.407273 509.56 
-L 672.836364 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 672.836364 439.80127 
-L 658.407273 439.80127 
+    <path d="M 661.831364 509.56 
+L 676.006818 509.56 
+L 676.006818 436.479426 
+L 661.831364 436.479426 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 672.836364 240.325714 
-L 658.407273 240.325714 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_43">
-    <path d="M 672.836364 509.56 
-L 687.265455 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 687.265455 439.80127 
-L 672.836364 439.80127 
+    <path d="M 676.006818 509.56 
+L 690.182273 509.56 
+L 690.182273 449.766803 
+L 676.006818 449.766803 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 687.265455 509.56 
-L 672.836364 509.56 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_44">
-    <path d="M 687.265455 509.56 
-L 701.694545 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 701.694545 370.04254 
-L 687.265455 370.04254 
+    <path d="M 690.182273 509.56 
+L 704.357727 509.56 
+L 704.357727 456.410491 
+L 690.182273 456.410491 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 701.694545 150.580952 
-L 687.265455 150.580952 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_45">
-    <path d="M 701.694545 509.56 
-L 716.123636 509.56 
-L 716.123636 419.815238 
-L 701.694545 419.815238 
+    <path d="M 704.357727 509.56 
+L 718.533182 509.56 
+L 718.533182 482.985246 
+L 704.357727 482.985246 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_46">
-    <path d="M 716.123636 509.56 
-L 730.552727 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 730.552727 509.56 
-L 716.123636 509.56 
+    <path d="M 718.533182 509.56 
+L 732.708636 509.56 
+L 732.708636 489.628934 
+L 718.533182 489.628934 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 730.552727 330.070476 
-L 716.123636 330.070476 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_47">
-    <path d="M 730.552727 509.56 
-L 744.981818 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 744.981818 509.56 
-L 730.552727 509.56 
+    <path d="M 732.708636 509.56 
+L 746.884091 509.56 
+L 746.884091 502.916311 
+L 732.708636 502.916311 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 744.981818 419.815238 
-L 730.552727 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_48">
-    <path d="M 744.981818 509.56 
-L 759.410909 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 759.410909 509.56 
-L 744.981818 509.56 
+    <path d="M 746.884091 509.56 
+L 761.059545 509.56 
+L 761.059545 476.341557 
+L 746.884091 476.341557 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 759.410909 419.815238 
-L 744.981818 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_49">
-    <path d="M 759.410909 509.56 
-L 773.84 509.56 
-L 773.84 509.56 
-L 759.410909 509.56 
+    <path d="M 761.059545 509.56 
+L 775.235 509.56 
+L 775.235 502.916311 
+L 761.059545 502.916311 
 z
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_50">
-    <path d="M 773.84 509.56 
-L 788.269091 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 788.269091 509.56 
-L 773.84 509.56 
+    <path d="M 775.235 509.56 
+L 789.410455 509.56 
+L 789.410455 489.628934 
+L 775.235 489.628934 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 788.269091 419.815238 
-L 773.84 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_51">
-    <path d="M 788.269091 509.56 
-L 802.698182 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 802.698182 509.56 
-L 788.269091 509.56 
+    <path d="M 789.410455 509.56 
+L 803.585909 509.56 
+L 803.585909 502.916311 
+L 789.410455 502.916311 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 802.698182 419.815238 
-L 788.269091 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_52">
-    <path d="M 802.698182 509.56 
-L 817.127273 509.56 
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-L 817.127273 370.04254 
-L 802.698182 370.04254 
+    <path d="M 803.585909 509.56 
+L 817.761364 509.56 
+L 817.761364 489.628934 
+L 803.585909 489.628934 
 z
-" clip-path="url(#p6080a42803)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
-========
-L 817.127273 419.815238 
-L 802.698182 419.815238 
-z
-" clip-path="url(#p4939377da6)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+" clip-path="url(#pd1d10bcfad)" style="fill: #1f77b4; fill-opacity: 0.5; stroke: #000000; stroke-width: 2; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
      <g id="line2d_1">
       <defs>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <path id="md6450abb80" d="M 0 0 
-========
-       <path id="m7d1432d476" d="M 0 0 
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <path id="m53569f10c1" d="M 0 0 
 L 0 3.5 
 " style="stroke: #000000; stroke-width: 0.8"/>
       </defs>
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#md6450abb80" x="97.966843" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#m7d1432d476" x="196.582474" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m53569f10c1" x="144.246806" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
-      <!-- −1 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(81.750437 533.276562) scale(0.22 -0.22)">
-========
-      <g transform="translate(180.366068 533.276562) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+      <!-- −2 -->
+      <g transform="translate(128.0304 533.276562) scale(0.22 -0.22)">
        <defs>
         <path id="DejaVuSans-2212" d="M 678 2272 
 L 4684 2272 
@@ -799,6 +460,46 @@ L 678 1741
 L 678 2272 
 z
 " transform="scale(0.015625)"/>
+        <path id="DejaVuSans-32" d="M 1228 531 
+L 3431 531 
+L 3431 0 
+L 469 0 
+L 469 531 
+Q 828 903 1448 1529 
+Q 2069 2156 2228 2338 
+Q 2531 2678 2651 2914 
+Q 2772 3150 2772 3378 
+Q 2772 3750 2511 3984 
+Q 2250 4219 1831 4219 
+Q 1534 4219 1204 4116 
+Q 875 4013 500 3803 
+L 500 4441 
+Q 881 4594 1212 4672 
+Q 1544 4750 1819 4750 
+Q 2544 4750 2975 4387 
+Q 3406 4025 3406 3419 
+Q 3406 3131 3298 2873 
+Q 3191 2616 2906 2266 
+Q 2828 2175 2409 1742 
+Q 1991 1309 1228 531 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-2212"/>
+       <use xlink:href="#DejaVuSans-32" x="83.789062"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m53569f10c1" x="256.210402" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- −1 -->
+      <g transform="translate(239.993995 533.276562) scale(0.22 -0.22)">
+       <defs>
         <path id="DejaVuSans-31" d="M 794 531 
 L 1825 531 
 L 1825 4091 
@@ -815,27 +516,19 @@ z
 " transform="scale(0.015625)"/>
        </defs>
        <use xlink:href="#DejaVuSans-2212"/>
-       <use xlink:href="#DejaVuSans-31" transform="translate(83.789062 0)"/>
+       <use xlink:href="#DejaVuSans-31" x="83.789062"/>
       </g>
      </g>
     </g>
-    <g id="xtick_2">
-     <g id="line2d_2">
+    <g id="xtick_3">
+     <g id="line2d_3">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#md6450abb80" x="253.382019" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#m7d1432d476" x="343.47567" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m53569f10c1" x="368.173998" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_2">
+     <g id="text_3">
       <!-- 0 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(246.383269 533.276562) scale(0.22 -0.22)">
-========
-      <g transform="translate(336.47692 533.276562) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+      <g transform="translate(361.175248 533.276562) scale(0.22 -0.22)">
        <defs>
         <path id="DejaVuSans-30" d="M 2034 4250 
 Q 1547 4250 1301 3770 
@@ -863,91 +556,41 @@ z
       </g>
      </g>
     </g>
-    <g id="xtick_3">
-     <g id="line2d_3">
-      <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#md6450abb80" x="408.797195" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#m7d1432d476" x="490.368866" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
-      </g>
-     </g>
-     <g id="text_3">
-      <!-- 1 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(401.798445 533.276562) scale(0.22 -0.22)">
-========
-      <g transform="translate(483.370116 533.276562) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
-       <use xlink:href="#DejaVuSans-31"/>
-      </g>
-     </g>
-    </g>
     <g id="xtick_4">
      <g id="line2d_4">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#md6450abb80" x="564.212372" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#m7d1432d476" x="637.262062" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m53569f10c1" x="480.137594" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
-      <!-- 2 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(557.213622 533.276562) scale(0.22 -0.22)">
-========
-      <g transform="translate(630.263312 533.276562) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
-       <defs>
-        <path id="DejaVuSans-32" d="M 1228 531 
-L 3431 531 
-L 3431 0 
-L 469 0 
-L 469 531 
-Q 828 903 1448 1529 
-Q 2069 2156 2228 2338 
-Q 2531 2678 2651 2914 
-Q 2772 3150 2772 3378 
-Q 2772 3750 2511 3984 
-Q 2250 4219 1831 4219 
-Q 1534 4219 1204 4116 
-Q 875 4013 500 3803 
-L 500 4441 
-Q 881 4594 1212 4672 
-Q 1544 4750 1819 4750 
-Q 2544 4750 2975 4387 
-Q 3406 4025 3406 3419 
-Q 3406 3131 3298 2873 
-Q 3191 2616 2906 2266 
-Q 2828 2175 2409 1742 
-Q 1991 1309 1228 531 
-z
-" transform="scale(0.015625)"/>
-       </defs>
-       <use xlink:href="#DejaVuSans-32"/>
+      <!-- 1 -->
+      <g transform="translate(473.138844 533.276562) scale(0.22 -0.22)">
+       <use xlink:href="#DejaVuSans-31"/>
       </g>
      </g>
     </g>
     <g id="xtick_5">
      <g id="line2d_5">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#md6450abb80" x="719.627548" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#m7d1432d476" x="784.155257" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m53569f10c1" x="592.101189" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
+      <!-- 2 -->
+      <g transform="translate(585.102439 533.276562) scale(0.22 -0.22)">
+       <use xlink:href="#DejaVuSans-32"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m53569f10c1" x="704.064785" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
       <!-- 3 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(712.628798 533.276562) scale(0.22 -0.22)">
-========
-      <g transform="translate(777.156507 533.276562) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+      <g transform="translate(697.066035 533.276562) scale(0.22 -0.22)">
        <defs>
         <path id="DejaVuSans-33" d="M 2597 2516 
 Q 3050 2419 3304 2112 
@@ -986,9 +629,43 @@ z
       </g>
      </g>
     </g>
-    <g id="text_6">
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m53569f10c1" x="816.028381" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- 4 -->
+      <g transform="translate(809.029631 533.276562) scale(0.22 -0.22)">
+       <defs>
+        <path id="DejaVuSans-34" d="M 2419 4116 
+L 825 1625 
+L 2419 1625 
+L 2419 4116 
+z
+M 2253 4666 
+L 3047 4666 
+L 3047 1625 
+L 3713 1625 
+L 3713 1100 
+L 3047 1100 
+L 3047 0 
+L 2419 0 
+L 2419 1100 
+L 313 1100 
+L 313 1709 
+L 2253 4666 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-34"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_8">
      <!-- Value -->
-     <g transform="translate(418.879375 560.088125) scale(0.24 -0.24)">
+     <g transform="translate(425.854375 560.088125) scale(0.24 -0.24)">
       <defs>
        <path id="DejaVuSans-Bold-56" d="M 31 4666 
 L 1241 4666 
@@ -1090,169 +767,97 @@ z
 " transform="scale(0.015625)"/>
       </defs>
       <use xlink:href="#DejaVuSans-Bold-56"/>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <use xlink:href="#DejaVuSans-Bold-61" transform="translate(71.892578 0)"/>
-      <use xlink:href="#DejaVuSans-Bold-6c" transform="translate(139.373047 0)"/>
-      <use xlink:href="#DejaVuSans-Bold-75" transform="translate(173.650391 0)"/>
-      <use xlink:href="#DejaVuSans-Bold-65" transform="translate(244.841797 0)"/>
-========
       <use xlink:href="#DejaVuSans-Bold-61" x="71.892578"/>
       <use xlink:href="#DejaVuSans-Bold-6c" x="139.373047"/>
       <use xlink:href="#DejaVuSans-Bold-75" x="173.650391"/>
       <use xlink:href="#DejaVuSans-Bold-65" x="244.841797"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
      </g>
     </g>
    </g>
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
-     <g id="line2d_6">
+     <g id="line2d_8">
       <defs>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <path id="mf9ed10e2fd" d="M 0 0 
-========
-       <path id="mab81671c52" d="M 0 0 
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <path id="m09379b7f5b" d="M 0 0 
 L -3.5 0 
 " style="stroke: #000000; stroke-width: 0.8"/>
       </defs>
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#mf9ed10e2fd" x="59.6" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#mab81671c52" x="59.6" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m09379b7f5b" x="73.55" y="509.56" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_7">
+     <g id="text_9">
       <!-- 0 -->
-      <g transform="translate(38.6025 517.918281) scale(0.22 -0.22)">
+      <g transform="translate(52.5525 517.918281) scale(0.22 -0.22)">
        <use xlink:href="#DejaVuSans-30"/>
       </g>
      </g>
     </g>
     <g id="ytick_2">
-     <g id="line2d_7">
+     <g id="line2d_9">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#mf9ed10e2fd" x="59.6" y="439.80127" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#mab81671c52" x="59.6" y="419.815238" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m09379b7f5b" x="73.55" y="443.123114" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_8">
-      <!-- 1 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(38.6025 448.159551) scale(0.22 -0.22)">
-========
-      <g transform="translate(38.6025 428.173519) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+     <g id="text_10">
+      <!-- 10 -->
+      <g transform="translate(38.555 451.481395) scale(0.22 -0.22)">
        <use xlink:href="#DejaVuSans-31"/>
+       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
       </g>
      </g>
     </g>
     <g id="ytick_3">
-     <g id="line2d_8">
+     <g id="line2d_10">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#mf9ed10e2fd" x="59.6" y="370.04254" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#mab81671c52" x="59.6" y="330.070476" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m09379b7f5b" x="73.55" y="376.686228" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_9">
-      <!-- 2 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(38.6025 378.400821) scale(0.22 -0.22)">
-========
-      <g transform="translate(38.6025 338.428757) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+     <g id="text_11">
+      <!-- 20 -->
+      <g transform="translate(38.555 385.04451) scale(0.22 -0.22)">
        <use xlink:href="#DejaVuSans-32"/>
+       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
       </g>
      </g>
     </g>
     <g id="ytick_4">
-     <g id="line2d_9">
+     <g id="line2d_11">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#mf9ed10e2fd" x="59.6" y="300.28381" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#mab81671c52" x="59.6" y="240.325714" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m09379b7f5b" x="73.55" y="310.249342" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_10">
-      <!-- 3 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(38.6025 308.642091) scale(0.22 -0.22)">
-========
-      <g transform="translate(38.6025 248.683996) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+     <g id="text_12">
+      <!-- 30 -->
+      <g transform="translate(38.555 318.607624) scale(0.22 -0.22)">
        <use xlink:href="#DejaVuSans-33"/>
+       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
       </g>
      </g>
     </g>
     <g id="ytick_5">
-     <g id="line2d_10">
+     <g id="line2d_12">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#mf9ed10e2fd" x="59.6" y="230.525079" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#mab81671c52" x="59.6" y="150.580952" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m09379b7f5b" x="73.55" y="243.812457" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_11">
-      <!-- 4 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(38.6025 238.883361) scale(0.22 -0.22)">
-========
-      <g transform="translate(38.6025 158.939234) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
-       <defs>
-        <path id="DejaVuSans-34" d="M 2419 4116 
-L 825 1625 
-L 2419 1625 
-L 2419 4116 
-z
-M 2253 4666 
-L 3047 4666 
-L 3047 1625 
-L 3713 1625 
-L 3713 1100 
-L 3047 1100 
-L 3047 0 
-L 2419 0 
-L 2419 1100 
-L 313 1100 
-L 313 1709 
-L 2253 4666 
-z
-" transform="scale(0.015625)"/>
-       </defs>
+     <g id="text_13">
+      <!-- 40 -->
+      <g transform="translate(38.555 252.170738) scale(0.22 -0.22)">
        <use xlink:href="#DejaVuSans-34"/>
+       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
       </g>
      </g>
     </g>
     <g id="ytick_6">
-     <g id="line2d_11">
+     <g id="line2d_13">
       <g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-       <use xlink:href="#mf9ed10e2fd" x="59.6" y="160.766349" style="stroke: #000000; stroke-width: 0.8"/>
-========
-       <use xlink:href="#mab81671c52" x="59.6" y="60.83619" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+       <use xlink:href="#m09379b7f5b" x="73.55" y="177.375571" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_12">
-      <!-- 5 -->
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-      <g transform="translate(38.6025 169.12463) scale(0.22 -0.22)">
-========
-      <g transform="translate(38.6025 69.194472) scale(0.22 -0.22)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+     <g id="text_14">
+      <!-- 50 -->
+      <g transform="translate(38.555 185.733852) scale(0.22 -0.22)">
        <defs>
         <path id="DejaVuSans-35" d="M 691 4666 
 L 3169 4666 
@@ -1281,19 +886,19 @@ z
 " transform="scale(0.015625)"/>
        </defs>
        <use xlink:href="#DejaVuSans-35"/>
+       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
       </g>
      </g>
     </g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
     <g id="ytick_7">
-     <g id="line2d_12">
+     <g id="line2d_14">
       <g>
-       <use xlink:href="#mf9ed10e2fd" x="59.6" y="91.007619" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m09379b7f5b" x="73.55" y="110.938685" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
-     <g id="text_13">
-      <!-- 6 -->
-      <g transform="translate(38.6025 99.3659) scale(0.22 -0.22)">
+     <g id="text_15">
+      <!-- 60 -->
+      <g transform="translate(38.555 119.296966) scale(0.22 -0.22)">
        <defs>
         <path id="DejaVuSans-36" d="M 2113 2584 
 Q 1688 2584 1439 2293 
@@ -1327,15 +932,13 @@ z
 " transform="scale(0.015625)"/>
        </defs>
        <use xlink:href="#DejaVuSans-36"/>
+       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
       </g>
      </g>
     </g>
-    <g id="text_14">
-========
-    <g id="text_13">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+    <g id="text_16">
      <!-- Count -->
-     <g transform="translate(29.61125 329.691875) rotate(-90) scale(0.24 -0.24)">
+     <g transform="translate(29.56375 329.691875) rotate(-90) scale(0.24 -0.24)">
       <defs>
        <path id="DejaVuSans-Bold-43" d="M 4288 256 
 Q 3956 84 3597 -3 
@@ -1424,208 +1027,134 @@ z
 " transform="scale(0.015625)"/>
       </defs>
       <use xlink:href="#DejaVuSans-Bold-43"/>
-      <use xlink:href="#DejaVuSans-Bold-6f" transform="translate(73.388672 0)"/>
-      <use xlink:href="#DejaVuSans-Bold-75" transform="translate(142.089844 0)"/>
-      <use xlink:href="#DejaVuSans-Bold-6e" transform="translate(213.28125 0)"/>
-      <use xlink:href="#DejaVuSans-Bold-74" transform="translate(284.472656 0)"/>
+      <use xlink:href="#DejaVuSans-Bold-6f" x="73.388672"/>
+      <use xlink:href="#DejaVuSans-Bold-75" x="142.089844"/>
+      <use xlink:href="#DejaVuSans-Bold-6e" x="213.28125"/>
+      <use xlink:href="#DejaVuSans-Bold-74" x="284.472656"/>
      </g>
     </g>
    </g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-   <g id="line2d_13">
-    <path d="M 95.672727 464.149191 
-L 106.548926 457.044448 
-L 117.425126 449.623634 
-L 128.301325 441.925058 
-L 139.177524 433.959675 
-L 150.053723 425.713982 
-L 160.929922 417.16019 
-L 171.806122 408.272154 
-L 182.682321 399.043965 
-L 193.55852 389.507072 
-L 208.060119 376.457137 
-L 226.187117 360.094227 
-L 237.063317 350.586669 
-L 244.314116 344.502696 
-L 251.564915 338.686901 
-L 258.815715 333.186185 
-L 266.066514 328.037136 
-L 273.317314 323.264426 
-L 280.568113 318.880181 
-L 287.818913 314.884352 
-L 295.069712 311.265976 
-L 302.320512 308.005176 
-L 309.571311 305.075635 
-L 316.822111 302.447284 
-L 324.07291 300.088905 
-L 331.323709 297.970432 
-L 338.574509 296.064772 
-L 345.825308 294.349052 
-L 353.076108 292.805304 
-L 360.326907 291.420657 
-L 371.203106 289.625894 
-L 382.079306 288.16435 
-L 389.330105 287.38041 
-L 396.580905 286.75792 
-L 403.831704 286.308771 
-L 411.082503 286.04856 
-L 418.333303 285.996658 
-L 425.584102 286.176153 
-L 432.834902 286.613507 
-L 440.085701 287.337855 
-L 447.336501 288.379849 
-L 454.5873 289.770085 
-L 461.8381 291.537163 
-L 469.088899 293.70553 
-L 476.339698 296.293291 
-L 483.590498 299.310213 
-L 490.841297 302.756137 
-L 498.092097 306.620004 
-L 505.342896 310.87964 
-L 512.593696 315.502381 
-L 519.844495 320.446525 
-L 527.095295 325.663527 
-L 537.971494 333.885122 
-L 548.847693 342.423255 
-L 603.228689 385.625177 
-L 646.733486 419.400679 
-L 664.860484 433.267041 
-L 675.736683 441.342136 
-L 686.612883 449.094373 
-L 693.863682 454.020393 
-L 701.114481 458.70891 
-L 708.365281 463.12488 
-L 715.61608 467.237385 
-L 722.86688 471.021274 
-L 730.117679 474.458609 
-L 737.368479 477.539853 
-L 744.619278 480.264684 
-L 751.870078 482.642366 
-L 759.120877 484.691588 
-L 766.371677 486.439757 
-L 773.622476 487.921733 
-L 780.873275 489.178079 
-L 788.124075 490.252919 
-L 799.000274 491.623701 
-L 817.127273 493.611357 
-L 817.127273 493.611357 
-" clip-path="url(#p6080a42803)" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
-========
-   <g id="line2d_12">
-    <path d="M 95.672727 499.395649 
-L 110.174326 498.407121 
-L 121.050525 497.425299 
-L 128.301325 496.534886 
-L 135.552124 495.364271 
-L 142.802924 493.827241 
-L 146.428323 492.893349 
-L 150.053723 491.834184 
-L 153.679123 490.638632 
-L 157.304523 489.295862 
-L 160.929922 487.795457 
-L 164.555322 486.127551 
-L 168.180722 484.282967 
-L 171.806122 482.253345 
-L 175.431521 480.031271 
-L 179.056921 477.6104 
-L 182.682321 474.985567 
-L 186.30772 472.152892 
-L 189.93312 469.109865 
-L 193.55852 465.855426 
-L 197.18392 462.390022 
-L 200.809319 458.715654 
-L 204.434719 454.835894 
-L 208.060119 450.755896 
-L 211.685519 446.482376 
-L 218.936318 437.389198 
-L 226.187117 427.639387 
-L 233.437917 417.336403 
-L 240.688716 406.60004 
-L 251.564915 389.971059 
-L 273.317314 356.484838 
-L 280.568113 345.699779 
-L 287.818913 335.261016 
-L 295.069712 325.229059 
-L 302.320512 315.638481 
-L 309.571311 306.497979 
-L 316.822111 297.792306 
-L 324.07291 289.486023 
-L 331.323709 281.528889 
-L 338.574509 273.862542 
-L 349.450708 262.781024 
-L 360.326907 252.061838 
-L 371.203106 241.632837 
-L 382.079306 231.547591 
-L 389.330105 225.104016 
-L 396.580905 218.983073 
-L 403.831704 213.29069 
-L 407.457104 210.641473 
-L 411.082503 208.143478 
-L 414.707903 205.81147 
-L 418.333303 203.659728 
-L 421.958703 201.701754 
-L 425.584102 199.950004 
-L 429.209502 198.41564 
-L 432.834902 197.108308 
-L 436.460302 196.03596 
-L 440.085701 195.204711 
-L 443.711101 194.618735 
-L 447.336501 194.280209 
-L 450.9619 194.189304 
-L 454.5873 194.344213 
-L 458.2127 194.74122 
-L 461.8381 195.374811 
-L 465.463499 196.237807 
-L 469.088899 197.321534 
-L 472.714299 198.616003 
-L 476.339698 200.110108 
-L 479.965098 201.791827 
-L 483.590498 203.648426 
-L 487.215898 205.666652 
-L 490.841297 207.832923 
-L 498.092097 212.554589 
-L 505.342896 217.703989 
-L 512.593696 223.174977 
-L 523.469895 231.766304 
-L 548.847693 252.075273 
-L 556.098492 257.608499 
-L 563.349292 262.911557 
-L 570.600091 267.941874 
-L 577.850891 272.671405 
-L 585.10169 277.089258 
-L 592.35249 281.20379 
-L 599.603289 285.04371 
-L 606.854089 288.657805 
-L 617.730288 293.806256 
-L 632.231887 300.61632 
-L 639.482686 304.211136 
-L 646.733486 308.055286 
-L 653.984285 312.228847 
-L 661.235085 316.796221 
-L 668.485884 321.802526 
-L 675.736683 327.271498 
-L 682.987483 333.204967 
-L 690.238282 339.583841 
-L 697.489082 346.370374 
-L 704.739881 353.511445 
-L 711.990681 360.942482 
-L 722.86688 372.474697 
-L 755.495477 407.578477 
-L 766.371677 418.767425 
-L 773.622476 425.958094 
-L 780.873275 432.902578 
-L 788.124075 439.581328 
-L 795.374874 445.979559 
-L 802.625674 452.08572 
-L 809.876473 457.890151 
-L 817.127273 463.384089 
-L 817.127273 463.384089 
-" clip-path="url(#p4939377da6)" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+   <g id="line2d_15">
+    <path d="M 108.988636 506.803461 
+L 119.673652 505.73782 
+L 130.358668 504.42991 
+L 173.098732 498.644168 
+L 180.222076 497.285559 
+L 183.783748 496.433818 
+L 187.34542 495.437859 
+L 190.907092 494.279941 
+L 194.468764 492.947367 
+L 198.030436 491.433543 
+L 201.592108 489.738651 
+L 205.15378 487.869876 
+L 208.715452 485.8412 
+L 215.838796 481.389942 
+L 226.523812 474.15829 
+L 233.647156 469.336463 
+L 240.7705 464.774803 
+L 247.893844 460.60973 
+L 255.017188 456.860564 
+L 265.702204 451.725164 
+L 272.825548 448.228159 
+L 276.38722 446.323161 
+L 279.948892 444.250282 
+L 283.510564 441.964873 
+L 287.072236 439.42775 
+L 290.633908 436.607408 
+L 294.19558 433.481712 
+L 297.757252 430.038914 
+L 301.318924 426.277884 
+L 304.880596 422.207566 
+L 308.442268 417.845718 
+L 312.00394 413.217087 
+L 315.565612 408.351237 
+L 322.688956 398.036624 
+L 329.8123 387.152662 
+L 340.497316 370.205068 
+L 368.990692 324.373641 
+L 376.114036 313.341773 
+L 383.23738 302.663641 
+L 390.360724 292.365434 
+L 397.484068 282.415745 
+L 408.169084 267.977218 
+L 425.977444 244.51729 
+L 447.347476 216.318065 
+L 458.032492 202.201471 
+L 465.155836 193.155851 
+L 468.717508 188.88452 
+L 472.27918 184.862873 
+L 475.840852 181.157499 
+L 479.402524 177.834564 
+L 482.964196 174.95574 
+L 486.525868 172.574337 
+L 490.08754 170.732097 
+L 493.649212 169.457004 
+L 497.210884 168.76235 
+L 500.772556 168.64713 
+L 504.334228 169.097656 
+L 507.8959 170.090119 
+L 511.457572 171.593734 
+L 515.019244 173.574007 
+L 518.580916 175.995704 
+L 522.142588 178.825155 
+L 525.70426 182.031665 
+L 529.265932 185.587955 
+L 532.827604 189.469717 
+L 536.389276 193.654509 
+L 539.950948 198.120323 
+L 543.51262 202.844191 
+L 547.074292 207.80117 
+L 554.197636 218.303374 
+L 561.32098 229.393255 
+L 572.005996 246.685222 
+L 582.691012 264.531693 
+L 589.814356 276.880642 
+L 596.9377 289.817051 
+L 604.061044 303.51349 
+L 611.184388 318.019092 
+L 618.307732 333.204083 
+L 636.116092 371.86595 
+L 643.239436 386.4729 
+L 646.801108 393.403355 
+L 650.36278 400.045043 
+L 653.924452 406.380177 
+L 657.486124 412.400599 
+L 661.047796 418.106913 
+L 664.609468 423.507156 
+L 668.17114 428.615134 
+L 671.732812 433.448586 
+L 675.294484 438.027316 
+L 678.856156 442.371424 
+L 682.417828 446.499757 
+L 685.9795 450.428664 
+L 689.541172 454.171107 
+L 693.102844 457.736174 
+L 696.664516 461.128981 
+L 700.226188 464.350948 
+L 703.78786 467.40039 
+L 707.349532 470.273355 
+L 710.911204 472.964631 
+L 714.472876 475.468822 
+L 718.034548 477.78139 
+L 721.59622 479.899596 
+L 725.157892 481.823249 
+L 728.719564 483.555217 
+L 732.281236 485.101661 
+L 735.842908 486.472009 
+L 739.40458 487.678668 
+L 742.966252 488.736534 
+L 750.089596 490.474042 
+L 757.21294 491.828024 
+L 764.336284 492.939063 
+L 792.82966 497.026865 
+L 803.514676 498.925213 
+L 817.761364 501.801207 
+L 817.761364 501.801207 
+" clip-path="url(#pd1d10bcfad)" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
    </g>
    <g id="patch_53">
-    <path d="M 59.6 509.56 
-L 59.6 70.08 
+    <path d="M 73.55 509.56 
+L 73.55 70.08 
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_54">
@@ -1634,24 +1163,18 @@ L 853.2 70.08
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_55">
-    <path d="M 59.6 509.56 
+    <path d="M 73.55 509.56 
 L 853.2 509.56 
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_56">
-    <path d="M 59.6 70.08 
+    <path d="M 73.55 70.08 
 L 853.2 70.08 
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-   <g id="text_15">
-    <!-- Demo (Choose file) Histogram #3 -->
-    <g transform="translate(192.70125 32.507375) scale(0.28 -0.28)">
-========
-   <g id="text_14">
-    <!-- Demo (Choose file) Histogram -->
-    <g transform="translate(219.0475 32.358125) scale(0.28 -0.28)">
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+   <g id="text_17">
+    <!-- Demo (ideal) Histogram #1 -->
+    <g transform="translate(248.477188 32.507375) scale(0.28 -0.28)">
      <defs>
       <path id="DejaVuSans-Bold-44" d="M 1791 3756 
 L 1791 909 
@@ -1722,26 +1245,71 @@ Q 1613 1319 1811 609
 Q 2009 -100 2413 -844 
 z
 " transform="scale(0.015625)"/>
-      <path id="DejaVuSans-Bold-68" d="M 4056 2131 
-L 4056 0 
-L 2931 0 
-L 2931 347 
-L 2931 1625 
-Q 2931 2084 2911 2256 
-Q 2891 2428 2841 2509 
-Q 2775 2619 2662 2680 
-Q 2550 2741 2406 2741 
-Q 2056 2741 1856 2470 
-Q 1656 2200 1656 1722 
+      <path id="DejaVuSans-Bold-69" d="M 538 3500 
+L 1656 3500 
 L 1656 0 
 L 538 0 
-L 538 4863 
+L 538 3500 
+z
+M 538 4863 
 L 1656 4863 
-L 1656 2988 
-Q 1909 3294 2193 3439 
-Q 2478 3584 2822 3584 
-Q 3428 3584 3742 3212 
-Q 4056 2841 4056 2131 
+L 1656 3950 
+L 538 3950 
+L 538 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-64" d="M 2919 2988 
+L 2919 4863 
+L 4044 4863 
+L 4044 0 
+L 2919 0 
+L 2919 506 
+Q 2688 197 2409 53 
+Q 2131 -91 1766 -91 
+Q 1119 -91 703 423 
+Q 288 938 288 1747 
+Q 288 2556 703 3070 
+Q 1119 3584 1766 3584 
+Q 2128 3584 2408 3439 
+Q 2688 3294 2919 2988 
+z
+M 2181 722 
+Q 2541 722 2730 984 
+Q 2919 1247 2919 1747 
+Q 2919 2247 2730 2509 
+Q 2541 2772 2181 2772 
+Q 1825 2772 1636 2509 
+Q 1447 2247 1447 1747 
+Q 1447 1247 1636 984 
+Q 1825 722 2181 722 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-29" d="M 513 -844 
+Q 913 -100 1113 609 
+Q 1313 1319 1313 2009 
+Q 1313 2700 1113 3408 
+Q 913 4116 513 4856 
+L 1441 4856 
+Q 1916 4091 2145 3389 
+Q 2375 2688 2375 2003 
+Q 2375 1319 2147 623 
+Q 1919 -72 1441 -844 
+L 513 -844 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-48" d="M 588 4666 
+L 1791 4666 
+L 1791 2888 
+L 3566 2888 
+L 3566 4666 
+L 4769 4666 
+L 4769 0 
+L 3566 0 
+L 3566 1978 
+L 1791 1978 
+L 1791 0 
+L 588 0 
+L 588 4666 
 z
 " transform="scale(0.015625)"/>
       <path id="DejaVuSans-Bold-73" d="M 3272 3391 
@@ -1773,68 +1341,6 @@ Q 331 3047 712 3315
 Q 1094 3584 1881 3584 
 Q 2191 3584 2531 3537 
 Q 2872 3491 3272 3391 
-z
-" transform="scale(0.015625)"/>
-      <path id="DejaVuSans-Bold-66" d="M 2841 4863 
-L 2841 4128 
-L 2222 4128 
-Q 1984 4128 1890 4042 
-Q 1797 3956 1797 3744 
-L 1797 3500 
-L 2753 3500 
-L 2753 2700 
-L 1797 2700 
-L 1797 0 
-L 678 0 
-L 678 2700 
-L 122 2700 
-L 122 3500 
-L 678 3500 
-L 678 3744 
-Q 678 4316 997 4589 
-Q 1316 4863 1984 4863 
-L 2841 4863 
-z
-" transform="scale(0.015625)"/>
-      <path id="DejaVuSans-Bold-69" d="M 538 3500 
-L 1656 3500 
-L 1656 0 
-L 538 0 
-L 538 3500 
-z
-M 538 4863 
-L 1656 4863 
-L 1656 3950 
-L 538 3950 
-L 538 4863 
-z
-" transform="scale(0.015625)"/>
-      <path id="DejaVuSans-Bold-29" d="M 513 -844 
-Q 913 -100 1113 609 
-Q 1313 1319 1313 2009 
-Q 1313 2700 1113 3408 
-Q 913 4116 513 4856 
-L 1441 4856 
-Q 1916 4091 2145 3389 
-Q 2375 2688 2375 2003 
-Q 2375 1319 2147 623 
-Q 1919 -72 1441 -844 
-L 513 -844 
-z
-" transform="scale(0.015625)"/>
-      <path id="DejaVuSans-Bold-48" d="M 588 4666 
-L 1791 4666 
-L 1791 2888 
-L 3566 2888 
-L 3566 4666 
-L 4769 4666 
-L 4769 0 
-L 3566 0 
-L 3566 1978 
-L 1791 1978 
-L 1791 0 
-L 588 0 
-L 588 4666 
 z
 " transform="scale(0.015625)"/>
       <path id="DejaVuSans-Bold-67" d="M 2919 594 
@@ -1888,7 +1394,6 @@ Q 3009 3575 3134 3559
 L 3138 2547 
 z
 " transform="scale(0.015625)"/>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
       <path id="DejaVuSans-Bold-23" d="M 2847 4594 
 L 2547 3391 
 L 3372 3391 
@@ -1926,73 +1431,49 @@ L 2981 1869
 L 3200 2725 
 z
 " transform="scale(0.015625)"/>
-      <path id="DejaVuSans-Bold-33" d="M 2981 2516 
-Q 3453 2394 3698 2092 
-Q 3944 1791 3944 1325 
-Q 3944 631 3412 270 
-Q 2881 -91 1863 -91 
-Q 1503 -91 1142 -33 
-Q 781 25 428 141 
-L 428 1069 
-Q 766 900 1098 814 
-Q 1431 728 1753 728 
-Q 2231 728 2486 893 
-Q 2741 1059 2741 1369 
-Q 2741 1688 2480 1852 
-Q 2219 2016 1709 2016 
-L 1228 2016 
-L 1228 2791 
-L 1734 2791 
-Q 2188 2791 2409 2933 
-Q 2631 3075 2631 3366 
-Q 2631 3634 2415 3781 
-Q 2200 3928 1806 3928 
-Q 1516 3928 1219 3862 
-Q 922 3797 628 3669 
-L 628 4550 
-Q 984 4650 1334 4700 
-Q 1684 4750 2022 4750 
-Q 2931 4750 3382 4451 
-Q 3834 4153 3834 3553 
-Q 3834 3144 3618 2883 
-Q 3403 2622 2981 2516 
+      <path id="DejaVuSans-Bold-31" d="M 750 831 
+L 1813 831 
+L 1813 3847 
+L 722 3622 
+L 722 4441 
+L 1806 4666 
+L 2950 4666 
+L 2950 831 
+L 4013 831 
+L 4013 0 
+L 750 0 
+L 750 831 
 z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#DejaVuSans-Bold-44"/>
-     <use xlink:href="#DejaVuSans-Bold-65" transform="translate(83.007812 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-6d" transform="translate(150.830078 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" transform="translate(255.029297 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-20" transform="translate(323.730469 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-28" transform="translate(358.544922 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-43" transform="translate(404.248047 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-68" transform="translate(477.636719 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" transform="translate(548.828125 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" transform="translate(617.529297 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-73" transform="translate(686.230469 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-65" transform="translate(745.751953 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-20" transform="translate(813.574219 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-66" transform="translate(848.388672 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-69" transform="translate(891.894531 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-6c" transform="translate(926.171875 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-65" transform="translate(960.449219 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-29" transform="translate(1028.271484 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-20" transform="translate(1073.974609 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-48" transform="translate(1108.789062 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-69" transform="translate(1192.480469 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-73" transform="translate(1226.757812 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-74" transform="translate(1286.279297 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" transform="translate(1334.082031 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-67" transform="translate(1402.783203 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-72" transform="translate(1474.365234 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-61" transform="translate(1523.681641 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-6d" transform="translate(1591.162109 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-20" transform="translate(1695.361328 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-23" transform="translate(1730.175781 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-33" transform="translate(1813.964844 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-65" x="83.007812"/>
+     <use xlink:href="#DejaVuSans-Bold-6d" x="150.830078"/>
+     <use xlink:href="#DejaVuSans-Bold-6f" x="255.029297"/>
+     <use xlink:href="#DejaVuSans-Bold-20" x="323.730469"/>
+     <use xlink:href="#DejaVuSans-Bold-28" x="358.544922"/>
+     <use xlink:href="#DejaVuSans-Bold-69" x="404.248047"/>
+     <use xlink:href="#DejaVuSans-Bold-64" x="438.525391"/>
+     <use xlink:href="#DejaVuSans-Bold-65" x="510.107422"/>
+     <use xlink:href="#DejaVuSans-Bold-61" x="577.929688"/>
+     <use xlink:href="#DejaVuSans-Bold-6c" x="645.410156"/>
+     <use xlink:href="#DejaVuSans-Bold-29" x="679.6875"/>
+     <use xlink:href="#DejaVuSans-Bold-20" x="725.390625"/>
+     <use xlink:href="#DejaVuSans-Bold-48" x="760.205078"/>
+     <use xlink:href="#DejaVuSans-Bold-69" x="843.896484"/>
+     <use xlink:href="#DejaVuSans-Bold-73" x="878.173828"/>
+     <use xlink:href="#DejaVuSans-Bold-74" x="937.695312"/>
+     <use xlink:href="#DejaVuSans-Bold-6f" x="985.498047"/>
+     <use xlink:href="#DejaVuSans-Bold-67" x="1054.199219"/>
+     <use xlink:href="#DejaVuSans-Bold-72" x="1125.78125"/>
+     <use xlink:href="#DejaVuSans-Bold-61" x="1175.097656"/>
+     <use xlink:href="#DejaVuSans-Bold-6d" x="1242.578125"/>
+     <use xlink:href="#DejaVuSans-Bold-20" x="1346.777344"/>
+     <use xlink:href="#DejaVuSans-Bold-23" x="1381.591797"/>
+     <use xlink:href="#DejaVuSans-Bold-31" x="1465.380859"/>
     </g>
     <!-- μ=1.00, σ=1.00 -->
-    <g transform="translate(332.460625 64.08) scale(0.28 -0.28)">
+    <g transform="translate(339.435625 64.08) scale(0.28 -0.28)">
      <defs>
       <path id="DejaVuSans-Bold-3bc" d="M 544 -1338 
 L 544 3500 
@@ -2033,20 +1514,6 @@ L 4684 1663
 L 4684 922 
 L 678 922 
 L 678 1663 
-z
-" transform="scale(0.015625)"/>
-      <path id="DejaVuSans-Bold-31" d="M 750 831 
-L 1813 831 
-L 1813 3847 
-L 722 3622 
-L 722 4441 
-L 1806 4666 
-L 2950 4666 
-L 2950 831 
-L 4013 831 
-L 4013 0 
-L 750 0 
-L 750 831 
 z
 " transform="scale(0.015625)"/>
       <path id="DejaVuSans-Bold-2e" d="M 653 1209 
@@ -2111,62 +1578,26 @@ z
 " transform="scale(0.015625)"/>
      </defs>
      <use xlink:href="#DejaVuSans-Bold-3bc"/>
-     <use xlink:href="#DejaVuSans-Bold-3d" transform="translate(73.583984 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-31" transform="translate(157.373047 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-2e" transform="translate(226.953125 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-30" transform="translate(264.941406 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-30" transform="translate(334.521484 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-2c" transform="translate(404.101562 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-20" transform="translate(442.089844 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-3c3" transform="translate(476.904297 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-3d" transform="translate(554.785156 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-31" transform="translate(638.574219 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-2e" transform="translate(708.154297 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-30" transform="translate(746.142578 0)"/>
-     <use xlink:href="#DejaVuSans-Bold-30" transform="translate(815.722656 0)"/>
-========
-     </defs>
-     <use xlink:href="#DejaVuSans-Bold-44"/>
-     <use xlink:href="#DejaVuSans-Bold-65" x="83.007812"/>
-     <use xlink:href="#DejaVuSans-Bold-6d" x="150.830078"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" x="255.029297"/>
-     <use xlink:href="#DejaVuSans-Bold-20" x="323.730469"/>
-     <use xlink:href="#DejaVuSans-Bold-28" x="358.544922"/>
-     <use xlink:href="#DejaVuSans-Bold-43" x="404.248047"/>
-     <use xlink:href="#DejaVuSans-Bold-68" x="477.636719"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" x="548.828125"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" x="617.529297"/>
-     <use xlink:href="#DejaVuSans-Bold-73" x="686.230469"/>
-     <use xlink:href="#DejaVuSans-Bold-65" x="745.751953"/>
-     <use xlink:href="#DejaVuSans-Bold-20" x="813.574219"/>
-     <use xlink:href="#DejaVuSans-Bold-66" x="848.388672"/>
-     <use xlink:href="#DejaVuSans-Bold-69" x="891.894531"/>
-     <use xlink:href="#DejaVuSans-Bold-6c" x="926.171875"/>
-     <use xlink:href="#DejaVuSans-Bold-65" x="960.449219"/>
-     <use xlink:href="#DejaVuSans-Bold-29" x="1028.271484"/>
-     <use xlink:href="#DejaVuSans-Bold-20" x="1073.974609"/>
-     <use xlink:href="#DejaVuSans-Bold-48" x="1108.789062"/>
-     <use xlink:href="#DejaVuSans-Bold-69" x="1192.480469"/>
-     <use xlink:href="#DejaVuSans-Bold-73" x="1226.757812"/>
-     <use xlink:href="#DejaVuSans-Bold-74" x="1286.279297"/>
-     <use xlink:href="#DejaVuSans-Bold-6f" x="1334.082031"/>
-     <use xlink:href="#DejaVuSans-Bold-67" x="1402.783203"/>
-     <use xlink:href="#DejaVuSans-Bold-72" x="1474.365234"/>
-     <use xlink:href="#DejaVuSans-Bold-61" x="1523.681641"/>
-     <use xlink:href="#DejaVuSans-Bold-6d" x="1591.162109"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+     <use xlink:href="#DejaVuSans-Bold-3d" x="73.583984"/>
+     <use xlink:href="#DejaVuSans-Bold-31" x="157.373047"/>
+     <use xlink:href="#DejaVuSans-Bold-2e" x="226.953125"/>
+     <use xlink:href="#DejaVuSans-Bold-30" x="264.941406"/>
+     <use xlink:href="#DejaVuSans-Bold-30" x="334.521484"/>
+     <use xlink:href="#DejaVuSans-Bold-2c" x="404.101562"/>
+     <use xlink:href="#DejaVuSans-Bold-20" x="442.089844"/>
+     <use xlink:href="#DejaVuSans-Bold-3c3" x="476.904297"/>
+     <use xlink:href="#DejaVuSans-Bold-3d" x="554.785156"/>
+     <use xlink:href="#DejaVuSans-Bold-31" x="638.574219"/>
+     <use xlink:href="#DejaVuSans-Bold-2e" x="708.154297"/>
+     <use xlink:href="#DejaVuSans-Bold-30" x="746.142578"/>
+     <use xlink:href="#DejaVuSans-Bold-30" x="815.722656"/>
     </g>
    </g>
   </g>
  </g>
  <defs>
-<<<<<<<< HEAD:python/interface/SimulatorTool/plots/demo_histogram_3.svg
-  <clipPath id="p6080a42803">
-   <rect x="59.6" y="70.08" width="793.6" height="439.48"/>
-========
-  <clipPath id="p4939377da6">
-   <rect x="59.6" y="38.4" width="793.6" height="471.16"/>
->>>>>>>> 5baa6be6f14571bc06693767a5c4a170f787ac65:python/interface/SimulatorTool/plots/demo_histogram.svg
+  <clipPath id="pd1d10bcfad">
+   <rect x="73.55" y="70.08" width="779.65" height="439.48"/>
   </clipPath>
  </defs>
 </svg>
