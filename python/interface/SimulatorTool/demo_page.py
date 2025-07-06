@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QHBoxLayout, QComboBox, QLineEdit, QGroupBox,
-    QFormLayout, QFileDialog, QFormLayout, QSizePolicy, QLabel, QPlainTextEdit
+    QFormLayout, QFileDialog, QFormLayout, QSizePolicy, QLabel, QPlainTextEdit,QTextBrowser
 )
 from PySide6.QtCore import Signal,Qt
 from PySide6.QtGui import QFontMetrics
@@ -181,32 +181,21 @@ class DemoInputPage(QWidget):
         button_layout.addWidget(self.reset_button)
         self.input_layout.addRow(button_layout)
 
-        help_text = (
-            "n = number of weights\n"
-            "for (i = 0; i < n; i++) {\n"
-            "  # either ideal - standard normal N(0,1)\n"
-            "  ε = torch.randn()\n"
-            "\n"
-            "  # or custom\n"
-            "  ε = custom_sample(rng_data, sample_number)\n"
-            "\n"
-            "  X = μ + σ * ε\n"
-            "}"
-        )
-        help_box = QPlainTextEdit()
-        help_box.setReadOnly(True)
-        help_box.setPlainText(help_text)
-        help_box.setFixedHeight(190)
-        help_box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        help_box.setStyleSheet("""
-            background-color: #FFF;
+        self.help_box = QTextBrowser()
+        self.help_box.setReadOnly(True)
+        self.help_box.setPlainText(self._get_help_text())
+        self.help_box.setFixedHeight(400)
+        self.help_box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.help_box.setStyleSheet("""
+            QTextBrowser {
+            background-color: #FFFFFF;
             font-family: Consolas, monospace;
-            font-size: 10.5pt;
-            font-weight: bold;
-            padding: 4px;
+            font-size: 11pt;
+            border: none;
+            }
         """)
 
-        self.input_layout.addRow(help_box)
+        self.input_layout.addRow(self.help_box)
 
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
@@ -219,6 +208,56 @@ class DemoInputPage(QWidget):
         self._toggle_file_btn()
 
         self.setLayout(main_layout)
+        self._on_gaussian_mode_changed()
+
+
+    def _get_help_text(self):
+        if self.gaussian_mode.currentText() == "Gaussian Mixture Model":
+            return """
+            <div style="border: 2px solid #0078D7; border-radius: 6px; padding: 8px; background-color: #F9F9F9;">
+            <b>Algorithm 2: Gaussian Mixture Sampling Procedure</b><br><br>
+            <b>Parameters:</b> μ = {μ₁, ..., μ<sub>K</sub>}, σ = {σ₁, ..., σ<sub>K</sub>},<br>
+            α = {α₁, ..., α<sub>K</sub>} (mixture weights), S = sample count, Mode ∈ {ideal, file}<br>
+            <b>Inputs:</b> n = number of weights<br>
+            <b>Output:</b> Sampled values X = {X₁, ..., X<sub>n</sub>}<br><br>
+
+            <b>Function:</b> <code>GMM_Sample(μ, σ, α, S, Mode)</code><br>
+            &nbsp;&nbsp;for i = 1 to n do<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;begin<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw k<sub>i</sub> ∼ Categorical(α)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Mode == "ideal" then<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ε<sub>i</sub> ← torch.randn(S)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ε<sub>i</sub> ← sample_from_file(S)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X<sub>i</sub> ← μ<sub>k<sub>i</sub></sub> + σ<sub>k<sub>i</sub></sub> ⊙ ε<sub>i</sub><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+            <b>return</b> X<br>
+            <b>end Function</b>
+            </div>
+            """
+        else:
+            return """
+            <div style="border: 2px solid #0078D7; border-radius: 6px; padding: 8px; background-color: #F9F9F9;">
+            <b>Algorithm 1: Single Gaussian Sampling Procedure</b><br><br>
+            <b>Parameters:</b> μ = {μ₁, μ₂, ..., μₙ}, σ = {σ₁, σ₂, ..., σₙ},<br>
+            S = number of samples per weight, Mode ∈ {ideal, file}<br>
+            <b>Inputs:</b> n = number of weights<br>
+            <b>Output:</b> Sampled values X = {X₁, ..., Xₙ}<br><br>
+            <b>Function:</b> <code>Sample(μ, σ, S, Mode)</code><br>
+            &nbsp;&nbsp;for i = 1 to n do<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;begin<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Mode == "ideal" then<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;εᵢ ← torch.randn(S)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;εᵢ ← sample_from_file(S)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xᵢ ← μᵢ + σᵢ ⊙ εᵢ<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+            <b>return</b> X<br>
+            <b>end Function</b>
+            </div>
+            """
+
+
 
     def _on_gaussian_mode_changed(self):
         mode = self.gaussian_mode.currentText()
@@ -233,6 +272,8 @@ class DemoInputPage(QWidget):
         self.weight_number.setCurrentIndex(0)
         self.weight_number.blockSignals(False)
         self._update_weight_inputs()
+        self.help_box.setHtml(self._get_help_text())
+
 
 
     def _update_weight_inputs(self):
