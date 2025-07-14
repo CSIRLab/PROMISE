@@ -80,10 +80,12 @@ class DemoInputPage(QWidget):
         self.input_layout.addRow("RNG File:", self.data_button)
         self.data_button.setFixedHeight(24)
 
+        self.weight_number_label = QLabel("Weight Number:")  
         self.weight_number = QComboBox()
         self.weight_number.addItems(["1", "2", "3"])
         self.weight_number.currentIndexChanged.connect(self._update_weight_inputs)
-        self.input_layout.addRow("Weight Number:", self.weight_number)
+        self.input_layout.addRow(self.weight_number_label, self.weight_number) 
+
 
 
         #self.mu_input = QLineEdit("1")
@@ -264,9 +266,11 @@ class DemoInputPage(QWidget):
         self.weight_number.blockSignals(True)
         self.weight_number.clear()
         if mode == "Gaussian Mixture Model":
+            self.weight_number_label.setText("Distribution Number:")
             self.weight_number.addItems(["2", "3"])
 
         else:  # Single Gaussian
+            self.weight_number_label.setText("Weight Number:")
             self.weight_number.addItems(["1", "2", "3"])
 
         self.weight_number.setCurrentIndex(0)
@@ -310,14 +314,17 @@ class DemoInputPage(QWidget):
 
         # If in Gaussian Mixture Model mode, update alpha fields
         if self.gaussian_mode.currentText() == "Gaussian Mixture Model":
-            # α container + layout
-            if not hasattr(self, "alpha_container"):
+            if not hasattr(self, "alpha_label"):
+                # initialize alpha label and container
+                self.alpha_label = QLabel("α (Mixture Weights):")
                 self.alpha_container = QWidget()
                 self.alpha_fields_layout = QHBoxLayout(self.alpha_container)
                 self.alpha_fields_layout.setSpacing(0)
-                self.input_layout.insertRow(6, "α (weight ratios):", self.alpha_container)
+                self.input_layout.insertRow(6, self.alpha_label, self.alpha_container)
             else:
+                self.alpha_label.show()
                 self.alpha_container.show()
+                # clear existing alpha fields
                 while self.alpha_fields_layout.count():
                     w = self.alpha_fields_layout.takeAt(0).widget()
                     if w:
@@ -335,10 +342,13 @@ class DemoInputPage(QWidget):
                 alpha_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
                 self.alpha_fields_layout.addWidget(alpha_edit, 1)
                 self.alpha_lineedits.append(alpha_edit)
+
         else:
-        # Single Gaussians
-            if hasattr(self, "alpha_container"):
+            # Single Gaussian mode: hide alpha fields if they exist
+            if hasattr(self, "alpha_label") and hasattr(self, "alpha_container"):
+                self.alpha_label.hide()
                 self.alpha_container.hide()
+
     # Input Actions
     def choose_device_data(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Select RNG File", "", "CSV Files (*.csv);;All Files (*)")
