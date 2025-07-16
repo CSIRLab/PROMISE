@@ -1,10 +1,18 @@
-# core_function.py
+# =============================================================================
+# core_function.py — Simulation core logic for PROMISE Simulator
 # Author:      Emilie Ye
 # Date:        2025-06-27
-# Version:     0.1
-# Description: Core simulation for the Probabilistic CIM Simulator including loading NN/BNN weights, generating distribution histograms and QQ-plots,
-#              exporting settings to YAML, and running both memory and demo workflows.
+#
+# Description:
+#   This file implements the simulation backend for the PROMISE Simulator.
+#   It loads NN and BNN weight files, performs probabilistic sampling using either
+#   device data or ideal sources, generates plots (histograms, QQ plots, 1D/2D/3D histograms),
+#   and exports simulation configurations. 
+#   Supports "Demo", "Memory", and "Compute In Memory" workflows.
+#
 # Copyright (c) 2025
+# =============================================================================
+
 import os
 import sys
 import numpy as np
@@ -19,11 +27,8 @@ from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
 import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
 from simulator.memory import *
-
 from interface.load_parameter import *
-
 out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
 os.makedirs(out_dir, exist_ok=True)
 
@@ -55,6 +60,7 @@ class SimulatorCore:
         self.demo_sigma = 1.0
         self.demo_samples = 100
         self.demo_bins = 50
+        self.demo_data = None # For 3d data
 
 
     def _try_load_pth(self):
@@ -425,11 +431,25 @@ class SimulatorCore:
         plt.savefig(filename, dpi=dpi)
         plt.close()
 
-    def generate_nd_histogram(self, data, dim,filename):
-        plt.clf()
-        filename = os.path.join(out_dir, filename)
-        print("Saving nd_histogram:", os.path.abspath(filename))
-        fig = plt.figure(figsize=(7, 5))
+    def generate_nd_histogram(self, data, dim,filename, interactive=False):
+        if filename is not None:
+            filename = os.path.join(out_dir, filename)
+            print("Saving nd_histogram:", os.path.abspath(filename))
+
+        fig = None
+        ax = None
+
+        if dim == 1:
+            fig = plt.figure(figsize=(7, 5))
+        elif dim == 2:
+            fig, ax = plt.subplots(figsize=(7, 5))
+        elif dim == 3:
+            fig = plt.figure(figsize=(7, 5))
+            ax = fig.add_subplot(111, projection='3d')
+        else:
+            print("Unsupported dimension:", dim)
+            return
+            
         if dim == 1:
             plt.hist(data, bins=30, color='steelblue', edgecolor='black', linewidth=0.8)
             plt.xlabel("Value", fontsize=12)
@@ -442,24 +462,74 @@ class SimulatorCore:
                 print("Need at least 2D data for 2D histogram.")
                 return
             x, y = data[:, 0], data[:, 1]
-            hist = plt.hist2d(x, y, bins=60, cmap='Blues') 
-            plt.xlabel("X", fontsize=12)
-            plt.ylabel("Y", fontsize=12)
-            plt.title("2D Histogram", fontsize=14)
-            plt.colorbar(hist[3], label="Frequency")
-            plt.grid(True, linestyle='--', alpha=0.4)
+            cmap = plt.cm.Blues
+            cmap.set_under(color='white')
+            
+            min_x, max_x = np.min(x), np.max(x)
+            min_y, max_y = np.min(y), np.max(y)
+            range_x = max_x - min_x
+            range_y = max_y - min_y
+            max_range = max(range_x, range_y)
+
+            x_mid = 0.5 * (min_x + max_x)
+            y_mid = 0.5 * (min_y + max_y)
+            x_min = x_mid - max_range / 2
+            x_max = x_mid + max_range / 2
+            y_min = y_mid - max_range / 2
+            y_max = y_mid + max_range / 2
+
+            counts, xedges, yedges, im = ax.hist2d(
+                x, y, bins=60, cmap=cmap, vmin=1,
+                range=[[x_min, x_max], [y_min, y_max]]
+            )
+            vmax = counts.max()
+            im.set_clim(vmin=1, vmax=vmax)
+
+            ax.set_xlabel("X", fontsize=12)
+            ax.set_ylabel("Y", fontsize=12, rotation=0, labelpad=20)
+            ax.set_title("2D Histogram", fontsize=14)
+            fig.colorbar(im, ax=ax, label="Frequency")
+            ax.grid(True, linestyle='--', alpha=0.4)
+
+            ax.set_xlim(x_min, x_max)
+            ax.set_ylim(y_min, y_max)
+            ax.set_aspect('equal')
 
         elif dim == 3:
             if data.ndim == 1 or data.shape[1] < 3:
                 print("Need at least 3D data for 3D histogram.")
                 return
 
-            ax = fig.add_subplot(111, projection='3d')
+            #ax = fig.add_subplot(111, projection='3d')
             x, y, z = data[:, 0], data[:, 1], data[:, 2]
 
             # Histogram binning
-            bins = 20
-            hist, edges = np.histogramdd((x, y, z), bins=bins)
+            min_x, max_x = np.min(x), np.max(x)
+            min_y, max_y = np.min(y), np.max(y)
+            min_z, max_z = np.min(z), np.max(z)
+
+            range_x = max_x - min_x
+            range_y = max_y - min_y
+            range_z = max_z - min_z
+            max_range = max(range_x, range_y, range_z)
+
+            x_mid = 0.5 * (min_x + max_x)
+            y_mid = 0.5 * (min_y + max_y)
+            z_mid = 0.5 * (min_z + max_z)
+
+            x_min = x_mid - max_range / 2
+            x_max = x_mid + max_range / 2
+            y_min = y_mid - max_range / 2
+            y_max = y_mid + max_range / 2
+            z_min = z_mid - max_range / 2
+            z_max = z_mid + max_range / 2
+
+            hist, edges = np.histogramdd(
+                (x, y, z),
+                bins=15,
+                range=[[x_min, x_max], [y_min, y_max], [z_min, z_max]]
+            )
+
             x_edges, y_edges, z_edges = edges
 
             # Bin centers
@@ -486,7 +556,7 @@ class SimulatorCore:
             newcolors = blues(np.linspace(0.12, 1, 256))
             custom_blues = ListedColormap(newcolors)
             # 3D scatter with color
-            sc = ax.scatter(Xc, Yc, Zc, c=norm_values, cmap=custom_blues, s=10, alpha=0.8)
+            sc = ax.scatter(Xc, Yc, Zc, c=norm_values, cmap=custom_blues, s=8, alpha=0.7)
             # Labels
             ax.set_xlabel("X", fontsize=10)
             ax.set_ylabel("Y", fontsize=10)
@@ -495,14 +565,41 @@ class SimulatorCore:
 
             ax.view_init(elev=25, azim=135)
             ax.set_box_aspect([1, 1, 1])
-            fig.colorbar(sc, ax=ax, shrink=0.6, label="Frequency")
+            ax.set_xlim(x_min, x_max)
+            ax.set_ylim(y_min, y_max)
+            ax.set_zlim(z_min, z_max)
+
+            arrow_length = max_range * 0.15
+            arrow_origin_x = x_min
+            arrow_origin_y = y_min
+            arrow_origin_z = z_min
+
+            ax.quiver(arrow_origin_x, arrow_origin_y, arrow_origin_z, arrow_length, 0, 0, color='r', linewidth=1.5)
+            ax.quiver(arrow_origin_x, arrow_origin_y, arrow_origin_z, 0, arrow_length, 0, color='g', linewidth=1.5)
+            ax.quiver(arrow_origin_x, arrow_origin_y, arrow_origin_z, 0, 0, arrow_length, color='b', linewidth=1.5)
+
+            ax.text2D(1.02, 0.95, "X → Red", transform=ax.transAxes, fontsize=10, va='top', ha='left', color='red')
+            ax.text2D(1.02, 0.90, "Y → Green", transform=ax.transAxes, fontsize=10, va='top', ha='left', color='green')
+            ax.text2D(1.02, 0.85, "Z → Blue", transform=ax.transAxes, fontsize=10, va='top', ha='left', color='blue')
+
+            x_range = np.max(x) - np.min(x)
+            y_range = np.max(y) - np.min(y)
+            z_range = np.max(z) - np.min(z)
+            max_range = max(x_range, y_range, z_range)
+            #ax.set_box_aspect([x_range / max_range, y_range / max_range, z_range / max_range])
+            
+            fig.subplots_adjust(left=0.05, right=0.8)
+            fig.colorbar(sc, ax=ax, shrink=0.6, label="Frequency", pad=0.08)
         else:
             print("Unsupported dimension:", dim)
             return
 
-        fig.tight_layout()
-        fig.savefig(filename, format='svg')
-        plt.close(fig)
+        if interactive and dim == 3:
+            plt.show()
+        else:
+            fig.tight_layout()
+            fig.savefig(filename, format='svg')
+            plt.close(fig)
 
     def save_qq_plot(self, filename, mu, sigma, sample_size=1000, dpi=400):
         filename = os.path.join(out_dir, filename)
@@ -662,6 +759,7 @@ class SimulatorCore:
         if distribution_mode == "Single Gaussian":
             nd_hist_fname = f"demo_nd_histogram.svg"
             final_data = np.hstack(all_demo_data)  # Shape: (samples, dim)
+            self.demo_data = final_data
             self.generate_nd_histogram(final_data, count, nd_hist_fname)
         else:
             alphas = getattr(self, 'demo_alphas', [1.0 / count] * count)

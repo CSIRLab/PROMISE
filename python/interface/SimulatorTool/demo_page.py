@@ -1,26 +1,35 @@
-# demo_page.py 
+# =============================================================================
+# demo_page.py — Demo mode input panel for the PROMISE Simulator
 # Author:      Emilie Ye
 # Date:        2025-06-27
-# Version:     0.1
-# Description: Provides controls for choosing the RNG source, setting μ, σ, sample times, and bins, 
-#              and running the demo simulation mode.
+#
+# Description:
+#   This file defines the user interface for the Demo Mode of the PROMISE Simulator.
+#   It provides controls for setting parameters for two configurations:
+#       Single Gaussian mode: users can select the RNG source (ideal generator or imported data),
+#           specify the number of weights, provide mean (μ) and standard deviation (σ) for each weight,
+#           configure sampling time for iterations, and set the number of bins for detailed histograms.
+#       Gaussian Mixture Model (GMM) mode: users can configure multiple Gaussian components,
+#           select the RNG source, define their means, variances, mixture weights (α),
+#           where α specifies the relative contribution of each component distribution in the mixture,
+#           and set sampling times and number of histogram bins.
+#   The panel links user-configured parameters to the simulation core for running Demo Mode experiments.
+#
 # Copyright (c) 2025
+# 
+# =============================================================================
+
 import sys, os, glob
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../python')))
-
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QHBoxLayout, QComboBox, QLineEdit, QGroupBox,
     QFormLayout, QFileDialog, QFormLayout, QSizePolicy, QLabel, QPlainTextEdit,QTextBrowser
 )
 from PySide6.QtCore import Signal,Qt
 from PySide6.QtGui import QFontMetrics
-
 out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
-
 from simulator.memory import *
-
 from interface.load_parameter import *
-
 
 class EmittingStream:
     def __init__(self, text_edit):

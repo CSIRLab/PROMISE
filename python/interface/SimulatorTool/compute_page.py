@@ -1,28 +1,27 @@
-# compute_page.py — Placeholder
+# =============================================================================
+# compute_page.py — Compute in Memory mode input panel (placeholder) for PROMISE Simulator
 # Author:      Emilie Ye
 # Date:        2025-06-27
-# Version:     0.1
-# Description: 
+#
+# Description:
+#   This file is intended to define the user interface for the Compute in Memory Mode
+#   of the PROMISE Simulator. 
+#
 # Copyright (c) 2025
+# =============================================================================
+
 import sys, os, glob
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../python')))
-
 from PySide6.QtWidgets import (
     QWidget, QLabel, QPushButton, QHBoxLayout, QComboBox, QLineEdit, QGroupBox, QFormLayout,
     QFileDialog, QDialog, QSizePolicy, QFormLayout, QDialog, QInputDialog
 )
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtCore import Qt, QSize, QTimer, Signal
-
-
-
 out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
 icon_path = os.path.join(os.path.dirname(__file__), "icons", "config.jpg")
-
 from simulator.memory import *
-
 from interface.load_parameter import *
-
 
 class EmittingStream:
     def __init__(self, text_edit):

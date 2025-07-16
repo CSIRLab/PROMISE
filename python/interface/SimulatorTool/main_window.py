@@ -1,10 +1,16 @@
-# main_windows.py — Main application window for the Probabilistic CIM Simulator
+# =============================================================================
+# main_windows.py — Main application window for the PROMISE Simulator
 # Author:      Emilie Ye
 # Date:        2025-06-27
-# Version:     0.1
-# Description: Defines the main application window that coordinates mode selection, 
-#              displays the appropriate input panels, and shows simulation outputs.
+#
+# Description: 
+#   This module defines the main interface window that manages the simulator workflow:
+#   displays the mode selection dialog, loads input panels for "Memory", "Compute in Memory",
+#   and "Demo" modes, and coordinates simulation execution and output display. 
+# 
 # Copyright (c) 2025
+# 
+# =============================================================================
 
 '''
 main_windows.py

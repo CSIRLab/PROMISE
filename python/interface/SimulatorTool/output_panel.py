@@ -1,22 +1,26 @@
-# output_panel.py
+# =============================================================================
+# output_panel.py — Output panel for PROMISE Simulator
 # Author:      Emilie Ye
 # Date:        2025-06-27
-# Version:     0.1
-# Description: Defines the OutputPanel that captures console output and organizes result plots for Memory, Compute in Memory, and Demo modes.
+#
+# Description:
+#   This file defines the OutputPanel, which displays simulation results
+#   and console logs for PROMISE Simulator. It organizes result plots for
+#   "Memory", "Compute in Memory", and "Demo" modes into tabs and manages
+#   console output display.
+#
 # Copyright (c) 2025
+# =============================================================================
+
 import os
 import sys
 plots_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
-
 os.makedirs(plots_dir, exist_ok=True)
-
 from PySide6.QtWidgets import QTextEdit, QWidget, QVBoxLayout, QLabel, QScrollArea,QTabWidget, QHBoxLayout, QGroupBox, QPushButton, QSizePolicy, QDialog
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtGui import QIcon, QPixmap,QPainter
 from PySide6.QtCore import Qt, QSize, QRectF
 from PySide6.QtSvg import QSvgRenderer
-
-
 from memory_page import EmittingStream
 
 class ScaledSvgWidget(QWidget):
@@ -614,6 +618,12 @@ class OutputPanel(QWidget):
             replace_widget_image(self.demo_qq_plot, "demo_qqplot.svg", True)
             
     def show_full_image(self, filename):    # Show full size image in a popup dialog
+        if os.path.basename(filename) == "demo_nd_histogram.svg":
+            demo_data = getattr(self.core, "demo_data", None)
+            if demo_data is not None and demo_data.shape[1] == 3:
+                self.core.generate_nd_histogram(demo_data, 3, filename=None, interactive=True)
+                return
+        
         popup = QDialog()
         popup.setWindowTitle("Full Size Image")
 
