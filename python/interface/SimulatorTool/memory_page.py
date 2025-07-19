@@ -1,29 +1,32 @@
-# memory_page.py
+# =============================================================================
+# memory_page.py — Memory mode input panel for the PROMISE Simulator
 # Author:      Emilie Ye
 # Date:        2025-06-27
-# Version:     0.1
-# Description: UI for selecting device data, loading NN/BNN weights,
-#              configuring simulation parameters, and opening memory configs.
+#
+# Description: 
+#   This file defines the user interface for Memory Mode in the PROMISE Simulator.
+#   It provides controls for selecting device data, loading NN/BNN weights,
+#   configuring key simulation parameters, including sampling times, bins, technology,
+#   and uploading configuration options via YAML files.
+#   The panel links user-configured parameters to the simulation core for running Memory Mode experiments.
+#
 # Copyright (c) 2025
+# 
+# =============================================================================
+
 import sys, os, glob
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../python')))
-
 from PySide6.QtWidgets import (
     QWidget, QLabel, QPushButton, QHBoxLayout, QComboBox, QLineEdit, QGroupBox, QFormLayout,
     QFileDialog, QDialog, QSizePolicy, QFormLayout, QDialog, QInputDialog
 )
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtCore import Qt, QSize, QTimer, Signal
-
 from PySide6.QtGui import QFontMetrics
-
 out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plots")
 icon_path = os.path.join(os.path.dirname(__file__), "icons", "config.jpg")
-
 from simulator.memory import *
-
 from interface.load_parameter import *
-
 
 class EmittingStream:
     def __init__(self, text_edit):

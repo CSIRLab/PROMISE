@@ -1,16 +1,22 @@
-# mode_select.py 
+# =============================================================================
+# mode_select.py — Mode selection dialog for PROMISE Simulator
 # Author:      Emilie Ye
 # Date:        2025-06-27
-# Version:     0.1
-# Description: Presents clickable cards for choosing between Memory, Compute in Memory, and Demo modes.
-#              Enables the “Next” button once a selection is made, so the simulator can launch in the chosen mode.
+#
+# Description:
+#   This file defines the dialog window for selecting simulation modes in the PROMISE Simulator.
+#   It presents clickable cards for "Memory", "Compute in Memory", and "Demo" modes,
+#   highlights the selected option, and enables the "Next" button to confirm and 
+#   launch the chosen mode to the main window.
+#
 # Copyright (c) 2025
+# =============================================================================
+
 from PySide6.QtWidgets import (
     QDialog, QHBoxLayout, QVBoxLayout, QLabel,
     QPushButton, QFrame, QSizePolicy
 )
 from PySide6.QtCore import Qt, Signal
-
 
 class ModeCard(QFrame):
     clicked = Signal(str) #allow the card to emit a signal when clicked
