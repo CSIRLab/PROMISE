@@ -23,7 +23,7 @@ import sys, os, glob
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../python')))
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QHBoxLayout, QComboBox, QLineEdit, QGroupBox,
-    QFormLayout, QFileDialog, QFormLayout, QSizePolicy, QLabel, QPlainTextEdit,QTextBrowser
+    QFormLayout, QFileDialog, QFormLayout, QSizePolicy, QLabel, QPlainTextEdit,QTextBrowser,QVBoxLayout
 )
 from PySide6.QtCore import Signal,Qt
 from PySide6.QtGui import QFontMetrics
@@ -73,7 +73,7 @@ class DemoInputPage(QWidget):
         input_panel.setLayout(self.input_layout)
 
         self.gaussian_mode = QComboBox()
-        self.gaussian_mode.addItems(["Single Gaussian", "Gaussian Mixture Model"])
+        self.gaussian_mode.addItems(["Single Gaussian", "Gaussian Mixture Model", "Multiple GMM"])
         self.gaussian_mode.currentIndexChanged.connect(self._on_gaussian_mode_changed)
         self.input_layout.addRow("Mode:", self.gaussian_mode)
 
@@ -88,6 +88,13 @@ class DemoInputPage(QWidget):
         self.data_button.clicked.connect(self.choose_device_data)
         self.input_layout.addRow("RNG File:", self.data_button)
         self.data_button.setFixedHeight(24)
+
+        self.gmm_number_label = QLabel("GMM Number:")
+        self.gmm_number = QComboBox()
+        self.gmm_number.addItems(["2", "3"])
+        self.gmm_number.currentIndexChanged.connect(self._update_weight_inputs)
+        self.input_layout.addRow(self.gmm_number_label, self.gmm_number)
+
 
         self.weight_number_label = QLabel("Weight Number:")  
         self.weight_number = QComboBox()
@@ -111,6 +118,17 @@ class DemoInputPage(QWidget):
         self.sigma_fields_layout = QHBoxLayout(self.sigma_container)
         self.sigma_fields_layout.setSpacing(0)
         self.input_layout.addRow("σ:", self.sigma_container)
+
+        self.alpha_label = QLabel("α:")
+        self.alpha_container = QWidget()
+        self.alpha_fields_layout = QVBoxLayout()
+        self.alpha_fields_layout.setSpacing(2)
+        self.alpha_container.setLayout(self.alpha_fields_layout)
+        self.input_layout.addRow(self.alpha_label, self.alpha_container)
+        # Hide by default
+        self.alpha_label.hide()
+        self.alpha_container.hide()
+        self.alpha_lineedits = []
 
 
         self.sample_input = QLineEdit("100")
@@ -223,7 +241,7 @@ class DemoInputPage(QWidget):
 
 
     def _get_help_text(self):
-        if self.gaussian_mode.currentText() == "Gaussian Mixture Model":
+        if self.gaussian_mode.currentText() in ["Gaussian Mixture Model", "Multiple GMM"]:
             return """
             <div style="border: 2px solid #0078D7; border-radius: 6px; padding: 8px; background-color: #F9F9F9;">
             <b>Algorithm 2: Gaussian Mixture Sampling Procedure</b><br><br>
@@ -277,10 +295,21 @@ class DemoInputPage(QWidget):
         if mode == "Gaussian Mixture Model":
             self.weight_number_label.setText("Distribution Number:")
             self.weight_number.addItems(["2", "3"])
+            self.gmm_number_label.hide()
+            self.gmm_number.hide()
+
+        elif mode == "Multiple GMM":
+            self.weight_number_label.setText("Distribution Number:")
+            self.weight_number.addItems(["2", "3"])
+            self.weight_number.setCurrentIndex(0)
+            self.gmm_number_label.show()
+            self.gmm_number.show()
 
         else:  # Single Gaussian
             self.weight_number_label.setText("Weight Number:")
             self.weight_number.addItems(["1", "2", "3"])
+            self.gmm_number_label.hide()
+            self.gmm_number.hide()
 
         self.weight_number.setCurrentIndex(0)
         self.weight_number.blockSignals(False)
@@ -294,6 +323,8 @@ class DemoInputPage(QWidget):
         if not txt.isdigit():
             return
         number = int(txt)
+        num_gmms = int(self.gmm_number.currentText()) if self.gaussian_mode.currentText() == "Multiple GMM" else 1
+        mode = self.gaussian_mode.currentText()
 
         # Clear μ
         while self.mu_fields_layout.count():
@@ -301,12 +332,20 @@ class DemoInputPage(QWidget):
             if widget:
                 widget.deleteLater()
         self.mu_lineedits = []
-        for idx in range(number):
-            mu_edit = QLineEdit("1")
-            mu_edit.setPlaceholderText(f"μ{idx+1}")
-            mu_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-            self.mu_fields_layout.addWidget(mu_edit, 1)
-            self.mu_lineedits.append(mu_edit)
+
+        for g in range(num_gmms):
+            row_widget = QWidget()
+            row_layout = QHBoxLayout(row_widget)
+            row_layout.setSpacing(2)
+            mu_group = []
+            for idx in range(number):
+                mu_edit = QLineEdit("1")
+                mu_edit.setPlaceholderText(f"μ{idx+1} (GMM{g+1})" if num_gmms > 1 else f"μ{idx+1}")
+                mu_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                row_layout.addWidget(mu_edit)
+                mu_group.append(mu_edit)
+            self.mu_fields_layout.addWidget(row_widget)
+            self.mu_lineedits.append(mu_group)
 
         # Clear σ
         while self.sigma_fields_layout.count():
@@ -314,49 +353,53 @@ class DemoInputPage(QWidget):
             if widget:
                 widget.deleteLater()
         self.sigma_lineedits = []
-        for idx in range(number):
-            sigma_edit = QLineEdit("1")
-            sigma_edit.setPlaceholderText(f"σ{idx+1}")
-            sigma_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-            self.sigma_fields_layout.addWidget(sigma_edit, 1)
-            self.sigma_lineedits.append(sigma_edit)
 
-        # If in Gaussian Mixture Model mode, update alpha fields
-        if self.gaussian_mode.currentText() == "Gaussian Mixture Model":
-            if not hasattr(self, "alpha_label"):
-                # initialize alpha label and container
-                self.alpha_label = QLabel("α (Mixture Weights):")
-                self.alpha_container = QWidget()
-                self.alpha_fields_layout = QHBoxLayout(self.alpha_container)
-                self.alpha_fields_layout.setSpacing(0)
-                self.input_layout.insertRow(6, self.alpha_label, self.alpha_container)
-            else:
-                self.alpha_label.show()
-                self.alpha_container.show()
-                # clear existing alpha fields
-                while self.alpha_fields_layout.count():
-                    w = self.alpha_fields_layout.takeAt(0).widget()
-                    if w:
-                        w.deleteLater()
+        for g in range(num_gmms):
+            row_widget = QWidget()
+            row_layout = QHBoxLayout(row_widget)
+            row_layout.setSpacing(2)
+            sigma_group = []
+            for idx in range(number):
+                sigma_edit = QLineEdit("1")
+                sigma_edit.setPlaceholderText(f"σ{idx+1} (GMM{g+1})" if num_gmms > 1 else f"σ{idx+1}")
+                sigma_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                row_layout.addWidget(sigma_edit)
+                sigma_group.append(sigma_edit)
+            self.sigma_fields_layout.addWidget(row_widget)
+            self.sigma_lineedits.append(sigma_group)
+
+        is_mixture_mode = self.gaussian_mode.currentText() in ["Gaussian Mixture Model", "Multiple GMM"]
+
+        if is_mixture_mode:
+            self.alpha_label.show()
+            self.alpha_container.show()
+
+            # Clear existing
+            while self.alpha_fields_layout.count():
+                w = self.alpha_fields_layout.takeAt(0).widget()
+                if w:
+                    w.deleteLater()
 
             self.alpha_lineedits = []
-            if number == 3:
-                default_alphas = [0.3, 0.3, 0.4]
-            else:
-                default_alphas = [1.0 / number] * number
-
-            for idx in range(number):
-                alpha_edit = QLineEdit(f"{default_alphas[idx]:.4f}")
-                alpha_edit.setPlaceholderText(f"α{idx+1}")
-                alpha_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-                self.alpha_fields_layout.addWidget(alpha_edit, 1)
-                self.alpha_lineedits.append(alpha_edit)
+            for g in range(num_gmms):
+                row_widget = QWidget()
+                row_layout = QHBoxLayout()
+                alpha_group = []
+                for idx in range(number):
+                    alpha_edit = QLineEdit(f"{1.0 / number:.4f}")
+                    alpha_edit.setPlaceholderText(f"α{idx+1} (GMM{g+1})" if num_gmms > 1 else f"α{idx+1}")
+                    alpha_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    row_layout.addWidget(alpha_edit)
+                    alpha_group.append(alpha_edit)
+                row_widget.setLayout(row_layout)
+                self.alpha_fields_layout.addWidget(row_widget)
+                self.alpha_lineedits.append(alpha_group)
 
         else:
-            # Single Gaussian mode: hide alpha fields if they exist
-            if hasattr(self, "alpha_label") and hasattr(self, "alpha_container"):
-                self.alpha_label.hide()
-                self.alpha_container.hide()
+            self.alpha_label.hide()
+            self.alpha_container.hide()
+            self.alpha_lineedits = []
+
 
     # Input Actions
     def choose_device_data(self):
@@ -382,13 +425,14 @@ class DemoInputPage(QWidget):
         self.data_button.setEnabled(need_file)
         if not need_file:
             self.file_path = ""
-
+    
     # When click start simulation
     def start_simulation(self):
+        print(">>> start_simulation CALLED")
         updated_nn = False
         updated_bnn = False
         updated_sampled_fc1 = False
-
+        mode = self.gaussian_mode.currentText()
 
         self.simulator_core.mode   = "Demo"
 
@@ -402,13 +446,26 @@ class DemoInputPage(QWidget):
 
         print("Starting simulation...")
 
-        if self.gaussian_mode.currentText() == "Gaussian Mixture Model":
-            self.simulator_core.demo_alphas = [float(edit.text()) for edit in self.alpha_lineedits]
-            self.simulator_core.demo_is_mixed = True
-        else:
-            self.simulator_core.demo_alphas = None
-            self.simulator_core.demo_is_mixed = False
+        if mode == "Multiple GMM":
+            mus = [torch.tensor([float(e.text()) for e in g]) for g in self.mu_lineedits]
+            sigmas = [torch.tensor([float(e.text()) for e in g]) for g in self.sigma_lineedits]
+            alphas = [torch.tensor([float(e.text()) for e in g]) for g in self.alpha_lineedits]
+            self.simulator_core.demo_mus = mus
+            self.simulator_core.demo_sigmas = sigmas
+            self.simulator_core.demo_alphas = alphas
 
+        elif mode == "Gaussian Mixture Model":
+            self.simulator_core.demo_mus = torch.tensor([float(e.text()) for e in self.mu_lineedits[0]])
+            self.simulator_core.demo_sigmas = torch.tensor([float(e.text()) for e in self.sigma_lineedits[0]])
+            self.simulator_core.demo_alphas = torch.tensor([float(e.text()) for e in self.alpha_lineedits[0]])
+
+        elif mode == "Single Gaussian":
+            mus = torch.tensor([float(e.text()) for e in self.mu_lineedits[0]])
+            sigmas = torch.tensor([float(e.text()) for e in self.sigma_lineedits[0]])
+
+            self.simulator_core.demo_mus = mus  
+            self.simulator_core.demo_sigmas = sigmas
+            self.simulator_core.demo_alphas = None
 
         self.simulator_core.demo_mode    = self.rng_mode.currentText()
 
@@ -416,10 +473,6 @@ class DemoInputPage(QWidget):
 
         self.simulator_core.demo_file    = self.file_path
 
-        demo_mus    = [float(edit.text()) for edit in self.mu_lineedits]
-        demo_sigmas = [float(edit.text()) for edit in self.sigma_lineedits]
-        self.simulator_core.demo_mus    = demo_mus
-        self.simulator_core.demo_sigmas = demo_sigmas
 
         self.simulator_core.demo_samples = int(self.sample_input.text())
         self.simulator_core.demo_bins    = int(self.bins_input.text())

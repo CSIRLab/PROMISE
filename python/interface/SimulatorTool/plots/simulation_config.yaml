@@ -1,14 +1,38 @@
 bins: 50
 mode: Demo
-mus:
-- 1.0
-- 5.0
-- 10.0
+mus: !!python/object/apply:torch._utils._rebuild_tensor_v2
+- !!python/object/apply:torch.storage._load_from_bytes
+  - !!binary |
+    gAKKCmz8nEb5IGqoUBkugAJN6QMugAJ9cQAoWBAAAABwcm90b2NvbF92ZXJzaW9ucQFN6QNYDQAA
+    AGxpdHRsZV9lbmRpYW5xAohYCgAAAHR5cGVfc2l6ZXNxA31xBChYBQAAAHNob3J0cQVLAlgDAAAA
+    aW50cQZLBFgEAAAAbG9uZ3EHSwR1dS6AAihYBwAAAHN0b3JhZ2VxAGN0b3JjaApGbG9hdFN0b3Jh
+    Z2UKcQFYCgAAADUxMTk0MTgxOTJxAlgDAAAAY3B1cQNLAk50cQRRLoACXXEAWAoAAAA1MTE5NDE4
+    MTkycQFhLgIAAAAAAAAAAACAPwAAIEE=
+- 0
+- !!python/tuple
+  - 2
+- !!python/tuple
+  - 1
+- false
+- !!python/object/apply:collections.OrderedDict
+  - []
 rng_file: ''
 rng_source: ideal
-sampling_times: 1000
-sigmas:
-- 1.0
-- 1.0
-- 3.0
-weight_number: 3
+sampling_times: 10000
+sigmas: !!python/object/apply:torch._utils._rebuild_tensor_v2
+- !!python/object/apply:torch.storage._load_from_bytes
+  - !!binary |
+    gAKKCmz8nEb5IGqoUBkugAJN6QMugAJ9cQAoWBAAAABwcm90b2NvbF92ZXJzaW9ucQFN6QNYDQAA
+    AGxpdHRsZV9lbmRpYW5xAohYCgAAAHR5cGVfc2l6ZXNxA31xBChYBQAAAHNob3J0cQVLAlgDAAAA
+    aW50cQZLBFgEAAAAbG9uZ3EHSwR1dS6AAihYBwAAAHN0b3JhZ2VxAGN0b3JjaApGbG9hdFN0b3Jh
+    Z2UKcQFYCgAAADUxMTkzOTAyNzJxAlgDAAAAY3B1cQNLAk50cQRRLoACXXEAWAoAAAA1MTE5Mzkw
+    MjcycQFhLgIAAAAAAAAAAACAPwAAgD8=
+- 0
+- !!python/tuple
+  - 2
+- !!python/tuple
+  - 1
+- false
+- !!python/object/apply:collections.OrderedDict
+  - []
+weight_number: 2

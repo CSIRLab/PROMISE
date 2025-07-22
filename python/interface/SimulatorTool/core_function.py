@@ -383,8 +383,6 @@ class SimulatorCore:
             return False
 
 
-    
-
     def save_plot(self, filename, x, y=None, xlabel="", ylabel="", dpi=400, mode="line", bins=100, with_title=False, title=""):
         filename = os.path.join(out_dir, filename)
 
@@ -411,7 +409,6 @@ class SimulatorCore:
         plt.tight_layout()
         plt.savefig(filename, dpi=dpi)
         plt.close()
-
 
     def save_empirical_qq_plot(self, filename, data, mu, sigma, dpi=400):
         filename = os.path.join(out_dir, filename)
@@ -704,76 +701,172 @@ class SimulatorCore:
             plt.savefig(out_path, dpi=300, bbox_inches='tight')
             plt.close()
 
-    def run_demo(self):
-        mus    = getattr(self, 'demo_mus', [1.0])
-        sigmas = getattr(self, 'demo_sigmas', [1.0])
-        count = len(mus)
-        all_demo_data = []
-        epsilons = []
-        for i in range(count):
-            mu_i    = mus[i]
-            sigma_i = sigmas[i]
-            print(f"mu{i+1} = {mus[i]:.4f}, sigma{i+1} = {sigmas[i]:.4f}")
+    # def run_demo(self):
+    #     mus    = getattr(self, 'demo_mus', [1.0])
+    #     sigmas = getattr(self, 'demo_sigmas', [1.0])
+    #     count = len(mus)
+    #     all_demo_data = []
+    #     epsilons = []
+    #     for i in range(count):
+    #         mu_i    = mus[i]
+    #         sigma_i = sigmas[i]
+    #         print(f"mu{i+1} = {mus[i]:.4f}, sigma{i+1} = {sigmas[i]:.4f}")
 
 
-            if self.demo_mode == "ideal":
-                # Standard Normal sampling
-                epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
-            else:
-                all_data = np.loadtxt(self.demo_file, delimiter=",")
-                epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
+    #         if self.demo_mode == "ideal":
+    #             # Standard Normal sampling
+    #             epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
+    #         else:
+    #             all_data = np.loadtxt(self.demo_file, delimiter=",")
+    #             epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
                 
-                # Normalize
-                mu_st = np.mean(epsilon_original)
-                sigma_st = np.std(epsilon_original)
-                epsilon = (epsilon_original - mu_st) / sigma_st
+    #             # Normalize
+    #             mu_st = np.mean(epsilon_original)
+    #             sigma_st = np.std(epsilon_original)
+    #             epsilon = (epsilon_original - mu_st) / sigma_st
 
-            epsilons.append(epsilon)
-            print(f"epsilon_{i+1} = {epsilon}")
+    #         epsilons.append(epsilon)
+    #         print(f"epsilon_{i+1} = {epsilon}")
 
-            demo_data = mu_i + sigma_i * epsilon
-            all_demo_data.append(demo_data.reshape(-1, 1))
-            hist_fname = f"demo_histogram_{i+1}.svg"
-            qq_fname   = f"demo_qqplot_{i+1}.svg"
+    #         demo_data = mu_i + sigma_i * epsilon
+    #         all_demo_data.append(demo_data.reshape(-1, 1))
+    #         hist_fname = f"demo_histogram_{i+1}.svg"
+    #         qq_fname   = f"demo_qqplot_{i+1}.svg"
 
-            self.save_plot(
-            hist_fname,
-            demo_data,
-            mode="hist",
-            bins=self.demo_bins,
-            xlabel="Value",
-            ylabel="Count",
-            with_title=True,
-            title=f"Demo ({self.demo_mode}) Histogram #{i+1}\nμ={mu_i:.2f}, σ={sigma_i:.2f}"
-            )
+    #         self.save_plot(
+    #         hist_fname,
+    #         demo_data,
+    #         mode="hist",
+    #         bins=self.demo_bins,
+    #         xlabel="Value",
+    #         ylabel="Count",
+    #         with_title=True,
+    #         title=f"Demo ({self.demo_mode}) Histogram #{i+1}\nμ={mu_i:.2f}, σ={sigma_i:.2f}"
+    #         )
 
-            self.save_empirical_qq_plot(
-                qq_fname,
-                demo_data,
-                mu_i,
-                sigma_i
-            )
+    #         self.save_empirical_qq_plot(
+    #             qq_fname,
+    #             demo_data,
+    #             mu_i,
+    #             sigma_i
+    #         )
 
-        distribution_mode = getattr(self, "gaussian_mode", "Single Gaussian")
+    #     distribution_mode = getattr(self, "gaussian_mode", "Single Gaussian")
 
-        if distribution_mode == "Single Gaussian":
-            nd_hist_fname = f"demo_nd_histogram.svg"
-            final_data = np.hstack(all_demo_data)  # Shape: (samples, dim)
-            self.demo_data = final_data
-            self.generate_nd_histogram(final_data, count, nd_hist_fname)
-        else:
-            alphas = getattr(self, 'demo_alphas', [1.0 / count] * count)
-            if len(alphas) != count:
-                raise ValueError("Number of alphas must match number of mus/sigmas.")
+    #     if distribution_mode == "Single Gaussian":
+    #         nd_hist_fname = f"demo_nd_histogram.svg"
+    #         final_data = np.hstack(all_demo_data)  # Shape: (samples, dim)
+    #         self.demo_data = final_data
+    #         self.generate_nd_histogram(final_data, count, nd_hist_fname)
+    #     else:
+    #         alphas = getattr(self, 'demo_alphas', [1.0 / count] * count)
+    #         if len(alphas) != count:
+    #             raise ValueError("Number of alphas must match number of mus/sigmas.")
 
-            # Sampling component index per alpha (Bernoulli if 2, Categorical if >2)
+    #         # Sampling component index per alpha (Bernoulli if 2, Categorical if >2)
+    #         k_choices = np.random.choice(count, size=self.demo_samples, p=alphas)
+
+    #         # GMM sampling per mask
+    #         mixed_data = np.zeros(self.demo_samples)
+    #         for i in range(self.demo_samples):
+    #             k = k_choices[i]
+    #             # Use corresponding epsilon
+    #             eps = np.random.normal() if self.demo_mode == "ideal" else epsilons[k][i]
+    #             mixed_data[i] = mus[k] + sigmas[k] * eps
+
+    #         self.save_plot(
+    #             "demo_mixed_histogram.svg",
+    #             mixed_data,
+    #             mode="hist",
+    #             bins=self.demo_bins,
+    #             xlabel="Value",
+    #             ylabel="Count",
+    #             with_title=True,
+    #             title=f"Gaussian Mixture Model Histogram (α = {alphas})"
+    #         )
+
+    def run_demo(self):
+        print(">>>> run_demo CALLED")
+        print("mode:", self.gaussian_mode)
+        print("demo_mus:", self.demo_mus)
+        print("demo_sigmas:", self.demo_sigmas)
+        print("demo_alphas:", self.demo_alphas)
+        mode = getattr(self, "gaussian_mode", "Single Gaussian")
+        for i in range(len(self.demo_mus)):
+            mu_i = self.demo_mus[i]
+            sigma_i = self.demo_sigmas[i]
+            print(f"mu{i+1} = {mu_i:.4f}, sigma{i+1} = {sigma_i:.4f}")
+
+
+        if mode == "Multiple GMM":
+            # Each GMM has its own μ, σ, α
+            all_mus = self.demo_mus  # List[Tensor]
+            all_sigmas = self.demo_sigmas  # List[Tensor]
+            all_alphas = self.demo_alphas  # List[Tensor]
+
+            num_gmms = len(all_mus)
+
+            for gmm_idx in range(num_gmms):
+                mus = all_mus[gmm_idx].float().numpy()
+                sigmas = all_sigmas[gmm_idx].float().numpy()
+                alphas = all_alphas[gmm_idx].float().numpy()
+                count = len(mus)
+
+                epsilons = []
+                for i in range(count):
+                    if self.demo_mode == "ideal":
+                        epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
+                    else:
+                        all_data = np.loadtxt(self.demo_file, delimiter=",")
+                        epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
+                        mu_st = np.mean(epsilon_original)
+                        sigma_st = np.std(epsilon_original)
+                        epsilon = (epsilon_original - mu_st) / sigma_st
+                    epsilons.append(epsilon)
+
+                k_choices = np.random.choice(count, size=self.demo_samples, p=alphas)
+                mixed_data = np.zeros(self.demo_samples)
+
+                for i in range(self.demo_samples):
+                    k = k_choices[i]
+                    eps = np.random.normal() if self.demo_mode == "ideal" else epsilons[k][i]
+                    mixed_data[i] = mus[k] + sigmas[k] * eps
+
+                self.save_plot(
+                    f"demo_mixed_histogram_GMM{gmm_idx+1}.svg",
+                    mixed_data,
+                    mode="hist",
+                    bins=self.demo_bins,
+                    xlabel="Value",
+                    ylabel="Count",
+                    with_title=True,
+                    title=f"GMM#{gmm_idx+1} Histogram (α = {alphas})"
+                )
+
+        elif mode == "Gaussian Mixture Model":
+            # Single GMM
+            mus = self.demo_mus.float().numpy()         # shape: [n]
+            sigmas = self.demo_sigmas.float().numpy()
+            alphas = self.demo_alphas.float().numpy()
+            count = len(mus)
+
+            epsilons = []
+            for i in range(count):
+                if self.demo_mode == "ideal":
+                    epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
+                else:
+                    all_data = np.loadtxt(self.demo_file, delimiter=",")
+                    epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
+                    mu_st = np.mean(epsilon_original)
+                    sigma_st = np.std(epsilon_original)
+                    epsilon = (epsilon_original - mu_st) / sigma_st
+                epsilons.append(epsilon)
+                
+
             k_choices = np.random.choice(count, size=self.demo_samples, p=alphas)
-
-            # GMM sampling per mask
             mixed_data = np.zeros(self.demo_samples)
             for i in range(self.demo_samples):
                 k = k_choices[i]
-                # Use corresponding epsilon
                 eps = np.random.normal() if self.demo_mode == "ideal" else epsilons[k][i]
                 mixed_data[i] = mus[k] + sigmas[k] * eps
 
@@ -787,6 +880,71 @@ class SimulatorCore:
                 with_title=True,
                 title=f"Gaussian Mixture Model Histogram (α = {alphas})"
             )
+            for i in range(count):
+                component_data = mus[i] + sigmas[i] * epsilons[i]
+
+                self.save_plot(
+                    f"demo_histogram_{i+1}.svg",
+                    component_data,
+                    mode="hist",
+                    bins=self.demo_bins,
+                    xlabel="Value",
+                    ylabel="Count",
+                    with_title=True,
+                    title=f"GMM Component #{i+1}\nμ={mus[i]:.2f}, σ={sigmas[i]:.2f}"
+                )
+
+                self.save_empirical_qq_plot(
+                    f"demo_qqplot_{i+1}.svg",
+                    component_data,
+                    mus[i],
+                    sigmas[i]
+                )
+
+        else:  # Single Gaussian
+            mus = self.demo_mus.float().numpy()       # shape: [n]
+            sigmas = self.demo_sigmas.float().numpy()
+            count = len(mus)
+            all_demo_data = []
+
+            for i in range(count):
+                mu_i    = mus[i]
+                sigma_i = sigmas[i]
+                if self.demo_mode == "ideal":
+                    epsilon = np.random.normal(loc=0, scale=1, size=self.demo_samples)
+                else:
+                    all_data = np.loadtxt(self.demo_file, delimiter=",")
+                    epsilon_original = custom_sample(all_data, shape=(self.demo_samples,)).numpy()
+                    mu_st = np.mean(epsilon_original)
+                    sigma_st = np.std(epsilon_original)
+                    epsilon = (epsilon_original - mu_st) / sigma_st
+
+                demo_data = mu_i + sigma_i * epsilon
+                all_demo_data.append(demo_data.reshape(-1, 1))
+
+                self.save_plot(
+                    f"demo_histogram_{i+1}.svg",
+                    demo_data,
+                    mode="hist",
+                    bins=self.demo_bins,
+                    xlabel="Value",
+                    ylabel="Count",
+                    with_title=True,
+                    title=f"Demo Histogram #{i+1}\nμ={mu_i:.2f}, σ={sigma_i:.2f}"
+                )
+
+                self.save_empirical_qq_plot(
+                    f"demo_qqplot_{i+1}.svg",
+                    demo_data,
+                    mu_i,
+                    sigma_i
+                )
+
+            nd_hist_fname = f"demo_nd_histogram.svg"
+            final_data = np.hstack(all_demo_data)
+            self.demo_data = final_data
+            self.generate_nd_histogram(final_data, count, nd_hist_fname)
+
 
     def export_demo_config_to_yaml(self, filename="simulation_config.yaml"):
         filename = os.path.join(out_dir, filename)
