@@ -194,27 +194,28 @@ class OutputPanel(QWidget):
         results_layout.setContentsMargins(0, 0, 0, 0)
         results_layout.setSpacing(10)
         
-        # Histogram (top)
-        hist_row = QHBoxLayout()
-        hist_row.setContentsMargins(0, 0, 0, 0)
-        hist_row.setSpacing(20)
-        for i in range(count):
-            fname = f"demo_histogram_{i+1}.svg"
-            plot = self.create_plot(f"Histogram #{i+1}", fname, show_initial_image=True)
-            plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-            hist_row.addWidget(plot, 1)
-        results_layout.addLayout(hist_row)
+        if distribution_mode != "Multiple GMM":
+            # Histogram (top)
+            hist_row = QHBoxLayout()
+            hist_row.setContentsMargins(0, 0, 0, 0)
+            hist_row.setSpacing(20)
+            for i in range(count):
+                fname = f"demo_histogram_{i+1}.svg"
+                plot = self.create_plot(f"Histogram #{i+1}", fname, show_initial_image=True)
+                plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+                hist_row.addWidget(plot, 1)
+            results_layout.addLayout(hist_row)
 
-        # QQ Plot (bottom)
-        qq_row = QHBoxLayout()
-        qq_row.setContentsMargins(0, 0, 0, 0)
-        qq_row.setSpacing(20)
-        for i in range(count):
-            fname = f"demo_qqplot_{i+1}.svg"
-            plot = self.create_plot(f"QQ Plot #{i+1}", fname, show_initial_image=True)
-            plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-            qq_row.addWidget(plot, 1)
-        results_layout.addLayout(qq_row)
+            # QQ Plot (bottom)
+            qq_row = QHBoxLayout()
+            qq_row.setContentsMargins(0, 0, 0, 0)
+            qq_row.setSpacing(20)
+            for i in range(count):
+                fname = f"demo_qqplot_{i+1}.svg"
+                plot = self.create_plot(f"QQ Plot #{i+1}", fname, show_initial_image=True)
+                plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+                qq_row.addWidget(plot, 1)
+            results_layout.addLayout(qq_row)
 
 
         # Add multi dimensional distribution plot if available
@@ -245,6 +246,23 @@ class OutputPanel(QWidget):
 
                 summary_row.addWidget(summary_plot, 1)
                 results_layout.addLayout(summary_row, stretch=2)
+
+            elif distribution_mode == "Multiple GMM":
+                summary_row = QHBoxLayout()
+                summary_row.setContentsMargins(0, 0, 0, 0)
+                summary_row.setSpacing(20)
+                for i in range(count):
+                    fname = f"demo_multiple_gmm_{i+1}_histogram.svg"
+                    plot = self.create_plot(f"GMM #{i+1}", fname, show_initial_image=True)
+                    plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+                    summary_row.addWidget(plot, 1)
+                results_layout.addLayout(summary_row)
+
+                summary_fname = "demo_multiple_gmm_nd_histogram.svg"
+                title = "2D Summary" if count == 2 else "3D Summary"
+                summary_plot = self.create_plot(title, summary_fname, show_initial_image=True)
+                summary_plot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+                results_layout.addWidget(summary_plot, stretch=2)
 
         console_container = QWidget()
         console_layout = QVBoxLayout(console_container)
@@ -623,7 +641,16 @@ class OutputPanel(QWidget):
             if demo_data is not None and demo_data.shape[1] == 3:
                 self.core.generate_nd_histogram(demo_data, 3, filename=None, interactive=True)
                 return
-        
+        elif os.path.basename(filename) == "demo_multiple_gmm_nd_histogram.svg":
+            demo_data = getattr(self.core, "demo_data_multiple_gmm", None)
+            if demo_data is not None and demo_data.shape[1] in (2, 3):
+                self.core.generate_nd_histogram(
+                    demo_data,
+                    demo_data.shape[1],
+                    filename=None,
+                    interactive=True
+                )
+                return
         popup = QDialog()
         popup.setWindowTitle("Full Size Image")
 

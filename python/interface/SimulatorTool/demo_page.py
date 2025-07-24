@@ -315,7 +315,8 @@ class DemoInputPage(QWidget):
         self.weight_number.blockSignals(False)
         self._update_weight_inputs()
         self.help_box.setHtml(self._get_help_text())
-
+        if hasattr(self.parent(), "output_panel"):
+            self.parent().output_panel.clear(show_placeholder=True)
 
 
     def _update_weight_inputs(self):
