@@ -152,6 +152,13 @@ def calculate_logicgate_cap(gate_type, num_Input, width_NMOS, width_PMOS, height
     
     ratio = width_PMOS / (width_PMOS + width_NMOS) if (width_PMOS + width_NMOS) > 0 else 0
     num_folded_pmos = num_folded_nmos = 1
+    maxwidth_PMOS = 0
+    maxwidth_NMOS = 0
+    width_drain_n = 0
+    width_drain_p = 0
+    width_drain_sidewall_n = 0
+    width_drain_sidewall_p = 0
+
     # FinFET adjustment
     if tech.get_param('featureSize') <= 14e-9:
         width_NMOS *= tech('PitchFin') / (2 * tech.get_param('featureSize'))
@@ -162,11 +169,11 @@ def calculate_logicgate_cap(gate_type, num_Input, width_NMOS, width_PMOS, height
     if tech.get_param('featureSize') >= 22e-9 or tech.get_param('transistorType') != 'conventional':  
         # Bulk
         if ratio == 0:  # no PMOS
-            max_width_pmos = 0
-            max_width_nmos = height_transistor_region - (constant.MIN_POLY_EXT_DIFF + constant.MIN_GAP_BET_FIELD_POLY / 2)* 2 * tech.get_param('featureSize')
+            maxwidth_PMOS = 0
+            maxwidth_NMOS = height_transistor_region - (constant.MIN_POLY_EXT_DIFF + constant.MIN_GAP_BET_FIELD_POLY / 2)* 2 * tech.get_param('featureSize')
         elif ratio == 1:    # no NMOS
-            max_width_pmos = height_transistor_region - (constant.MIN_POLY_EXT_DIFF + constant.MIN_GAP_BET_FIELD_POLY / 2) * 2 * tech.get_param('featureSize')
-            max_width_nmos = 0
+            maxwidth_PMOS = height_transistor_region - (constant.MIN_POLY_EXT_DIFF + constant.MIN_GAP_BET_FIELD_POLY / 2) * 2 * tech.get_param('featureSize')
+            maxwidth_NMOS = 0
         else:
             temp = height_transistor_region - constant.MIN_GAP_BET_P_AND_N_DIFFS * tech.get_param('featureSize') - (constant.MIN_POLY_EXT_DIFF + constant.MIN_GAP_BET_FIELD_POLY / 2) * 2 * tech.get_param('featureSize')
             maxwidth_PMOS = ratio * temp
