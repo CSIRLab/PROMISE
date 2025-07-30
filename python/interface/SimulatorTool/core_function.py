@@ -786,16 +786,17 @@ class SimulatorCore:
     #         )
 
     def run_demo(self):
-        print(">>>> run_demo CALLED")
-        print("mode:", self.gaussian_mode)
-        print("demo_mus:", self.demo_mus)
-        print("demo_sigmas:", self.demo_sigmas)
-        print("demo_alphas:", self.demo_alphas)
+        #print(">>>> run_demo CALLED")
+        #print("mode:", self.gaussian_mode)
+
+        #print("demo_mus:", self.demo_mus)
+        #print("demo_sigmas:", self.demo_sigmas)
+        #print("demo_alphas:", self.demo_alphas)
         mode = getattr(self, "gaussian_mode", "Single Gaussian")
-        for i in range(len(self.demo_mus)):
-            mu_i = self.demo_mus[i]
-            sigma_i = self.demo_sigmas[i]
-            print(f"mu{i+1} = {mu_i:.4f}, sigma{i+1} = {sigma_i:.4f}")
+        #for i in range(len(self.demo_mus)):
+        #    mu_i = self.demo_mus[i]
+        #    sigma_i = self.demo_sigmas[i]
+        #    print(f"mu{i+1} = {mu_i:.4f}, sigma{i+1} = {sigma_i:.4f}")
 
 
         if mode == "Multiple GMM":
@@ -806,11 +807,13 @@ class SimulatorCore:
 
             num_gmms = len(all_mus)
 
+            multi_data_list = []
+
             for gmm_idx in range(num_gmms):
                 mus = all_mus[gmm_idx].float().numpy()
                 sigmas = all_sigmas[gmm_idx].float().numpy()
                 alphas = all_alphas[gmm_idx].float().numpy()
-                count = len(mus)
+                count = len(mus) # number of distribution per GMM
 
                 epsilons = []
                 for i in range(count):
@@ -824,8 +827,9 @@ class SimulatorCore:
                         epsilon = (epsilon_original - mu_st) / sigma_st
                     epsilons.append(epsilon)
 
+
                 k_choices = np.random.choice(count, size=self.demo_samples, p=alphas)
-                mixed_data = np.zeros(self.demo_samples)
+                mixed_data = np.zeros(self.demo_samples, dtype=float)
 
                 for i in range(self.demo_samples):
                     k = k_choices[i]
@@ -833,15 +837,24 @@ class SimulatorCore:
                     mixed_data[i] = mus[k] + sigmas[k] * eps
 
                 self.save_plot(
-                    f"demo_mixed_histogram_GMM{gmm_idx+1}.svg",
+                    f"demo_multiple_gmm_{gmm_idx+1}_histogram.svg",
                     mixed_data,
                     mode="hist",
                     bins=self.demo_bins,
                     xlabel="Value",
                     ylabel="Count",
                     with_title=True,
-                    title=f"GMM#{gmm_idx+1} Histogram (α = {alphas})"
+                    title=f"GMM #{gmm_idx+1} Mixture Histogram\nμ={mus.tolist()}, σ={sigmas.tolist()}"
                 )
+                multi_data_list.append(mixed_data)
+            final_data = np.stack(multi_data_list, axis=1)
+            self.demo_data_multiple_gmm = final_data
+
+            self.generate_nd_histogram(
+                final_data,
+                num_gmms,
+                filename="demo_multiple_gmm_nd_histogram.svg"
+            )
 
         elif mode == "Gaussian Mixture Model":
             # Single GMM
