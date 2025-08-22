@@ -1,0 +1,3 @@
+activity_col_write: '0.5'
+num_read_cell_op: '64'
+num_write_cell_op: '64'

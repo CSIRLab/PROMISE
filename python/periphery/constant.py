@@ -56,3 +56,24 @@ RATIO_READ_THRESHOLD_VS_VOLTAGE = 0.2
 # Routing Modes
 ROW_MODE = 0
 COL_MODE = 1
+
+#Metal Pitch trend -> needed for row-decoder layout
+#Assume single patterning for 14 nm and beyond and assume Minimum Metal Pitch=M1 pitch=M2 pitch=M3 pitch
+
+M2_PITCH      = 3.2  # along width
+M2_PITCH_14nm = 4.57
+M2_PITCH_10nm = 4.4
+M2_PITCH_7nm  = 5.71
+M2_PITCH_5nm  = 6.0
+M2_PITCH_3nm  = 8.0
+M2_PITCH_2nm  = 10.0
+M2_PITCH_1nm  = 16.0
+
+M3_PITCH      = 2.8  # along height
+M3_PITCH_14nm = 4.57
+M3_PITCH_10nm = 4.4
+M3_PITCH_7nm  = 5.71
+M3_PITCH_5nm  = 6.0
+M3_PITCH_3nm  = 8.0
+M3_PITCH_2nm  = 10.0
+M3_PITCH_1nm  = 16.0
