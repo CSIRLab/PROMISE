@@ -17,6 +17,47 @@ MIN_NMOS_SIZE = 2
 MAX_TRANSISTOR_HEIGHT = 28
 MAX_TRANSISTOR_HEIGHT_FINFET = 34
 
+
+MAX_TRANSISTOR_HEIGHT_14nm = 41.142 # Samsung
+MAX_TRANSISTOR_HEIGHT_10nm = 33.0 # TSMC
+MAX_TRANSISTOR_HEIGHT_7nm = 34.285 # TSMC
+MAX_TRANSISTOR_HEIGHT_5nm = 36.0 # IRDS 2021
+MAX_TRANSISTOR_HEIGHT_3nm =  48.0 # IRDS 2022
+MAX_TRANSISTOR_HEIGHT_2nm =  57.0 # IRDS 2022
+MAX_TRANSISTOR_HEIGHT_1nm =  80.0 # IRDS 2022
+
+# // 1.4 update : PN separation, region outside fin (half of the inter-spacing between outermost fins in adjacent standard cells) - updated
+# // OUTER_HEIGHT_REGION = Cell height - MIN_GAP_BET_P_AND_N_DIFFS (PN gap) - Fin region
+MIN_GAP_BET_P_AND_N_DIFFS_14nm  = 9.71 # Fin pitch*3 - Fin width
+OUTER_HEIGHT_REGION_14nm =  10.285
+MIN_GAP_BET_P_AND_N_DIFFS_10nm = 10.0 # Fin pitch*3 - Fin width
+OUTER_HEIGHT_REGION_10nm = 8.2
+MIN_GAP_BET_P_AND_N_DIFFS_7nm = 11.85 # Fin pitch*3 - Fin width
+OUTER_HEIGHT_REGION_7nm = 12.28
+MIN_GAP_BET_P_AND_N_DIFFS_5nm = 12.8 # IRDS 2021
+OUTER_HEIGHT_REGION_5nm = 19.4
+MIN_GAP_BET_P_AND_N_DIFFS_3nm = 15.0 # IRDS 2022
+OUTER_HEIGHT_REGION_3nm = 12.666
+MIN_GAP_BET_P_AND_N_DIFFS_2nm = 20.0 # IRDS 2022
+OUTER_HEIGHT_REGION_2nm = 22.0 
+MIN_GAP_BET_P_AND_N_DIFFS_1nm = 15.0  # IRDS 2022
+OUTER_HEIGHT_REGION_1nm = 40.0 
+# Contacted Poly Pitch and Width Trends
+CPP_14nm = 5.571            # Samsung
+POLY_WIDTH_14nm =  1.857    # IRDS 2016
+CPP_10nm =  6.4             # TSMC
+POLY_WIDTH_10nm =  2.2      # IRDS 2017
+CPP_7nm = 8.1428            # TSMC
+POLY_WIDTH_7nm = 3.14       # IRDS 2018
+CPP_5nm = 10.2              # IRDS 2021
+POLY_WIDTH_5nm = 4.0        # IRDS 2021
+CPP_3nm = 16.0              # IRDS 2022
+POLY_WIDTH_3nm = 6.0        # IRDS 2022
+CPP_2nm = 22.5              # IRDS 2022
+POLY_WIDTH_2nm = 7.0        # IRDS 2022
+CPP_1nm = 40.0              # IRDS 2022
+POLY_WIDTH_1nm = 12.0       # IRDS 2022
+
 # Layout Design Rules
 MIN_GAP_BET_P_AND_N_DIFFS = 3.5
 MIN_GAP_BET_SAME_TYPE_DIFFS = 1.6
