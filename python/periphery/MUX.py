@@ -8,11 +8,12 @@ from periphery.Technology import Technology
 
 
 class Mux:
-    def __init__(self, tech, param, mapping,num_input, num_selection, res_tg,FPGA):
+    def __init__(self, tech, param, mapping,config, num_input, num_selection, res_tg,FPGA):
         self.tech = tech
         self.param = param
         self.mapping = mapping
         self.num_input = num_input
+        self.config = config
         self.num_selection = num_selection  #number of mux selection lines
         self.FPGA = FPGA
         self.vdd = tech.get_param('vdd')
@@ -30,7 +31,13 @@ class Mux:
                 1 / logicGate.calculate_on_resistance(self.width_tg_p, constant.PMOS, self.temp, self.tech)
             )
         else:
-            self.res_tg = res_tg
+            self.width_tg_n = constant.MIN_NMOS_SIZE * self.feature_size
+            self.width_tg_p = self.pnSizeRatio * constant.MIN_NMOS_SIZE * self.feature_size
+            self.res_tg = 1 / (
+                1 / logicGate.calculate_on_resistance(self.width_tg_n, constant.NMOS, self.temp, self.tech) +
+                1 / logicGate.calculate_on_resistance(self.width_tg_p, constant.PMOS, self.temp, self.tech)
+            )
+            # self.res_tg = res_tg
             # Width calculation for analog MUX
             scale = 2 if self.feature_size <= 14e-9 else 1
             res_width_n = logicGate.calculate_on_resistance(self.feature_size, constant.NMOS, self.temp, self.tech)
@@ -98,6 +105,7 @@ class Mux:
                 self.min_cell_width = constant.MIN_GAP_BET_GATE_POLY + constant.POLY_WIDTH *2
                 self.siolation_region = constant.MIN_POLY_EXT_DIFF *2 + constant.MIN_GAP_BET_FIELD_POLY
             #############################################
+            w_tg, h_tg, _ = logicGate.calculate_logicgate_area(constant.INV, 1, self.width_tg_n, self.width_tg_p,constant.MAX_TRANSISTOR_HEIGHT * self.feature_size, self.tech)
             if new_width and option == 'NONE':
                 num_tg_per_row = int(new_width // self.min_cell_width)
                 num_tg_per_row = min(num_tg_per_row, num_tg)

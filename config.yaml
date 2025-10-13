@@ -5,8 +5,8 @@ frequency: 1000000000.0
 latency_mode: latency
 mode: memory
 model: ResNet18
-precision_ADC: 6
+precision_ADC: 4
 precision_mu: 6
-precision_sigma: 4
-technology: '45'
+precision_sigma: 3
+technology: '65'
 temperature: 350

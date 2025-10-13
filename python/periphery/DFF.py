@@ -35,15 +35,18 @@ class DFF:
         self.cap_tg_drain = 0
 
     def calculate_area(self, new_height=None, new_width=None, option='NONE'):
-        h_inv, w_inv, _ = logicGate.calculate_logicgate_area(
+        w_inv, h_inv, _ = logicGate.calculate_logicgate_area(
             constant.INV, 1,
             constant.MIN_NMOS_SIZE * self.featureSize,
             constant.MIN_NMOS_SIZE * self.featureSize * self.tech.get_param('pnSizeRatio'),
-            self.featureSize * constant.MAX_TRANSISTOR_HEIGHT,
+            self.featureSize * constant.MAX_TRANSISTOR_HEIGHT*1.1,
             self.tech
         )
         h_dff = h_inv
-        w_dff = w_inv * 8
+        w_dff = w_inv * 13
+
+        width = w_dff * self.num_dff
+        height = h_dff
 
         if new_height and option == 'NONE':
             num_per_col = int(new_height // h_dff)
@@ -51,15 +54,14 @@ class DFF:
             num_col = math.ceil(self.num_dff/num_per_col)
             height = new_height
             width = w_dff * num_col
-        elif new_width and option == 'NONE':
+        if new_width and option == 'NONE':
             num_per_row = int(new_width // w_dff)
             num_per_row = min(num_per_row, self.num_dff)
             num_col = math.ceil(self.num_dff/num_per_row)
             width = new_width
             height = h_dff * num_col
-        else:
-            width = w_dff * self.num_dff
-            height = h_dff
+        
+            
 
         area = width * height
         # to be done: GAA cap
@@ -120,4 +122,5 @@ class DFF:
         write_energy = read_energy  # DFF write = read
 
         return read_energy, write_energy, leakage
+
 

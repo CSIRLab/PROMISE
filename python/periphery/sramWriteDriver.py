@@ -34,9 +34,9 @@ class SRAMWriteDriver:
         self.pn_ratio = tech.get_param('pnSizeRatio')
 
         # Define transistor sizes
-        self.width_inv_n = constant.MIN_NMOS_SIZE * self.feature_size
+        self.width_inv_n = constant.MIN_NMOS_SIZE * self.feature_size * 28
         self.width_inv_p = self.pn_ratio * self.width_inv_n
-        self.height_transistor_region = constant.MAX_TRANSISTOR_HEIGHT * self.feature_size
+        self.height_transistor_region = constant.MAX_TRANSISTOR_HEIGHT * self.feature_size*1.9
 
         # Initialize capacitance placeholders
         self.cap_inv_input = 0
@@ -47,6 +47,7 @@ class SRAMWriteDriver:
     def calculate_area(self, new_height=0, new_width=0, option="NONE"):
         w_inv, h_inv, _ = logicGate.calculate_logicgate_area(gateType = constant.INV, num_Input = 1, width_NMOS = self.width_inv_n, width_PMOS = self.width_inv_p, height_Transistor_Region = self.height_transistor_region, tech = self.tech)
         w_nmos, h_nmos, _ = logicGate.calculate_logicgate_area(gateType = constant.INV, num_Input = 1, width_NMOS = self.width_inv_n, width_PMOS = 0, height_Transistor_Region = self.height_transistor_region, tech = self.tech)
+        # w_inv = w_inv * 3
         h_unit = h_inv + h_nmos
         w_unit = max(w_inv, w_nmos) * 2
         if new_width and option == 'NONE':
@@ -106,3 +107,4 @@ class SRAMWriteDriver:
 
         write_energy = cap_total * self.vdd**2 * num_active * num_write
         return write_energy, leakage
+

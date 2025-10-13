@@ -37,26 +37,27 @@ class LevelShifter:
 
         # 3 types of inverter in level shifter
         #one high voltage inverter, one low voltage inverter, two mid latch
-        hlow, wlow, _ = logicGate.calculate_logicgate_area(constant.INV, 1,
+        wlow, hlow, _ = logicGate.calculate_logicgate_area(constant.INV, 1,
                                                            self.width_nmos * 15,
                                                            self.width_pmos * 20,
-                                                           self.featureSize * constant.MAX_TRANSISTOR_HEIGHT,
+                                                           self.featureSize * constant.MAX_TRANSISTOR_HEIGHT*2,
                                                            self.tech)
 
-        hlatch, wlatch, _ = logicGate.calculate_logicgate_area(constant.INV, 1,
+        wlatch, hlatch, _ = logicGate.calculate_logicgate_area(constant.INV, 1,
                                                                self.width_nmos * 32,
                                                                self.width_pmos * 10,
-                                                               self.featureSize * constant.MAX_TRANSISTOR_HEIGHT,
+                                                               self.featureSize * constant.MAX_TRANSISTOR_HEIGHT*2,
                                                                self.tech)
 
-        hhigh, whigh, _ = logicGate.calculate_logicgate_area(constant.INV, 1,
+        whigh, hhigh, _ = logicGate.calculate_logicgate_area(constant.INV, 1,
                                                              self.width_nmos * 64,
                                                              self.width_pmos * 82,
-                                                             self.featureSize * constant.MAX_TRANSISTOR_HEIGHT,
+                                                             self.featureSize * constant.MAX_TRANSISTOR_HEIGHT*2,
                                                              self.tech)
 
+        print("wlow, hlow, wlatch, hlatch, whigh, hhigh:", wlow, hlow, wlatch, hlatch, whigh, hhigh)
         hLS = max(hlow, hlatch, hhigh)
-        wLS = wlow + 2 * wlatch + whigh
+        wLS = wlow + (2 * wlatch + whigh)*1.2
 
         width = new_width if new_width and option == NONE else wLS
         height = new_height if new_height and option == NONE else hLS
@@ -114,5 +115,6 @@ class LevelShifter:
         leakage = 0
 
         return read_energy, write_energy, leakage
+
 
 

@@ -33,8 +33,8 @@ class Precharger:
         self.temp = self.config['temperature']
         
         # usually the pmos is large to pull up the bitline quickly
-        self.width_pmos_precharger = 6 * self.featureSize
-        self.width_pmos_equalizer = 1 * self.featureSize
+        self.width_pmos_precharger = 24 * self.featureSize
+        self.width_pmos_equalizer = 12 * self.featureSize
 
     def calculate_area(self, num_col, new_height, new_width, option):
     # Constants representing layout modification strategies
@@ -43,10 +43,10 @@ class Precharger:
         NONE = 'NONE'
 
         # Step 1: Compute single gate areas
-        w_pre, h_pre, _ = logicGate.calculate_logicgate_area(constant.INV,1, 0, self.width_pmos_precharger, self.featureSize * constant.MAX_TRANSISTOR_HEIGHT, self.tech)
-        w_eq, h_eq, _ = logicGate.calculate_logicgate_area(constant.INV,1, 0, self.width_pmos_equalizer, self.featureSize * constant.MAX_TRANSISTOR_HEIGHT, self.tech)
+        w_pre, h_pre, _ = logicGate.calculate_logicgate_area(constant.INV,1, 0, self.width_pmos_precharger, self.featureSize * constant.MAX_TRANSISTOR_HEIGHT*1.3, self.tech)
+        w_eq, h_eq, _ = logicGate.calculate_logicgate_area(constant.INV,1, 0, self.width_pmos_equalizer, self.featureSize * constant.MAX_TRANSISTOR_HEIGHT*1.3, self.tech)
 
-        w_unit = 2*w_pre + w_eq  
+        w_unit = 4*w_pre + w_eq *2
         h_unit = max(h_pre, h_eq)
 
         if new_width and option == 'NONE':
@@ -103,4 +103,6 @@ class Precharger:
         self.read_energy = cap_load * self.vdd**2 * min_read * 2 * num_read
         self.write_energy = cap_load * self.vdd**2 * min_write * num_write
         return self.read_energy, self.write_energy, self.leakage
+
+
 
