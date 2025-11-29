@@ -76,7 +76,8 @@ class MAT:
         else:
             self.heightInFeatureSize = self.heightInFeatureSize1T1R if self.accessType == 'CMOS_access' else self.heightInFeatureSizeCrossbar
 
-        self.SubArray = SubArray(numCol=self.num_col,numRow = self.num_row,num_mu= self.num_mu,num_sigma=self.num_sigma,relaxArrayCellWidth = False,relaxArrayCellHeight = False,tech=self.tech,config=config,mapping=self.mapping,param=param,RNG=self.RNG)
+        self.SubArray = SubArray(numCol=self.num_col,numRow = self.num_row,num_mu= self.num_mu,num_sigma=self.num_sigma,array_x_overlap=0.2,
+    array_y_overlap=0.4, relaxArrayCellWidth = False,relaxArrayCellHeight = False,tech=self.tech,config=config,mapping=self.mapping,param=param,RNG=self.RNG)
         self.SubArray_area, self.SubArray_height, self.SubArray_width,_ = self.SubArray.calculate_area()
         self.BusOutput = Bus(mode='VERTICAL',num_row=self.numSubArrayRow,num_col=self.numSubArrayCol,delay_tolerance=0,bus_width=64,unit_height=self.SubArray_height,unit_width=self.SubArray_width,clk_freq=self.clk_freq,param=param,config=config,tech=self.tech)
 
@@ -99,8 +100,7 @@ class MAT:
             raise ValueError("Bus must be initialized before calculating latency.")
         SubArray_read_latency = self.SubArray.calculate_latency(calculate_clk_freq = self.clk_freq,validated=False)
         BusOutput_read_latency = self.BusOutput.calculate_latency(num_read = 1)
-        
-        read_latency = SubArray_read_latency + BusOutput_read_latency
+        read_latency = SubArray_read_latency[0] + BusOutput_read_latency
         return read_latency * num_read
 
     def calculate_power(self,input_vector,weight_matrix, num_bit_access, num_read):

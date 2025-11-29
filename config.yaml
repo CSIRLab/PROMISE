@@ -7,6 +7,6 @@ mode: memory
 model: ResNet18
 precision_ADC: 4
 precision_mu: 6
-precision_sigma: 3
-technology: '65'
+precision_sigma: 4
+technology: '22'
 temperature: 350

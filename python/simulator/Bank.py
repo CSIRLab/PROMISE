@@ -76,7 +76,7 @@ class Bank:
             self.heightInFeatureSize = self.heightInFeatureSizeSRAM
             self.widthInFeatureSize = self.widthInFeatureSizeSRAM
         else:
-            self.heightInFeatureSize = self.heightInFeatureSize1T1R if self.accessType == 'CMOS_access' else self.heightInFeatureSizeCrossbar
+            self.heightInFeatureSize = self.heightInFeatureSize1T1R if self.accesstype == 'CMOS_access' else self.heightInFeatureSizeCrossbar
 
         self.MAT = MAT(numSubArrayRow=self.numSubArrayRow,numSubArrayCol=self.numSubArrayCol,numCol=self.num_col,numRow=self.num_row,num_mu=self.num_mu,num_sigma=self.num_sigma,param=self.param, mapping = self.mapping, config=self.config, RNG = self.RNG, tech=self.tech)
         self.HTree = HTree(num_row=self.numMATRow,num_col=self.numMATCol,delay_tolerance=0,bus_width=self.num_col,param=self.param,config=self.config,tech=self.tech)
@@ -117,4 +117,3 @@ class Bank:
         
 
         return read_dynamic_energy * num_bit_access * num_read, leakage
-

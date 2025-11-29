@@ -59,7 +59,7 @@ class Mux:
 
         if self.FPGA:   #digital MUX
             w_tg, h_tg, _ = logicGate.calculate_logicgate_area(constant.INV, 1, self.width_tg_n, self.width_tg_p,constant.MAX_TRANSISTOR_HEIGHT * self.feature_size, self.tech)
-
+            w_tg = w_tg * 1.5
             if new_width and option == 'NONE':
                 num_tg_per_row = int(new_width // w_tg)
                 num_tg_per_row = min(num_tg_per_row, num_tg)
@@ -154,7 +154,7 @@ class Mux:
 
         energy_gate = self.capTgGateN * self.num_input * self.vdd ** 2
 
-        energy_drain = 2 * self.capTgDrain * self.num_input * self.readVoltage ** 2
+        energy_drain = 2 * self.capTgDrain * self.num_input * self.vdd ** 2
 
         read_dynamic_energy = (energy_gate + energy_drain) * num_read
 
@@ -162,4 +162,3 @@ class Mux:
         self.leakage = leakage
 
         return read_dynamic_energy, leakage
-

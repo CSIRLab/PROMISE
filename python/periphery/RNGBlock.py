@@ -121,7 +121,7 @@ class RNG_block:
         dff_read_latency,dff_write_latency = self.dff.calculate_latency(num_read=1)
 
         self.read_latency = read_latency + 1/self.RNG_throughput + dff_read_latency
-        return read_latency
+        return self.read_latency
     
     def calculate_power(self, num_read):
         if not self.initialized:

@@ -69,8 +69,6 @@ class Precharger:
         self.cap_output_BL = cap_output_BL_precharger + cap_output_BL_equalizer
         return area, height, width, self.cap_output_BL
 
-    
-
     def calculate_latency(self, cap_load, num_read, num_write):
         # compute pull-up resistance
         res_pull_up = logicGate.calculate_on_resistance(self.width_pmos_precharger, constant.PMOS, self.temp, self.tech)

@@ -107,14 +107,13 @@ class LevelShifter:
         read_energy *= num_read
 
         # Write dynamic energy
-        write_energy = (self.cap_low_drain + self.cap_mid_gate_n * 2) * self.vdd**2
-        write_energy += (cap_load + self.cap_high_drain) * 2 * self.writeVoltage**2
+        write_energy = (self.cap_low_drain*4 + self.cap_mid_gate_n * 8) * self.vdd**2
+        write_energy += (cap_load + self.cap_high_drain*4) * 1 * self.writeVoltage**2
         write_energy *= num_write
+        write_energy *= 1.4  
 
         # Leakage (not modeled in C++ code, set to zero or extend later)
         leakage = 0
 
-        return read_energy, write_energy, leakage
-
-
+        return write_energy, write_energy, leakage
 

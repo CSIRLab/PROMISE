@@ -17,6 +17,7 @@ from periphery.WLDecoderDriver import WLNewDecoderDriver
 from periphery.adder import Adder
 from periphery.ADC import SarADC
 from periphery.RNGBlock import RNG_block
+from periphery.MultiLevelSenseAmp import MultilevelSenseAmp
 
 class SubArray:
     def __init__(self, tech, param, config, mapping, RNG, numRow, numCol,array_x_overlap, array_y_overlap, num_mu, num_sigma, relaxArrayCellWidth = False,relaxArrayCellHeight = False):
@@ -189,7 +190,7 @@ class SubArray:
             # self.arraywidthunit = cellWidth * self.feature_size
             # self.arrayheightunit = numRow * cellHeight * self.feature_size
 
-
+        print("lengthcol:", self.lengthCol)
         # cap and resistance calculation
         self.capRow1 = self.lengthRow * 0.2e-15 / 1e-6      # BL for 1T1R, WL for Cross-point and SRAM
         self.capRow2 = self.capRow1                         # WL for 1T1R
@@ -231,7 +232,7 @@ class SubArray:
             self.sram_write_driver = SRAMWriteDriver(num_col=self.numCol,res_load=self.resCol,tech=self.tech,config=self.config,mapping=self.mapping)
             self.precharger = Precharger(num_col=self.numCol,res_load=self.resCol,tech=self.tech,config=self.config,mapping=self.mapping)
             self.row_decoder = RowDecoder(mode="REGULAR_ROW",num_addr_row=int(math.ceil(math.log2(self.numRow))),mux=False,parallel=False,tech=self.tech,config=self.config,mapping=self.mapping)
-            self.RNG_bloclk = RNG_block(num_block = self.numCol/self.precision_sigma, param=self.param, tech=self.tech, config=self.config, mapping=self.mapping, RNG=self.RNG)
+            self.RNG_bloclk = RNG_block(num_block = self.numCol/self.precision_sigma/self.numColMuxed, param=self.param, tech=self.tech, config=self.config, mapping=self.mapping, RNG=self.RNG)
             
 
             if self.sram_mode == "conventionalSequential":
@@ -239,17 +240,24 @@ class SubArray:
                 gate_cap = logicGate.calculate_mos_gate_cap(effective_width, self.tech)
                 #to be determined why the factor is 2
                 ##################################################################################
-                self.capRow1 += 2 * gate_cap * numCol  # 2 access transistors per cell 
+                self.capRow1 += 2 * gate_cap * numCol  # 2 access transistors per cell ß
                 #######initialize the ADC########################
-                self.sense_amp_mu = SenseAmp(num_col=self.num_mu,current_sense=False,sense_voltage=self.param['minSenseVoltage'],clk_freq = None,pitch_sense_amp= self.lengthRow/self.numCol,tech=self.tech,config=self.config,mapping=self.mapping)
-                self.sense_amp_sigma = SenseAmp(num_col=self.num_sigma,current_sense=False,sense_voltage=self.param['minSenseVoltage'],clk_freq = None,pitch_sense_amp= self.lengthRow/self.numCol,tech=self.tech,config=self.config,mapping=self.mapping)
+                self.sense_amp_mu = SenseAmp(num_col=self.num_mu/self.numColMuxed,current_sense=False,sense_voltage=self.param['minSenseVoltage'],clk_freq = None,pitch_sense_amp= self.lengthRow/self.numCol,tech=self.tech,config=self.config,mapping=self.mapping)
+                self.sense_amp_sigma = SenseAmp(num_col=self.num_sigma/self.numColMuxed,current_sense=False,sense_voltage=self.param['minSenseVoltage'],clk_freq = None,pitch_sense_amp= self.lengthRow/self.numCol,tech=self.tech,config=self.config,mapping=self.mapping)
                 
-                self.SarADC_mu = SarADC(num_col=self.num_mu,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
-                self.SarADC_sigma = SarADC(num_col=self.num_sigma,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
-                self.dff_mu = DFF(num_dff=self.num_mu,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
-                self.dff_sigma = DFF(num_dff=self.num_sigma * self.precision_ADC,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
+                # self.SarADC_mu = SarADC(num_col=self.num_mu/self.precision_sigma/self.numColMuxed,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
+                # self.SarADC_sigma = SarADC(num_col=self.num_sigma/self.precision_sigma/self.numColMuxed,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
+                # self.dff_mu = DFF(num_dff=self.num_mu,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
+                # self.dff_sigma = DFF(num_dff=self.num_sigma * self.precision_ADC,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
+                self.mux_bus = Mux(num_input=self.numCol*self.output_levle/self.numColMuxed/self.precision_sigma,num_selection=1,param=self.param,mapping=self.mapping,tech=self.tech, config = self.config, res_tg=None,FPGA=True)
                 
-
+                if self.numColMuxed > 1:
+                    self.MUX = Mux(num_input=self.numCol/self.numColMuxed,num_selection=self.numColMuxed,param=self.param,mapping=self.mapping,tech=self.tech, config = self.config, res_tg=None,FPGA=True)
+                    self.muxDecoder = RowDecoder(mode="REGULAR_ROW",num_addr_row=int(math.ceil(math.log2(self.numColMuxed))),mux=True,parallel=False,tech=self.tech,config=self.config,mapping=self.mapping)
+                self.MultilevelSenseAmp_mu = MultilevelSenseAmp(num_col=self.num_mu/self.numColMuxed/self.precision_sigma,level_output=self.output_levle,clk_freq = self.clk_freq,current_mode=False,columncap=self.capCol, pitch_sense_amp = self.lengthRow/self.numCol,param= self.param,tech=self.tech,config=self.config,mapping=self.mapping)
+                self.MultilevelSenseAmp_sigma = MultilevelSenseAmp(num_col=self.num_sigma/self.numColMuxed/self.precision_sigma,level_output=self.output_levle,clk_freq = self.clk_freq,current_mode=False,columncap=self.capCol, pitch_sense_amp = self.lengthRow/self.numCol,param= self.param,tech=self.tech,config=self.config,mapping=self.mapping)
+                # print("num_col of adc", self.num_mu/self.numColMuxed/self.precision_sigma)
+                # print("level of adc", self.output_levle)
         elif self.cell_type in ['RRAM', 'FeFET']:
             if self.accesstype == 'CMOS_access':
                 self.resCellAccess = self.resistanceOn * constant.IR_DROP_TOLERANCE
@@ -296,16 +304,19 @@ class SubArray:
                 adderBit = math.ceil(math.log2(self.numRow)) + self.avgWeightBit
                 self.row_decoder = RowDecoder(mode="REGULAR_ROW",num_addr_row=int(math.ceil(math.log2(self.numRow))),mux=False,parallel=False,tech=self.tech,config=self.config,mapping=self.mapping)
                 self.wlDecoderDriver = WLNewDecoderDriver(numWLRow=self.numRow,param=self.param,tech=self.tech,config=self.config,mapping=self.mapping)
-                self.RNG_bloclk = RNG_block(num_block = self.numCol/self.precision_sigma, param=self.param, tech=self.tech, config=self.config, mapping=self.mapping, RNG=self.RNG)
+                self.RNG_bloclk = RNG_block(num_block = self.numCol/self.precision_sigma/self.numColMuxed, param=self.param, tech=self.tech, config=self.config, mapping=self.mapping, RNG=self.RNG)
                 if self.numColMuxed > 1:
                     self.MUX = Mux(num_input=numInput,num_selection=self.numColMuxed,param=self.param,mapping=self.mapping,tech=self.tech, config = self.config, res_tg=None,FPGA=True)
                     self.muxDecoder = RowDecoder(mode="REGULAR_ROW",num_addr_row=int(math.ceil(math.log2(self.numColMuxed))),mux=True,parallel=False,tech=self.tech,config=self.config,mapping=self.mapping)
                     
-                self.SarADC_mu = SarADC(num_col=self.num_mu/self.numColMuxed,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
-                self.SarADC_sigma = SarADC(num_col=self.num_sigma/self.numColMuxed,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
-                self.dff_mu = DFF(num_dff=self.num_mu * self.output_levle_mu_rram/self.numColMuxed,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
-                self.dff_sigma = DFF(num_dff=self.num_sigma * self.output_levle/self.numColMuxed,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
-
+                # self.SarADC_mu = SarADC(num_col=self.num_mu/self.numColMuxed,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
+                # self.SarADC_sigma = SarADC(num_col=self.num_sigma/self.numColMuxed,level_output = self.output_levle,clk_freq=self.clk_freq,num_read_cell = self.activity_row_read,tech=self.tech,config=self.config,mapping=self.mapping,param=self.param)
+                # self.dff_mu = DFF(num_dff=self.num_mu * self.output_levle_mu_rram/self.numColMuxed,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
+                # self.dff_sigma = DFF(num_dff=self.num_sigma * self.output_levle/self.numColMuxed,tech=self.tech,config=self.config,param=self.param,clk_freq=self.clk_freq)
+                self.mux_bus = Mux(num_input=self.numCol*self.output_levle/self.numColMuxed,num_selection=2,param=self.param,mapping=self.mapping,tech=self.tech, config = self.config, res_tg=None,FPGA=True)
+                # self.MultilevelSenseAmp = MultilevelSenseAmp(num_col=self.numCol/self.numColMuxed,level_output=self.output_levle,clk_freq = self.clk_freq,current_mode=False,columncap=self.capCol,param= self.param,tech=self.tech,config=self.config,mapping=self.mapping)
+                self.MultilevelSenseAmp_mu = MultilevelSenseAmp(num_col=self.num_mu/self.numColMuxed/self.precision_sigma,level_output=self.output_levle,clk_freq = self.clk_freq,current_mode=False,columncap=self.capCol, pitch_sense_amp = self.lengthRow/self.numCol,param= self.param,tech=self.tech,config=self.config,mapping=self.mapping)
+                self.MultilevelSenseAmp_sigma = MultilevelSenseAmp(num_col=self.num_sigma/self.numColMuxed/self.precision_sigma,level_output=self.output_levle,clk_freq = self.clk_freq,current_mode=False,columncap=self.capCol, pitch_sense_amp = self.lengthRow/self.numCol,param= self.param,tech=self.tech,config=self.config,mapping=self.mapping)
         self.initialized = True
     def get_column_resistance(self, input_vector, weight_matrix, parallel_read, res_cell_access):
         """
@@ -440,46 +451,72 @@ class SubArray:
                 pre_charge_area,pre_charge_height,pre_charge_width,pre_charge_cap_output_BL = self.precharger.calculate_area(num_col=self.numCol, new_height=None, new_width=None, option='NONE')
                 sram_write_driver_area,sram_write_driver_height,sram_write_driver_width = self.sram_write_driver.calculate_area(new_height=None,new_width=None,option='NONE')
                 WL_decoder_area,WL_decoder_height,WL_decoder_width = self.row_decoder.calculate_area(new_height=None,new_width=None,option='NONE')
-                self.SarADC_mu.calculate_unit_area()
-                self.SarADC_sigma.calculate_unit_area()
+                # self.SarADC_mu.calculate_unit_area()
+                # self.SarADC_sigma.calculate_unit_area()
                 sense_amp_mu_area,sense_amp_mu_height,sense_amp_mu_width,_ = self.sense_amp_mu.calculate_area(new_height=None,new_width=None,option='NONE')
                 sense_amp_sigma_area,sense_amp_sigma_height,sense_amp_sigma_width,_ = self.sense_amp_sigma.calculate_area(new_height=None,new_width=None,option='NONE')
-                SarADC_mu_area,SarADC_mu_height,SarADC_mu_width = self.SarADC_mu.calculate_area(height_array=None,width_array=None,option='NONE')
-                SarADC_sigma_area,SarADC_sigma_height,SarADC_sigma_width = self.SarADC_sigma.calculate_area(height_array=None,width_array=None,option='NONE')
-                dff_mu_area,dff_mu_height,dff_mu_width = self.dff_mu.calculate_area(new_height=None,new_width=None,option='NONE')
-                dff_sigma_area,dff_sigma_height,dff_sigma_width = self.dff_sigma.calculate_area(new_height=None,new_width=None,option='NONE')
+                # SarADC_mu_area,SarADC_mu_height,SarADC_mu_width = self.SarADC_mu.calculate_area(height_array=None,width_array=None,option='NONE')
+                # SarADC_sigma_area,SarADC_sigma_height,SarADC_sigma_width = self.SarADC_sigma.calculate_area(height_array=None,width_array=None,option='NONE')
+                # dff_mu_area,dff_mu_height,dff_mu_width = self.dff_mu.calculate_area(new_height=None,new_width=None,option='NONE')
+                # dff_sigma_area,dff_sigma_height,dff_sigma_width = self.dff_sigma.calculate_area(new_height=None,new_width=None,option='NONE')
                 RNG_bloclk_area,RNG_bloclk_height,RNG_bloclk_width = self.RNG_bloclk.calculate_area()
-
+                MUX_bus_area,MUX_bus_height,MUX_bus_width = self.mux_bus.calculate_area(new_height=None,new_width=None,option='NONE')
+                if self.numColMuxed > 1:
+                    MUX_area,MUX_height,MUX_width = self.MUX.calculate_area(new_height=None,new_width=None,option='NONE')
+                    muxDecoder_area,muxDecoder_height,muxDecoder_width = self.muxDecoder.calculate_area(new_height=None,new_width=None,option='NONE')
+                else:
+                    MUX_area,MUX_height,MUX_width = 0,0,0
+                    muxDecoder_area,muxDecoder_height,muxDecoder_width = 0,0,0
+                MultilevelSenseAmp_mu_area,MultilevelSenseAmp_mu_height,MultilevelSenseAmp_mu_width = self.MultilevelSenseAmp_mu.calculate_area(height_array=None,width_array=None,option='NONE')
+                MultilevelSenseAmp_sigma_area,MultilevelSenseAmp_sigma_height,MultilevelSenseAmp_sigma_width = self.MultilevelSenseAmp_sigma.calculate_area(height_array=None,width_array=None,option='NONE')
                 if self.mem_mode == "conventionalSequential":
-                    height = pre_charge_height + sram_write_driver_height + height_array + SarADC_sigma_height + dff_mu_height + RNG_bloclk_height
+                    height = pre_charge_height + sram_write_driver_height + height_array + MultilevelSenseAmp_mu_height + RNG_bloclk_height + MUX_bus_height + MUX_height + sense_amp_mu_height
                     width = WL_decoder_width + width_array
-                    # print("wl_decoder_width", WL_decoder_width)
-                    # print("width_array", width_array)
-                    width = max(width, RNG_bloclk_width)
-                    # print("RNG_bloclk_width", RNG_bloclk_width)
+                    width = max(width, RNG_bloclk_width, MultilevelSenseAmp_mu_width + MultilevelSenseAmp_sigma_width)
                     area = height * width
+                    # MultilevelSenseAmp_sigma_area = 0
+                    # MultilevelSenseAmp_mu_area = 0
+                    # RNG_bloclk_area = 0
                     used_area = (area_array + pre_charge_area + sram_write_driver_area +
-                               WL_decoder_area + dff_mu_area + dff_sigma_area + sense_amp_mu_area + sense_amp_sigma_area + SarADC_mu_area + SarADC_sigma_area + RNG_bloclk_area)
-                    # print("width_array, height_array, area_array, pre_charge_area, sram_write_driver_area, WL_decoder_area, SarADC_area, dff_area, sense_amp_area, RNG_bloclk_area",
-                    #       width_array, height_array, area_array, pre_charge_area, sram_write_driver_area, WL_decoder_area, dff_mu_area, sense_amp_area, RNG_bloclk_area)
-                    print("array_area", area_array)
-                    print("array_height", height_array)
-                    print("array_width", width_array)
-                    print("WL_decoder_area", WL_decoder_area)
-                    print("pre_charge_area", pre_charge_area)
-                    print("pre_charge_height", pre_charge_height)
-                    print("pre_charge_width", pre_charge_width)
-                    print("sram_write_driver_area", sram_write_driver_area)
-                    print("sram_write_driver_height", sram_write_driver_height)
-                    print("sram_write_driver_width", sram_write_driver_width)
-                    print("sense_amp_area", sense_amp_mu_area+sense_amp_sigma_area)
-                    print("sense_amp_height", max(sense_amp_mu_height,sense_amp_sigma_height))
-                    print("sense_amp_width", sense_amp_mu_width+sense_amp_sigma_width)
-                    print("SarADC_area", SarADC_mu_area+SarADC_sigma_area)
-                    print("dff_area", dff_mu_area+dff_sigma_area)
-                    print("RNG_bloclk_area", RNG_bloclk_area)
-                    
-                    empty_area = area - used_area
+                               WL_decoder_area + MultilevelSenseAmp_mu_area + MultilevelSenseAmp_sigma_area + RNG_bloclk_area + sense_amp_mu_area + sense_amp_sigma_area)
+                    used_area += MUX_bus_area
+                    used_area += MUX_area + muxDecoder_area
+                    memory_density = self.numRow * self.numCol/area * 1e-6  # in bits/mm2
+                    used_memory_density = self.numRow * self.numCol/used_area * 1e-6  # in bits/mm2
+                    # area_data = {
+                    #     "num_rows": self.numRow,
+                    #     "num_cols": self.numCol,
+                    #     "num_muxed_cols": self.numColMuxed,
+                    #     "adc_precision": self.precision_ADC,
+                    #     "Array": area_array,
+                    #     "WL_Decoder": WL_decoder_area,
+                    #     "Pre_Charge": pre_charge_area,
+                    #     "SRAM_Write_Driver": sram_write_driver_area,
+                    #     "Sense_Amp": sense_amp_mu_area + sense_amp_sigma_area,
+                    #     # "SAR ADC": SarADC_mu_area + SarADC_sigma_area,
+                    #     "ADC": MultilevelSenseAmp_mu_area + MultilevelSenseAmp_sigma_area,
+                    #     "RNG_Block": RNG_bloclk_area,
+                    #     "MUX_Bus": MUX_bus_area,
+                    #     "MUX": MUX_area,
+                    #     "MUX_Decoder": muxDecoder_area,
+                    #     "MUX_Block": MUX_area + muxDecoder_area + MUX_bus_area,
+                    #     "periphery": (pre_charge_area + sram_write_driver_area +
+                    #                         WL_decoder_area + MUX_bus_area + MUX_area + muxDecoder_area),
+                    #     "Total Area": area,
+                    #     "Used Area": used_area,
+                    #     "Memory_Density (bits/um^2)": memory_density,
+                    #     "Used_memory_Density (bits/um^2)": used_memory_density
+                    # }
+                    # # filename = f"../../Data/simulation/ps_sram/3bitADC/ARNG1/mux16/area/ps_sram_area_data_{self.numRow}x{self.numCol}.json"
+                    # filename = (
+                    #     f"../../Data/simulation/ps_sram/{self.precision_ADC}bitADC/"
+                    #     f"ARNG1/mux{self.numColMuxed}/area/"
+                    #     f"ps_sram_area_data_{self.numRow}x{self.numCol}.json"
+                    # )
+
+                    # with open(filename, "w") as f:
+                    #     json.dump(area_data, f, indent=4)
+
 
             elif self.cell_type in ['RRAM', 'FeFET']:
                 height_array = self.lengthCol
@@ -502,31 +539,61 @@ class SubArray:
                 else:
                     MUX_area,MUX_height,MUX_width = 0,0,0
                     muxDecoder_area,muxDecoder_height,muxDecoder_width = 0,0,0
-                self.SarADC_mu.calculate_unit_area()
-                self.SarADC_sigma.calculate_unit_area()
-                SarADC_mu_area,SarADC_mu_height,SarADC_mu_width = self.SarADC_mu.calculate_area(height_array=None,width_array=None,option='NONE')
-                SarADC_sigma_area,SarADC_sigma_height,SarADC_sigma_width = self.SarADC_sigma.calculate_area(height_array=None,width_array=None,option='NONE')
-                dff_mu_area,dff_mu_height,dff_mu_width = self.dff_mu.calculate_area(new_height=None,new_width=None,option='NONE')
-                dff_sigma_area,dff_sigma_height,dff_sigma_width = self.dff_sigma.calculate_area(new_height=None,new_width=None,option='NONE')
+                # self.SarADC_mu.calculate_unit_area()
+                # self.SarADC_sigma.calculate_unit_area()
+                # SarADC_mu_area,SarADC_mu_height,SarADC_mu_width = self.SarADC_mu.calculate_area(height_array=None,width_array=None,option='NONE')
+                # SarADC_sigma_area,SarADC_sigma_height,SarADC_sigma_width = self.SarADC_sigma.calculate_area(height_array=None,width_array=None,option='NONE')
+                # dff_mu_area,dff_mu_height,dff_mu_width = self.dff_mu.calculate_area(new_height=None,new_width=None,option='NONE')
+                # dff_sigma_area,dff_sigma_height,dff_sigma_width = self.dff_sigma.calculate_area(new_height=None,new_width=None,option='NONE')
                 RNG_bloclk_area,RNG_bloclk_height,RNG_bloclk_width = self.RNG_bloclk.calculate_area()
-                SarADC_area = SarADC_mu_area + SarADC_sigma_area
-                dff_area = dff_mu_area + dff_sigma_area
+                # SarADC_area = SarADC_mu_area + SarADC_sigma_area
+                MUX_bus_area,MUX_bus_height,MUX_bus_width = self.mux_bus.calculate_area(new_height=None,new_width=None,option='NONE')
+                # MultilevelSenseAmp_area,MultilevelSenseAmp_height,MultilevelSenseAmp_width = self.MultilevelSenseAmp.calculate_area(height_array=None,width_array=None,option='NONE')
+                MultilevelSenseAmp_mu_area,MultilevelSenseAmp_mu_height,MultilevelSenseAmp_mu_width = self.MultilevelSenseAmp_mu.calculate_area(height_array=None,width_array=None,option='NONE')
+                MultilevelSenseAmp_sigma_area,MultilevelSenseAmp_sigma_height,MultilevelSenseAmp_sigma_width = self.MultilevelSenseAmp_sigma.calculate_area(height_array=None,width_array=None,option='NONE')
+                # dff_area = dff_mu_area + dff_sigma_area
 
                 if self.mem_mode == "conventionalSequential":
-                    height = sllevelshifter_height + height_array + MUX_height + SarADC_mu_height + RNG_bloclk_height + dff_mu_height
+                    height = sllevelshifter_height + height_array + MUX_height + MultilevelSenseAmp_mu_height + RNG_bloclk_height + MUX_bus_height
                     width = wllevelshifter_width + bllevelshifter_width +  WL_decoder_width + width_array + wlDecoderDriver_width
                     width = max(width, RNG_bloclk_width)
                     area = height * width
-                    used_area = (area_array + WL_decoder_area + wlDecoderDriver_area + wllevelshifter_area + bllevelshifter_area + sllevelshifter_area + MUX_area + muxDecoder_area + SarADC_area + dff_area + RNG_bloclk_area)
+                    MultilevelSenseAmp_area = MultilevelSenseAmp_mu_area*4 + MultilevelSenseAmp_sigma_area*4
+                    used_area = (area_array + WL_decoder_area + wlDecoderDriver_area + wllevelshifter_area + bllevelshifter_area + sllevelshifter_area + MUX_area + muxDecoder_area + MultilevelSenseAmp_area + RNG_bloclk_area)
+                    used_area += MUX_bus_area
                     empty_area = area - used_area
-                    print("array_area", area_array)
-                    print("WL_decoder_area", WL_decoder_area)
-                    print("wlDecoderDriver_area", wlDecoderDriver_area)
-                    print("levelshifter_area", wllevelshifter_area+bllevelshifter_area+sllevelshifter_area)
-                    print("MUX_area", MUX_area + muxDecoder_area)
-                    print("SarADC_area", SarADC_area)
-                    print("dff_area", dff_area)
-                    print("RNG_bloclk_area", RNG_bloclk_area)
+
+                    memory_density = self.numRow * self.numCol/area * 1e-6  # in bits/um2
+                    used_memory_density = self.numRow * self.numCol/used_area * 1e-6
+                    # area_data = {
+                    #     "num_rows": self.numRow,
+                    #     "num_cols": self.numCol,
+                    #     "num_muxed_cols": self.numColMuxed,
+                    #     "adc_precision": self.precision_ADC,
+                    #     "Array": area_array,
+                    #     "WL_Decoder": WL_decoder_area,
+                    #     "wlDecoderDriver": wlDecoderDriver_area,
+                    #     "levelshifter": wllevelshifter_area+bllevelshifter_area+sllevelshifter_area,
+                    #     "ADC": MultilevelSenseAmp_area,
+                    #     "RNG_Block": RNG_bloclk_area,
+                    #     "MUX_Bus": MUX_bus_area,
+                    #     "MUX": MUX_area,
+                    #     "MUX_Decoder": muxDecoder_area,
+                    #     "MUX_Block": MUX_area + muxDecoder_area + MUX_bus_area,
+                    #     "periphery": (WL_decoder_area + wlDecoderDriver_area + MUX_bus_area + MUX_area + muxDecoder_area),
+                    #     "Used Area": used_area,
+                    #     "Memory_Density (bits/um^2)": memory_density,
+                    #     "Used_memory_Density (bits/um^2)": used_memory_density,
+                    #     "Total Area": area
+                    # }
+                    # filename = (
+                    #     f"../../Data/simulation/ps_{self.cell_type}/{self.precision_ADC}bitADC/"
+                    #     f"ARNG1/mux{self.numColMuxed}/area/"
+                    #     f"ps_{self.cell_type}_area_data_{self.numRow}x{self.numCol}.json"
+                    # )
+
+                    # with open(filename, "w") as f:
+                    #     json.dump(area_data, f, indent=4)
 
                 else:
                     #if pure RRAM/FeFET array, only array area is considered
@@ -545,8 +612,8 @@ class SubArray:
             read_latency_adc = 0
             read_latency_other = 0
             write_latency = 0
-            print("cell_type", self.cell_type)
-            print("mem_mode", self.mem_mode)
+            # print("cell_type", self.cell_type)
+            # print("mem_mode", self.mem_mode)
             if self.cell_type == 'SRAM':
                 if self.mem_mode == "conventionalSequential":
                     #calculate the read latency
@@ -556,12 +623,22 @@ class SubArray:
 
                         wl_decoder_read_latency,wl_decoder_wrtie_latency = self.row_decoder.calculate_latency(cap_load1=self.capRow1,cap_load2=self.capRow1,num_read=1,num_write=1)
                         precharger_read_latency,precharger_write_latency = self.precharger.calculate_latency(cap_load=self.capCol,num_read=1,num_write=1)
-                        sense_amp_mu_read_latency = self.sense_amp_mu.calculate_latency(num_read=1)
-                        sense_amp_sigma_read_latency = self.sense_amp_sigma.calculate_latency(num_read=1)
-                        SarADC_mu_read_latency = self.SarADC_mu.calculate_latency(num_read=1)
-                        SarADC_sigma_read_latency = self.SarADC_sigma.calculate_latency(num_read=1)
-                        dff_mu_read_latency,dff_mu_write_latency = self.dff_mu.calculate_latency(num_read=1)
-                        dff_sigma_read_latency,dff_sigma_write_latency = self.dff_sigma.calculate_latency(num_read=1)
+                        sense_amp_mu_read_latency = self.sense_amp_mu.calculate_latency(num_read=1,cap_load=self.capCol)
+                        sense_amp_sigma_read_latency = self.sense_amp_sigma.calculate_latency(num_read=1,cap_load=self.capCol)
+                        # SarADC_mu_read_latency = self.SarADC_mu.calculate_latency(num_read=1)
+                        # SarADC_sigma_read_latency = self.SarADC_sigma.calculate_latency(num_read=1)
+                        MultilevelSenseAmp_read_latency = self.MultilevelSenseAmp_mu.calculate_latency(num_col_muxed=1,num_read=1,cap_load=self.capCol)
+                        # dff_mu_read_latency,dff_mu_write_latency = self.dff_mu.calculate_latency(num_read=1)
+                        # dff_sigma_read_latency,dff_sigma_write_latency = self.dff_sigma.calculate_latency(num_read=1)
+                        if self.numColMuxed > 1:
+                            MUX_read_latency = self.MUX.calculate_latency(cap_load=self.capCol,num_read=1)
+                            MUX_decoder_read_latency,MUX_decoder_wrtie_latency = self.muxDecoder.calculate_latency(cap_load1=self.MUX.capTgGateN*math.ceil(self.numCol/self.numColMuxed),cap_load2=self.MUX.capTgGateP*math.ceil(self.numCol/self.numColMuxed),num_read=1,num_write=0)
+                        else:
+                            MUX_read_latency = 0
+                            MUX_decoder_read_latency = 0
+                        MUX_decoder_wrtie_latency = 0
+                        MUX_bus_read_latency = self.mux_bus.calculate_latency(cap_load=self.capCol,num_read=1)
+                        # print("capCol", self.capCol)
                         if (self.RNG_SamplingMode == 'parallel'):
                             rng_latency = self.RNG_bloclk.calculate_latency(num_read=1)
 
@@ -575,14 +652,40 @@ class SubArray:
                         Elmore_BL = (self.resCellAccess + res_pull_down) * BL_cap_per_cell * self.numRow + (BL_cap_per_cell * self.numRow * (self.numRow + 1)/2)
                         col_delay = Elmore_BL * math.log(self.vdd / (self.vdd - self.minSenseVoltage/2))
                         
-                        read_latency = wl_decoder_read_latency + precharger_read_latency + col_delay + SarADC_sigma_read_latency + dff_sigma_read_latency + rng_latency
-                        print("wl_decoder_read_latency", wl_decoder_read_latency)
-                        print("precharger_read_latency", precharger_read_latency)
-                        print("col_delay", col_delay)
-                        # print("SarADC_read_latency", SarADC_read_latency)
+                        read_latency = wl_decoder_read_latency + precharger_read_latency + col_delay + MultilevelSenseAmp_read_latency + rng_latency + MUX_bus_read_latency + MUX_read_latency + MUX_decoder_read_latency
                         if validated:
                             readLatency *= param.beta
                         read_latency_cycles = read_latency * self.clk_freq
+                        throughtput = self.numCol/self.numColMuxed / read_latency
+                    #     latency_data = {
+                    #     "num_rows": self.numRow,
+                    #     "num_cols": self.numCol,
+                    #     "num_muxed_cols": self.numColMuxed,
+                    #     "adc_precision": self.precision_ADC,
+                    #     "WL_Decoder": wl_decoder_read_latency,
+                    #     "Precharger": precharger_read_latency,
+                    #     "Col_Delay": col_delay,
+                    #     "ADC": MultilevelSenseAmp_read_latency,
+                    #     "RNG_Block": rng_latency,
+                    #     "MUX_Bus": MUX_bus_read_latency,
+                    #     "MUX": MUX_read_latency,
+                    #     "MUX_Decoder": MUX_decoder_read_latency,
+                    #     "MUX_Block": MUX_read_latency + MUX_decoder_read_latency + MUX_bus_read_latency,
+                    #     "periphery": (wl_decoder_read_latency + precharger_read_latency +
+                    #                         MUX_bus_read_latency + MUX_read_latency + MUX_decoder_read_latency),
+                    #     "Total Read Latency (s)": read_latency,
+                    #     "Throughput (bits/s)": throughtput,
+                    #     "Total Read Latency (cycles)": read_latency_cycles
+                    # }
+                    # # filename = f"../../Data/simulation/ps_sram/3bitADC/ARNG1/mux16/latency/ps_sram_latency_data_{self.numRow}x{self.numCol}.json"
+                    # filename = (
+                    #     f"../../Data/simulation/ps_sram/{self.precision_ADC}bitADC/"
+                    #     f"ARNG1/mux{self.numColMuxed}/latency/"
+                    #     f"ps_sram_latency_data_{self.numRow}x{self.numCol}.json"
+                    # )
+
+                    # with open(filename, "w") as f:
+                    #     json.dump(latency_data, f, indent=4)
             elif self.cell_type in ['RRAM', 'FeFET']:
                 print("read_latency", read_latency)
                 if self.mem_mode == "conventionalSequential":
@@ -601,18 +704,51 @@ class SubArray:
                         MUX_read_latency = 0
                         MUX_decoder_read_latency = 0
                         MUX_decoder_wrtie_latency = 0
-                    SarADC_mu_read_latency = self.SarADC_mu.calculate_latency(num_read=1)
-                    SarADC_sigma_read_latency = self.SarADC_sigma.calculate_latency(num_read=1)
-                    dff_mu_read_latency,dff_mu_write_latency = self.dff_mu.calculate_latency(num_read=1)
-                    dff_sigma_read_latency,dff_sigma_write_latency = self.dff_sigma.calculate_latency(num_read=1)
+                    # SarADC_mu_read_latency = self.SarADC_mu.calculate_latency(num_read=1)
+                    # SarADC_sigma_read_latency = self.SarADC_sigma.calculate_latency(num_read=1)
+                    # MultilevelSenseAmp_read_latency = self.MultilevelSenseAmp.calculate_latency(num_col_muxed=1,num_read=1)
+                    MultilevelSenseAmp_read_latency = self.MultilevelSenseAmp_mu.calculate_latency(num_col_muxed=1,num_read=1,cap_load=self.capCol)
+                    MUX_bus_read_latency = self.mux_bus.calculate_latency(cap_load=self.capCol,num_read=1)
+                    # print("capCol", self.capCol)
+                    # dff_mu_read_latency,dff_mu_write_latency = self.dff_mu.calculate_latency(num_read=1)
+                    # dff_sigma_read_latency,dff_sigma_write_latency = self.dff_sigma.calculate_latency(num_read=1)
                     if (self.RNG_SamplingMode == 'parallel'):
                         rng_latency = self.RNG_bloclk.calculate_latency(num_read=1)
-                    read_latency = wl_decoder_read_latency + wlDecoderDriver_read_latency + colDelay + MUX_decoder_read_latency + MUX_read_latency + SarADC_sigma_read_latency + dff_sigma_read_latency + rng_latency
-                    print("read_latency", read_latency)
+                    read_latency = wl_decoder_read_latency + wlDecoderDriver_read_latency + colDelay + MUX_decoder_read_latency + MUX_read_latency + MultilevelSenseAmp_read_latency + rng_latency + MUX_bus_read_latency
                     if validated:
                         read_latency *= self.param['beta']
                     read_latency_cycles = read_latency * self.clk_freq
-        return read_latency, read_latency_cycles
+                    throughtput = self.numCol/self.numColMuxed / read_latency
+                    # latency_data = {
+                    #     "num_rows": self.numRow,
+                    #     "num_cols": self.numCol,
+                    #     "num_muxed_cols": self.numColMuxed,
+                    #     "adc_precision": self.precision_ADC,
+                    #     "WL_Decoder": wl_decoder_read_latency,
+                    #     "wlDecoderDriver":wlDecoderDriver_read_latency,
+                    #     "Col_Delay": colDelay,
+                    #     "ADC": MultilevelSenseAmp_read_latency,
+                    #     "RNG_Block": rng_latency,
+                    #     "MUX_Bus": MUX_bus_read_latency,
+                    #     "MUX": MUX_read_latency,
+                    #     "MUX_Decoder": MUX_decoder_read_latency,
+                    #     "MUX_Block": MUX_read_latency + MUX_decoder_read_latency + MUX_bus_read_latency,
+                    #     "periphery": (wl_decoder_read_latency + wlDecoderDriver_read_latency +
+                    #                         MUX_bus_read_latency + MUX_read_latency + MUX_decoder_read_latency),
+                    #     "Total Read Latency (s)": read_latency,
+                    #     "Throughput (bits/s)": throughtput,
+                    #     "Total Read Latency (cycles)": read_latency_cycles
+                    # }
+                    # # filename = f"../../Data/simulation/ps_sram/3bitADC/ARNG1/mux16/latency/ps_sram_latency_data_{self.numRow}x{self.numCol}.json"
+                    # filename = (
+                    #     f"../../Data/simulation/ps_{self.cell_type}/{self.precision_ADC}bitADC/"
+                    #     f"ARNG1/mux{self.numColMuxed}/latency/"
+                    #     f"ps_{self.cell_type}_latency_data_{self.numRow}x{self.numCol}.json"
+                    # )
+
+                    # with open(filename, "w") as f:
+                    #     json.dump(latency_data, f, indent=4)
+        return read_latency * self.numColMuxed, read_latency_cycles
 
     def calculate_power(self, input_vector, weight_matrix):
         if not self.initialized:
@@ -646,33 +782,38 @@ class SubArray:
                                                                                                                         num_write=num_write_op_per_row * self.numRow*self.activity_row_write)
                     sram_write_driver_write_energy,sram_write_driver_leakage = self.sram_write_driver.calculate_power(num_write=num_write_op_per_row * self.numRow*self.activity_row_write)
                     columnResistance = self.get_column_resistance(input_vector, weight_matrix, parallel_read = None, res_cell_access = self.resCellAccess)
-                    print("resCellAccess", self.resCellAccess)
                     sense_amp_mu_read_energy,sense_amp_mu_leakage = self.sense_amp_mu.calculate_power(num_read=1)
                     sense_amp_sigma_read_energy,sense_amp_sigma_leakage = self.sense_amp_sigma.calculate_power(num_read=1)
-                    print("columnResistance", columnResistance)
-                    SarADC_mu_read_energy = self.SarADC_mu.calculate_power(column_resistance_list=columnResistance,num_read=1)
-                    SarADC_sigma_read_energy = self.SarADC_sigma.calculate_power(column_resistance_list=columnResistance,num_read=1)
-                    dff_mu_read_energy,dff_mu_write_energy,dff_mu_leakage = self.dff_mu.calculate_power(num_read=1, num_dff_per_op=self.numCol, validated=False)
-                    dff_sigma_read_energy,dff_sigma_write_energy,dff_sigma_leakage = self.dff_sigma.calculate_power(num_read=1, num_dff_per_op=self.numCol/self.num_read_cell_op * self.output_levle, validated=False)
+                    # SarADC_mu_read_energy = self.SarADC_mu.calculate_power(column_resistance_list=columnResistance,num_read=1)
+                    # SarADC_sigma_read_energy = self.SarADC_sigma.calculate_power(column_resistance_list=columnResistance,num_read=1)
+                    column_resistance_list = [columnResistance[1]]
+                    MultilevelSenseAmp_mu_read_energy = self.MultilevelSenseAmp_mu.calculate_power(column_resistance_list=column_resistance_list, num_read=1)
+                    MultilevelSenseAmp_sigma_read_energy = self.MultilevelSenseAmp_sigma.calculate_power(column_resistance_list=column_resistance_list, num_read=1)
+                    # print("MultilevelSenseAmp_sigma_read_energy",MultilevelSenseAmp_sigma_read_energy)
+                    # dff_mu_read_energy,dff_mu_write_energy,dff_mu_leakage = self.dff_mu.calculate_power(num_read=1, num_dff_per_op=self.numCol, validated=False)
+                    # dff_sigma_read_energy,dff_sigma_write_energy,dff_sigma_leakage = self.dff_sigma.calculate_power(num_read=1, num_dff_per_op=self.numCol/self.num_read_cell_op * self.output_levle, validated=False)
                     RNG_energy,RNG_leakage = self.RNG_bloclk.calculate_power(num_read=1)
+                    MUX_bus_read_energy,MUX_bus_leakage = self.mux_bus.calculate_power(num_read=1)
+                    if self.numColMuxed > 1:
+                        MUX_read_energy,MUX_leakage = self.MUX.calculate_power(num_read=self.numColMuxed)
+                        muxDecoder_read_energy,muxDecoder_write_energy,muxDecoder_leakage = self.muxDecoder.calculate_power(num_read=1, num_write=1)
+                    else:
+                        MUX_read_energy,MUX_leakage = 0,0
+                        muxDecoder_read_energy,muxDecoder_write_energy,muxDecoder_leakage = 0,0,0
 
                     readDynamicEnergyArray = self.capRow1 * self.vdd * self.vdd * 1;  #// Just BL discharging // -added, wordline charging
+                    readDynamicEnergyArray += self.capCol * self.vdd * self.vdd * (self.numCol/self.numColMuxed)  #// Just BL discharging
                     # Read
                     readDynamicEnergy += wl_decoder_read_energy
-                    readDynamicEnergy += precharger_read_energy
-                    readDynamicEnergy += SarADC_sigma_read_energy + sense_amp_mu_read_energy
+                    # readDynamicEnergy += precharger_read_energy
+                    readDynamicEnergy += MultilevelSenseAmp_sigma_read_energy + sense_amp_mu_read_energy + sense_amp_sigma_read_energy
                     readDynamicEnergy += readDynamicEnergyArray
-                    readDynamicEnergy += dff_mu_read_energy + dff_sigma_read_energy
+                    # readDynamicEnergy += dff_mu_read_energy + dff_sigma_read_energy
                     readDynamicEnergy += RNG_energy
-                    print("Other", readDynamicEnergyArray)
-                    print("wl_decoder_read_energy", wl_decoder_read_energy)
-                    print("precharger_read_energy", precharger_read_energy)
-                    print("SarADC_read_energy", SarADC_sigma_read_energy)
-                    print("sense_amp_read_energy", sense_amp_mu_read_energy)
-                    print("dff_read_energy", dff_mu_read_energy + dff_sigma_read_energy)
-                    print("RNG_energy", RNG_energy)
-                    print("readDynamicEnergy", readDynamicEnergy)
-				
+                    readDynamicEnergy += MUX_bus_read_energy
+                    readDynamicEnergy += MUX_read_energy
+                    readDynamicEnergy += muxDecoder_read_energy
+                    
                     # Write
 				    # writeDynamicEnergy += wlDecoder.writeDynamicEnergy
 				    # writeDynamicEnergy += precharger.writeDynamicEnergy
@@ -683,9 +824,39 @@ class SubArray:
                     leakage += wl_decoder_leakage
                     leakage += precharger_leakage
                     leakage += sram_write_driver_leakage
-                    leakage += dff_mu_leakage + dff_sigma_leakage
+                    leakage += sense_amp_mu_leakage + sense_amp_sigma_leakage
+
+                    # leakage += dff_mu_leakage + dff_sigma_leakage
                     leakageSRAMInUse = RNG_leakage
                     # leakageSRAMInUse *= (numRow-1) * numCol
+                    # energy_data = {
+                    #     "num_rows": self.numRow,
+                    #     "num_cols": self.numCol,
+                    #     "num_muxed_cols": self.numColMuxed,
+                    #     "adc_precision": self.precision_ADC,
+                    #     "Array": readDynamicEnergyArray,
+                    #     "WL_Decoder": wl_decoder_read_energy,
+                    #     "Sense_Amp": sense_amp_mu_read_energy + sense_amp_sigma_read_energy,
+                    #     "ADC": MultilevelSenseAmp_sigma_read_energy,
+                    #     "RNG_Block": RNG_energy,
+                    #     "MUX_Bus": MUX_bus_read_energy,
+                    #     "MUX": MUX_read_energy,
+                    #     "MUX_Decoder": muxDecoder_read_energy,
+                    #     "MUX_Block": MUX_read_energy + muxDecoder_read_energy + MUX_bus_read_energy,
+                    #     "periphery": (wl_decoder_read_energy + + MUX_bus_read_energy + MUX_read_energy + muxDecoder_read_energy),
+
+                    #     "Total Read Dynamic Energy (J)": readDynamicEnergy
+                    # }
+                    # # filename = f"../../Data/simulation/ps_sram/3bitADC/ARNG1/mux16/energy/ps_sram_energy_data_{self.numRow}x{self.numCol}.json"
+                    # filename = (
+                    #     f"../../Data/simulation/ps_sram/{self.precision_ADC}bitADC/"
+                    #     f"ARNG1/mux{self.numColMuxed}/energy/"
+                    #     f"ps_sram_energy_data_{self.numRow}x{self.numCol}.json"
+                    # )
+
+                    # with open(filename, "w") as f:
+                    #     json.dump(energy_data, f, indent=4)
+                    # print("dff_leakage", dff_mu_leakage + dff
             elif self.cell_type in ['RRAM', 'FeFET']:
                 print("checking cell_type", self.cell_type)
                 leakageSRAMInUse = 0
@@ -697,39 +868,60 @@ class SubArray:
                     wl_decoder_read_energy,wl_decoder_write_energy,wl_decoder_leakage = self.row_decoder.calculate_power(num_read=1, num_write=2 * num_write_op_per_row *self.numRow*self.activity_row_write)
                     wlDecoderDriver_read_energy,wlDecoderDriver_write_energy,wlDecoderDriver_leakage = self.wlDecoderDriver.calculate_power(num_read=1, num_write=2 * num_write_op_per_row *self.numRow*self.activity_row_write)
                     if self.numColMuxed > 1:
-                        MUX_read_energy,MUX_leakage = self.MUX.calculate_power(num_read=self.numColMuxed)#don't consider the number of the mux
+                        MUX_read_energy,MUX_leakage = self.MUX.calculate_power(num_read=self.numColMuxed)
                         muxDecoder_read_energy,muxDecoder_write_energy,muxDecoder_leakage = self.muxDecoder.calculate_power(num_read=1, num_write=1)
                     else:
                         MUX_read_energy,MUX_leakage = 0,0
                         muxDecoder_read_energy,muxDecoder_write_energy,muxDecoder_leakage = 0,0,0
                     columnResistance = self.get_column_resistance(input_vector, weight_matrix, parallel_read = None, res_cell_access = self.resCellAccess)
-                    print("columnResistance", columnResistance)
-                    SarADC_mu_read_energy = self.SarADC_mu.calculate_power(column_resistance_list=columnResistance,num_read=1)
-                    SarADC_sigma_read_energy = self.SarADC_sigma.calculate_power(column_resistance_list=columnResistance,num_read=1)
-                    dff_mu_read_energy,dff_mu_write_energy,dff_mu_leakage = self.dff_mu.calculate_power(num_read=1, num_dff_per_op=self.numCol, validated=False)
-                    dff_sigma_read_energy,dff_sigma_write_energy,dff_sigma_leakage = self.dff_sigma.calculate_power(num_read=1, num_dff_per_op=self.numCol/self.num_read_cell_op * self.output_levle, validated=False)
+                    # SarADC_mu_read_energy = self.SarADC_mu.calculate_power(column_resistance_list=columnResistance,num_read=1)
+                    # SarADC_sigma_read_energy = self.SarADC_sigma.calculate_power(column_resistance_list=columnResistance,num_read=1)
+                    # MultilevelSenseAmp_read_energy = self.MultilevelSenseAmp.calculate_power(column_resistance_list=columnResistance, num_read=1)
+                    column_resistance_list = [columnResistance[1]]
+                    MultilevelSenseAmp_mu_read_energy = self.MultilevelSenseAmp_mu.calculate_power(column_resistance_list=column_resistance_list, num_read=1)
+                    MultilevelSenseAmp_sigma_read_energy = self.MultilevelSenseAmp_sigma.calculate_power(column_resistance_list=column_resistance_list, num_read=1)
+                    # dff_mu_read_energy,dff_mu_write_energy,dff_mu_leakage = self.dff_mu.calculate_power(num_read=1, num_dff_per_op=self.numCol, validated=False)
+                    # dff_sigma_read_energy,dff_sigma_write_energy,dff_sigma_leakage = self.dff_sigma.calculate_power(num_read=1, num_dff_per_op=self.numCol/self.num_read_cell_op * self.output_levle, validated=False)
                     RNG_energy,RNG_leakage = self.RNG_bloclk.calculate_power(num_read=1)
-                    SarADC_read_energy = SarADC_sigma_read_energy + SarADC_mu_read_energy
-                    dff_read_energy = dff_mu_read_energy + dff_sigma_read_energy
-                    dff_leakage = dff_mu_leakage + dff_sigma_leakage
+                    MUX_bus_read_energy,MUX_bus_leakage = self.mux_bus.calculate_power(num_read=1)
+                    MultilevelSenseAmp_energy  = MultilevelSenseAmp_sigma_read_energy + MultilevelSenseAmp_mu_read_energy
+                    # dff_read_energy = dff_mu_read_energy + dff_sigma_read_energy
+                    # dff_leakage = dff_mu_leakage + dff_sigma_leakage
 
 
                     selected_bl_energy = self.capBL * self.readVoltage * self.readVoltage * numReadCells
                     selected_wl_energy = self.capRow2 * self.accessVoltage * self.accessVoltage 
                     selected_row_energy = (selected_bl_energy + selected_wl_energy) 
 
-                    readDynamicEnergyArray = selected_row_energy + SarADC_read_energy + MUX_read_energy + dff_read_energy + muxDecoder_read_energy + wl_decoder_read_energy + wlDecoderDriver_read_energy + RNG_energy
-                    print("Other", selected_row_energy)
-                    print("SarADC_read_energy", SarADC_read_energy)
-                    print("MUX_read_energy", MUX_read_energy)
-                    print("dff_read_energy", dff_read_energy)
-                    print("muxDecoder_read_energy", muxDecoder_read_energy)
-                    print("wl_decoder_read_energy", wl_decoder_read_energy)
-                    print("wlDecoderDriver_read_energy", wlDecoderDriver_read_energy)
-                    print("RNG_energy", RNG_energy)
-                    print("readDynamicEnergyArray", readDynamicEnergyArray)
-                    leakage = wl_decoder_leakage + wlDecoderDriver_leakage + MUX_leakage + muxDecoder_leakage + dff_leakage
-            print("shape of columnResistance", len(columnResistance))
+                    readDynamicEnergyArray = selected_row_energy + MultilevelSenseAmp_energy + MUX_read_energy + muxDecoder_read_energy + wl_decoder_read_energy + wlDecoderDriver_read_energy + RNG_energy + MUX_bus_read_energy
+            #         leakage = wl_decoder_leakage + wlDecoderDriver_leakage + MUX_leakage + muxDecoder_leakage
+            #         energy_data = {
+            #             "num_rows": self.numRow,
+            #             "num_cols": self.numCol,
+            #             "num_muxed_cols": self.numColMuxed,
+            #             "adc_precision": self.precision_ADC,
+            #             "Array": selected_row_energy,
+            #             "WL_Decoder": wl_decoder_read_energy,
+            #             "wlDecoderDriver": wlDecoderDriver_read_energy,
+            #             "ADC": MultilevelSenseAmp_energy,
+            #             "RNG_Block": RNG_energy,
+            #             "MUX_Bus": MUX_bus_read_energy,
+            #             "MUX": MUX_read_energy,
+            #             "MUX_Decoder": muxDecoder_read_energy,
+            #             "MUX_Block": MUX_read_energy + muxDecoder_read_energy + MUX_bus_read_energy,
+            #             "periphery": (wl_decoder_read_energy + wlDecoderDriver_read_energy + MUX_bus_read_energy + MUX_read_energy + muxDecoder_read_energy),
+
+            #             "Total Read Dynamic Energy (J)": readDynamicEnergyArray
+            #         }
+            #         # filename = f"../../Data/simulation/ps_sram/3bitADC/ARNG1/mux16/energy/ps_sram_energy_data_{self.numRow}x{self.numCol}.json"
+            #         filename = (
+            #             f"../../Data/simulation/ps_{self.cell_type}/{self.precision_ADC}bitADC/"
+            #             f"ARNG1/mux{self.numColMuxed}/energy/"
+            #             f"ps_{self.cell_type}_energy_data_{self.numRow}x{self.numCol}.json"
+            #         )
+
+            #         with open(filename, "w") as f:
+            #             json.dump(energy_data, f, indent=4)
+            # print("shape of columnResistance", len(columnResistance))
         return readDynamicEnergyArray, write_dynamic_energy, leakage
-            
             

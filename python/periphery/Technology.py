@@ -806,6 +806,7 @@ class Technology:
         self.params = {
                     'vdd': vdd,
                     'vth': vth,
+                    'roadmap': self.roadmap,
                     'phyGateLength': phyGateLength,
                     'PitchFin': PitchFin,
                     'widthFin': widthFin,
@@ -826,6 +827,7 @@ class Technology:
                     'pnSizeRatio': pnSizeRatio,
                     'transistorType': self.transistor_type,   
                     'capPolywire': capPolywire,  
+                    'node_nm': self.node_nm,
                     'featureSize': self.node_nm * 1e-9       
                 }
 

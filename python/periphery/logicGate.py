@@ -131,18 +131,6 @@ def calculate_logicgate_area(gateType, num_Input, width_NMOS, width_PMOS,height_
     else:
         width_x_P = width_x_N = 0
 
-    # print("maxtransistor height:", height_Transistor_Region)
-    # print("maxwidth_PMOS:", maxwidth_PMOS)
-    # print("maxwidth_NMOS:", maxwidth_NMOS)
-    # # print("unit_Width_x_P:", unit_Width_x_P)
-    # # print("unit_Width_x_N:", unit_Width_x_N)
-    # # print("num_Input:", num_Input)
-    # print("num_Folded_PMOS:", num_Folded_PMOS)
-    # print(unit_Width_x_P/2)
-    # print((num_Input+1))
-    # print(unit_Width_x_N/2 * (num_Input+1))
-    # print("width_x_P:", width_x_P)
-    # print("width_x_N:", width_x_N)
     width_x = max(width_x_P, width_x_N)
     height_y = height_Transistor_Region
     return width_x, height_y, width_x * height_y

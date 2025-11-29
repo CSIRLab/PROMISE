@@ -4,13 +4,13 @@ activity_row_read: 0.5
 activity_row_write: 0.5
 algo_weight_max: 1.0
 algo_weight_min: -1.0
-cell_bit: 2
+cell_bit: 1
 conductance_path: ../../conductance.npy
 max_conductance: 2.5e-05
 min_conductance: 5.0e-06
-numColMuxed: 1
+numColMuxed: 8
 numRowParallel: 1
-num_col_per_synapse: 2
+num_col_per_synapse: 4
 num_read_cell_op: 64
 num_write_cell_op: 64
 shape_algo:

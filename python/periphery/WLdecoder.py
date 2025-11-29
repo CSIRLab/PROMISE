@@ -26,9 +26,6 @@ class RowDecoder:
         # use 2 bit predecoder for 2^n address lines
         # INV
         self.width_inv_n = scale * constant.MIN_NMOS_SIZE * self.featureSize
-        # print("scale:", scale)
-        # print("featureSize:", self.featureSize)
-        # print("min NMOS size:", constant.MIN_NMOS_SIZE)
         self.width_inv_p = scale * self.pnSizeRatio * constant.MIN_NMOS_SIZE * self.featureSize
         self.num_inv = num_addr_row # the INV at output driver stage does not count here
 
@@ -214,11 +211,8 @@ class RowDecoder:
             tr = res_pull_down * (self.cap_inv_output + cap_load1)
         gm = logicGate.calculate_transconductance(self.width_inv_n, constant.NMOS, self.tech)
         beta = 1 / (res_pull_down * gm)
-        # print(f"RowDecoder: INV res_pull_down={res_pull_down}, cap={self.cap_inv_output + self.cap_nand_input}")
-        # print(f"RowDecoder: INV tr={tr}, gm={gm}, beta={beta}")
         read_latency += logicGate.horowitz(tr, beta, ramp_inv_output)[0]
         write_latency += logicGate.horowitz(tr, beta, ramp_inv_output)[0]
-        # print(f"RowDecoder: INV read_latency={read_latency}, write_latency={write_latency}")
         if not self.num_nand:
             ramp_output = ramp_inv_output
 

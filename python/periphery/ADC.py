@@ -87,7 +87,8 @@ class SarADC:
         roadmap = self.param['deviceroadmap']
         # roadmap = 'HP'
         col_res = column_res * 0.5 / read_voltage
-        tech_node = self.feature_size * 1e9  # in nm
+        # tech_node = self.feature_size * 1e9  # in nm
+        tech_node = self.tech.get_param('node_nm')  # in nm
         level = math.log2(self.level_output)
 
         #model is based on HP and LP roadmap
@@ -155,3 +156,4 @@ class SarADC:
         column_power = (base + exp_term) * (1 + 1.3e-3 * (self.temp- 300))
         column_energy = column_power * (level + 1) * 1/ self.clk_freq  # Energy = Power * Time
         return column_energy
+

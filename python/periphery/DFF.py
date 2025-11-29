@@ -23,9 +23,9 @@ class DFF:
         self.clk_freq = clk_freq
         self.num_dff = num_dff
 
-        self.width_tg_n = constant.MIN_NMOS_SIZE * self.featureSize
+        self.width_tg_n = constant.MIN_NMOS_SIZE * self.featureSize 
         self.width_tg_p = tech.get_param('pnSizeRatio') * constant.MIN_NMOS_SIZE * self.featureSize
-        self.width_inv_n = constant.MIN_NMOS_SIZE * self.featureSize
+        self.width_inv_n = constant.MIN_NMOS_SIZE * self.featureSize 
         self.width_inv_p = tech.get_param('pnSizeRatio') * constant.MIN_NMOS_SIZE * self.featureSize
 
         self.cap_inv_input = 0
@@ -98,19 +98,19 @@ class DFF:
             constant.INV, 1,
             self.width_inv_n, self.width_inv_p,
             self.temp, self.tech
-        ) * self.vdd * 8 * self.num_dff
+        ) * self.vdd * 13 * self.num_dff
 
         # CLK INV & TG
         # Assume input D=1 and the energy of CLK INV and CLK TG are for 1 clock cycles
 		# CLK INV (all DFFs have energy consumption)
-        read_energy = (self.cap_inv_input + self.cap_inv_output) * self.vdd**2 * 4 * self.num_dff
+        # read_energy = (self.cap_inv_input + self.cap_inv_output) * self.vdd**2 * 4 * self.num_dff
         # CLK TG (all DFFs have energy consumption)
-        read_energy += self.cap_tg_gate_n * self.vdd**2 * 2 * self.num_dff
+        read_energy = self.cap_tg_gate_n * self.vdd**2 * 2 * self.num_dff
         read_energy += self.cap_tg_gate_p * self.vdd**2 * 2 * self.num_dff
 
         # D to Q path (selected)
         min_dff = min(num_dff_per_op, self.num_dff)
-        read_energy += (self.cap_tg_drain * 3 + self.cap_inv_input) * self.vdd**2 * min_dff
+        read_energy += (self.cap_tg_drain *  + self.cap_inv_input) * self.vdd**2 * min_dff
         read_energy += (self.cap_tg_drain + self.cap_inv_output) * self.vdd**2 * min_dff
         read_energy += (self.cap_inv_input + self.cap_inv_output) * self.vdd**2 * min_dff
 
@@ -122,5 +122,3 @@ class DFF:
         write_energy = read_energy  # DFF write = read
 
         return read_energy, write_energy, leakage
-
-
