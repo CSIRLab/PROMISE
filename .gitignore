@@ -1,0 +1,26 @@
+# macOS / editor noise
+.DS_Store
+**/.DS_Store
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter runtime checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# UI-generated runtime output
+python/interface/SimulatorTool/plots/
+
+# Generated figures not required by the UI
+figure/
+
+# Simulation-generated data and synthesis reports
+Data/simulation/
+syn_results/
+
+# Local simulation scratch arrays
+conductance.npy
+slice.npy
